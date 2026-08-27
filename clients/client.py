@@ -51,3 +51,18 @@ class Client:
 
     def get_parameters(self):
         return self.model.state_dict()
+
+    def get_update(self, global_parameters):
+
+        update = {}
+
+        local_parameters = self.model.state_dict()
+
+        for name in local_parameters:
+
+            update[name] = (
+                    local_parameters[name]
+                    - global_parameters[name]
+            )
+
+        return update
