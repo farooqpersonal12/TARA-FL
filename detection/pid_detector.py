@@ -121,6 +121,10 @@ class PIDDetector:
                     + self.kd * derivative
             )
 
+            # PID output is converted into a non-negative
+            # anomaly magnitude before passing to TrustEngine.
+            score = max(0.0, score)
+
             scores[client_id] = score
 
             history.append(
