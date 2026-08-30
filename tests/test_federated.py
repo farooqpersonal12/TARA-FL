@@ -1,29 +1,35 @@
+import torch
+
 from server.server import Server
 from clients.client import Client
 from data.dataset import load_mnist, create_clients
-
 from attacks.label_flip import LabelFlipDataset
-from detection.pid_detector import PIDDetector
-from trustengine.trust_engine import TrustEngine
 
 
-if __name__ == "__main__":
+def test_federated_pipeline():
 
     # --------------------------------------------------
-    # Server
+    # Create server
     # --------------------------------------------------
 
     server = Server()
 
-    print("Server created.")
+    assert server.global_model is not None
+    assert server.detector is not None
+    assert server.trust_engine is not None
+    assert server.round_risk is not None
+    assert server.adaptive_aggregator is not None
+
 
     # --------------------------------------------------
-    # Dataset
+    # Load dataset
     # --------------------------------------------------
 
     train_dataset, test_dataset = load_mnist()
 
-    print("MNIST loaded.")
+    assert train_dataset is not None
+    assert test_dataset is not None
+
 
     # --------------------------------------------------
     # Create client datasets
@@ -34,12 +40,19 @@ if __name__ == "__main__":
         num_clients=3
     )
 
-    # Client 3 is malicious
+    assert len(client_datasets) == 3
+
+
+    # --------------------------------------------------
+    # Apply malicious attack to Client 3
+    # --------------------------------------------------
+
     client_datasets[2] = LabelFlipDataset(
         client_datasets[2],
         flip_ratio=0.75,
         seed=42
     )
+
 
     # --------------------------------------------------
     # Create clients
@@ -56,291 +69,168 @@ if __name__ == "__main__":
 
         clients.append(client)
 
-        print(
-            "Client",
-            client.client_id,
-            "created with",
-            len(client.dataset),
-            "samples."
-        )
+    assert len(clients) == 3
+
 
     # --------------------------------------------------
-    # Detection and Trust Engine
+    # Get initial global model
     # --------------------------------------------------
 
-    detector = PIDDetector(
-        kp=1.0,
-        ki=0.08,
-        kd=5.0
+    global_parameters = (
+        server.global_model.state_dict()
     )
 
-    trust_engine = TrustEngine(
-        history_weight=0.7,
-        current_weight=0.3
+
+    # --------------------------------------------------
+    # Local training
+    # --------------------------------------------------
+
+    client_parameters = []
+    client_updates = {}
+    client_sizes = []
+
+    for client in clients:
+
+        client.set_model(
+            global_parameters
+        )
+
+        client.train(
+            epochs=1
+        )
+
+        parameters = client.get_parameters()
+
+        update = client.get_update(
+            global_parameters
+        )
+
+        client_parameters.append(
+            parameters
+        )
+
+        client_updates[
+            client.client_id
+        ] = update
+
+        client_sizes.append(
+            len(client.dataset)
+        )
+
+
+    # --------------------------------------------------
+    # Verify client updates
+    # --------------------------------------------------
+
+    assert len(client_parameters) == 3
+    assert len(client_updates) == 3
+    assert len(client_sizes) == 3
+
+
+    # --------------------------------------------------
+    # PID anomaly detection
+    # --------------------------------------------------
+
+    distances, pid_scores = (
+        server.detector.calculate_scores(
+            client_updates
+        )
     )
 
+    assert len(distances) == 3
+    assert len(pid_scores) == 3
+
+
     # --------------------------------------------------
-    # Federated Training
+    # Calculate trust
     # --------------------------------------------------
 
-    num_rounds = 5
-
-    for round_number in range(
-            1,
-            num_rounds + 1
-    ):
-
-        print()
-        print("==============================")
-        print(
-            "Federated Round",
-            round_number
+    trust_scores = (
+        server.trust_engine.calculate_trust(
+            pid_scores
         )
-        print("==============================")
+    )
 
-        # --------------------------------------------------
-        # Get current global model
-        # --------------------------------------------------
+    assert len(trust_scores) == 3
 
-        global_parameters = (
-            server.global_model.state_dict()
-        )
+    for client_id in trust_scores:
 
-        # --------------------------------------------------
-        # Send global model to clients
-        # --------------------------------------------------
+        assert 0.0 <= trust_scores[client_id] <= 1.0
 
-        for client in clients:
 
-            client.set_model(
-                global_parameters
-            )
+    # --------------------------------------------------
+    # Update trust history
+    # --------------------------------------------------
 
-        # --------------------------------------------------
-        # Prepare client results
-        # --------------------------------------------------
+    server.trust_engine.update_history(
+        trust_scores
+    )
 
-        client_parameters = []
-        client_updates = {}
-        client_sizes = []
 
-        # --------------------------------------------------
-        # Local Training
-        # --------------------------------------------------
+    # --------------------------------------------------
+    # Calculate round risk
+    # --------------------------------------------------
 
-        for client in clients:
-
-            print(
-                "Training Client",
-                client.client_id
-            )
-
-            client.train(
-                epochs=1
-            )
-
-            # Local model parameters
-            parameters = client.get_parameters()
-
-            # Local model update
-            update = client.get_update(
-                global_parameters
-            )
-
-            # Store parameters
-            client_parameters.append(
-                parameters
-            )
-
-            # Store update
-            client_updates[
-                client.client_id
-            ] = update
-
-            # Store dataset size
-            client_sizes.append(
-                len(client.dataset)
-            )
-
-        # --------------------------------------------------
-        # PID-Based Client Behavior Analysis
-        # --------------------------------------------------
-
-        distances, scores = (
-            detector.calculate_scores(
-                client_updates
-            )
-        )
-
-        print()
-        print("Client Behavior Scores")
-        print("----------------------")
-
-        for client_id in scores:
-
-            print(
-                "Client",
-                client_id,
-                "distance:",
-                round(
-                    distances[client_id],
-                    6
-                ),
-                "PID score:",
-                round(
-                    scores[client_id],
-                    6
-                )
-            )
-
-        # --------------------------------------------------
-        # TARA-FL Trust Engine
-        # --------------------------------------------------
-
-        relative_anomaly = (
-            trust_engine.calculate_relative_anomaly(
-                scores
-            )
-        )
-
-        current_trust = (
-            trust_engine.calculate_current_trust(
-                relative_anomaly
-            )
-        )
-
-        trust_scores = (
-            trust_engine.calculate_trust(
-                scores
-            )
-        )
-
-        # Save trust history
-        trust_engine.update_history(
+    risk_score, risk_level, suspicious_clients = (
+        server.round_risk.calculate_risk(
+            distances,
             trust_scores
         )
-
-        # --------------------------------------------------
-        # Relative Anomaly Output
-        # --------------------------------------------------
-
-        print()
-        print("Relative Anomaly")
-        print("----------------")
-
-        for client_id in relative_anomaly:
-
-            print(
-                "Client",
-                client_id,
-                "relative anomaly:",
-                round(
-                    relative_anomaly[client_id],
-                    4
-                )
-            )
-
-        # --------------------------------------------------
-        # Current Trust Evidence Output
-        # --------------------------------------------------
-
-        print()
-        print("Current Trust Evidence")
-        print("----------------------")
-
-        for client_id in current_trust:
-
-            print(
-                "Client",
-                client_id,
-                "current trust:",
-                round(
-                    current_trust[client_id],
-                    4
-                )
-            )
-
-        # --------------------------------------------------
-        # Final Trust Score Output
-        # --------------------------------------------------
-
-        print()
-        print("Client Trust Scores")
-        print("-------------------")
-
-        for client_id in trust_scores:
-
-            trust_score = (
-                trust_scores[client_id]
-            )
-
-            trust_zone = (
-                trust_engine.get_trust_zone(
-                    trust_score
-                )
-            )
-
-            print(
-                "Client",
-                client_id,
-                "trust:",
-                round(
-                    trust_score,
-                    4
-                ),
-                "zone:",
-                trust_zone
-            )
-
-        # --------------------------------------------------
-        # Standard FedAvg
-        # --------------------------------------------------
-
-        print()
-        print("Performing FedAvg...")
-
-        new_parameters = (
-            server.aggregate(
-                client_parameters,
-                client_sizes
-            )
-        )
-
-        server.global_model.load_state_dict(
-            new_parameters
-        )
-
-        # --------------------------------------------------
-        # Global Model Evaluation
-        # --------------------------------------------------
-
-        accuracy = server.evaluate(
-            test_dataset
-        )
-
-        print(
-            "Round",
-            round_number,
-            "accuracy:",
-            accuracy * 100,
-            "%"
-        )
-
-    # --------------------------------------------------
-    # Training Completed
-    # --------------------------------------------------
-
-    print()
-    print("==============================")
-    print("Federated training completed.")
-    print("==============================")
-
-    print(
-        "Number of clients:",
-        len(clients)
     )
 
-    print(
-        "Client sample sizes:",
-        client_sizes
+    assert 0.0 <= risk_score <= 1.0
+
+    assert risk_level in [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+    ]
+
+    assert 0 <= suspicious_clients <= 3
+
+
+    # --------------------------------------------------
+    # Adaptive aggregation
+    # --------------------------------------------------
+
+    new_parameters, selected_aggregator = (
+        server.aggregate(
+            client_parameters,
+            client_sizes,
+            trust_scores,
+            risk_level
+        )
     )
+
+
+    # --------------------------------------------------
+    # Verify aggregation result
+    # --------------------------------------------------
+
+    assert new_parameters is not None
+
+    assert selected_aggregator in [
+        "TRUST_AWARE_FEDAVG",
+        "TRIMMED_MEAN",
+        "MEDIAN"
+    ]
+
+
+    # --------------------------------------------------
+    # Update global model
+    # --------------------------------------------------
+
+    server.global_model.load_state_dict(
+        new_parameters
+    )
+
+
+    # --------------------------------------------------
+    # Evaluate global model
+    # --------------------------------------------------
+
+    accuracy = server.evaluate(
+        test_dataset
+    )
+
+    assert 0.0 <= accuracy <= 1.0
