@@ -1,0 +1,28 @@
+method,seed,final_accuracy
+TARA-FL,42,97.06
+STANDARD_FEDAVG,42,97.00999999999999
+TARA-FL,43,97.28999999999999
+STANDARD_FEDAVG,43,97.31
+TARA-FL,44,97.28
+STANDARD_FEDAVG,44,97.32
+TARA-FL,45,97.32
+STANDARD_FEDAVG,45,97.28999999999999
+TARA-FL,46,97.32
+STANDARD_FEDAVG,46,97.25
+
+========================================
+REPEATED EXPERIMENT SUMMARY
+========================================
+
+TARA-FL
+----------------------------------------
+Final Accuracies: [97.06, 97.28999999999999, 97.28, 97.32, 97.32]
+Mean Accuracy: 97.2540%
+Standard Deviation: 0.1099%
+
+STANDARD FEDAVG
+----------------------------------------
+Final Accuracies: [97.00999999999999, 97.31, 97.32, 97.28999999999999, 97.25]
+Mean Accuracy: 97.2360%
+Standard Deviation: 0.1292%
+

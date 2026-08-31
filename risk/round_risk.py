@@ -6,7 +6,6 @@ class RoundRisk:
             medium_risk_threshold=0.60
     ):
 
-        # Configurable thresholds
         self.low_risk_threshold = (
             low_risk_threshold
         )
@@ -22,21 +21,18 @@ class RoundRisk:
             trust_scores
     ):
 
-        # --------------------------------------------------
-        # Average anomaly distance
-        # --------------------------------------------------
+        if not distances or not trust_scores:
+            return 0.0, "LOW", 0
+
+
+        # ==================================================
+        # 1. AVERAGE ANOMALY COMPONENT
+        # ==================================================
 
         average_distance = (
                 sum(distances.values())
                 / len(distances)
         )
-
-
-        # --------------------------------------------------
-        # Normalize anomaly component
-        #
-        # Higher anomaly = higher risk
-        # --------------------------------------------------
 
         anomaly_component = (
                 average_distance
@@ -44,11 +40,9 @@ class RoundRisk:
         )
 
 
-        # --------------------------------------------------
-        # Trust component
-        #
-        # Lower average trust = higher risk
-        # --------------------------------------------------
+        # ==================================================
+        # 2. AVERAGE TRUST COMPONENT
+        # ==================================================
 
         average_trust = (
                 sum(trust_scores.values())
@@ -60,13 +54,9 @@ class RoundRisk:
         )
 
 
-        # --------------------------------------------------
-        # Suspicious client component
-        #
-        # Clients below HIGH trust are considered
-        # suspicious for the current experimental
-        # risk calculation.
-        # --------------------------------------------------
+        # ==================================================
+        # 3. SUSPICIOUS CLIENT COMPONENT
+        # ==================================================
 
         suspicious_clients = sum(
             1
@@ -74,35 +64,64 @@ class RoundRisk:
             if trust < 0.75
         )
 
-
         suspicious_ratio = (
                 suspicious_clients
                 / len(trust_scores)
         )
 
 
-        # --------------------------------------------------
-        # Combined round risk
-        # --------------------------------------------------
+        # ==================================================
+        # 4. WORST CLIENT COMPONENT
+        # ==================================================
+        #
+        # New component.
+        #
+        # Protects against the problem where one extremely
+        # malicious client is hidden by many trustworthy
+        # clients.
+        # ==================================================
 
-        risk_score = (
-                0.4 * anomaly_component
-                + 0.3 * trust_component
-                + 0.3 * suspicious_ratio
+        minimum_trust = min(
+            trust_scores.values()
+        )
+
+        worst_client_component = (
+                1.0 - minimum_trust
         )
 
 
-        # Keep score between 0 and 1
+        # ==================================================
+        # 5. COMBINED ROUND RISK
+        # ==================================================
+
+        risk_score = (
+
+                0.25 * anomaly_component
+
+                + 0.25 * trust_component
+
+                + 0.20 * suspicious_ratio
+
+                + 0.30 * worst_client_component
+        )
+
+
+        # ==================================================
+        # KEEP RISK BETWEEN 0 AND 1
+        # ==================================================
 
         risk_score = max(
             0.0,
-            min(1.0, risk_score)
+            min(
+                1.0,
+                risk_score
+            )
         )
 
 
-        # --------------------------------------------------
-        # Determine risk level
-        # --------------------------------------------------
+        # ==================================================
+        # DETERMINE RISK LEVEL
+        # ==================================================
 
         if risk_score < self.low_risk_threshold:
 
