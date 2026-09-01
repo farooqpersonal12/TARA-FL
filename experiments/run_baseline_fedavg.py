@@ -13,21 +13,28 @@ from attacks.label_flip import LabelFlipDataset
 # EXPERIMENT CONFIGURATION
 # ==========================================================
 
-# EXP-09
+# ----------------------------------------------------------
+# EXP-17
+#
 # 10 clients
-# 1 malicious client
-# 50% label flipping
+# 2 malicious clients
+# 75% label flipping
 # Standard FedAvg baseline
+#
+# This experiment is used as the baseline comparison
+# against the TARA-FL adaptive aggregation approach.
+# ----------------------------------------------------------
 
 NUM_CLIENTS = 10
 NUM_ROUNDS = 10
 LOCAL_EPOCHS = 1
 SEED = 42
 
-MALICIOUS_CLIENTS = [10]
-FLIP_RATIO = 0.5
+MALICIOUS_CLIENTS = [9, 10]
+FLIP_RATIO = 0.75
 
 RESULT_DIR = "experiments"
+
 os.makedirs(
     RESULT_DIR,
     exist_ok=True
@@ -35,7 +42,7 @@ os.makedirs(
 
 RESULT_FILE = os.path.join(
     RESULT_DIR,
-    "results_exp9_10clients_1malicious_50pct_label_flip_fedavg.csv"
+    "results_exp17_standard_fedavg_10clients_2malicious_75pct.csv"
 )
 
 
@@ -95,8 +102,8 @@ for i in range(NUM_CLIENTS):
     if client_id in MALICIOUS_CLIENTS:
 
         print(
-            f"Applying label-flip attack to Client "
-            f"{client_id}"
+            f"Applying label-flip attack to "
+            f"Client {client_id}"
         )
 
         client_dataset = LabelFlipDataset(
@@ -133,9 +140,7 @@ def fedavg(
 
     new_parameters = {}
 
-    for parameter_name in (
-            client_parameters[0]
-    ):
+    for parameter_name in client_parameters[0]:
 
         weighted_sum = torch.zeros_like(
             client_parameters[0][
@@ -166,7 +171,7 @@ def fedavg(
 
 
 # ==========================================================
-# RESULTS
+# RESULTS STORAGE
 # ==========================================================
 
 results = []
@@ -200,7 +205,7 @@ for round_number in range(
 
 
     # ======================================================
-    # CONTAINERS
+    # CLIENT CONTAINERS
     # ======================================================
 
     client_parameters = []
@@ -218,29 +223,41 @@ for round_number in range(
             f"{client.client_id}"
         )
 
-        # Send global model
+        # --------------------------------------------------
+        # Send global model to client
+        # --------------------------------------------------
+
         client.set_model(
             global_parameters
         )
 
+        # --------------------------------------------------
         # Local training
+        # --------------------------------------------------
+
         client.train(
             epochs=LOCAL_EPOCHS
         )
 
-        # Get trained parameters
+        # --------------------------------------------------
+        # Get trained client parameters
+        # --------------------------------------------------
+
         client_parameters.append(
             client.get_parameters()
         )
 
+        # --------------------------------------------------
         # Get client dataset size
+        # --------------------------------------------------
+
         client_sizes.append(
             len(client.dataset)
         )
 
 
     # ======================================================
-    # STANDARD FEDAVG
+    # STANDARD FEDAVG AGGREGATION
     # ======================================================
 
     new_parameters = fedavg(
@@ -250,6 +267,13 @@ for round_number in range(
 
     server.global_model.load_state_dict(
         new_parameters
+    )
+
+
+    print()
+    print(
+        "Aggregation: "
+        "STANDARD_FEDAVG"
     )
 
 
@@ -265,10 +289,6 @@ for round_number in range(
             accuracy * 100
     )
 
-    print(
-        "Aggregation: "
-        "STANDARD_FEDAVG"
-    )
 
     print(
         f"Round {round_number} "
@@ -278,7 +298,7 @@ for round_number in range(
 
 
     # ======================================================
-    # STORE RESULTS
+    # STORE ROUND RESULTS
     # ======================================================
 
     results.append({
@@ -320,7 +340,7 @@ with open(
 
 
 # ==========================================================
-# SUMMARY
+# EXPERIMENT SUMMARY
 # ==========================================================
 
 final_accuracy = (
@@ -337,6 +357,7 @@ print()
 print("==============================")
 print("Experiment Completed")
 print("==============================")
+
 
 print(
     f"Final Accuracy: "
