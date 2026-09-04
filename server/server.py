@@ -39,25 +39,32 @@ class Server:
         self.adaptive_aggregator = AdaptiveAggregator()
 
 
+    # ======================================================
+    # ADAPTIVE AGGREGATION
+    # ======================================================
+
     def aggregate(
             self,
             client_parameters,
             client_sizes,
             trust_scores,
-            risk_level
+            risk_level,
+            client_updates
     ):
 
         # --------------------------------------------------
         # Adaptive aggregation based on round risk
         # --------------------------------------------------
 
-        new_parameters, selected_aggregator = (
-            self.adaptive_aggregator.aggregate(
-                client_parameters,
-                client_sizes,
-                trust_scores,
-                risk_level
-            )
+        (
+            new_parameters,
+            selected_aggregator
+        ) = self.adaptive_aggregator.aggregate(
+            client_parameters,
+            client_sizes,
+            trust_scores,
+            risk_level,
+            client_updates
         )
 
         # --------------------------------------------------
@@ -77,8 +84,15 @@ class Server:
             f"{selected_aggregator}"
         )
 
-        return new_parameters, selected_aggregator
+        return (
+            new_parameters,
+            selected_aggregator
+        )
 
+
+    # ======================================================
+    # GLOBAL MODEL EVALUATION
+    # ======================================================
 
     def evaluate(
             self,
