@@ -145,26 +145,29 @@ def test_federated_pipeline():
     # Calculate trust
     # --------------------------------------------------
 
-    trust_scores = (
-        server.trust_engine.calculate_trust(
-            pid_scores
+    trust_scores = {}
+
+    for client_id, pid_score in pid_scores.items():
+
+        result = server.trust_engine.calculate_trust(
+            client_id,
+            pid_score,
+            list(pid_scores.values())
         )
-    )
+
+        trust_scores[client_id] = result["trust"]
+
 
     assert len(trust_scores) == 3
 
-    for client_id in trust_scores:
-
-        assert 0.0 <= trust_scores[client_id] <= 1.0
-
 
     # --------------------------------------------------
-    # Update trust history
+    # Verify trust values
     # --------------------------------------------------
 
-    server.trust_engine.update_history(
-        trust_scores
-    )
+    for client_id, trust_score in trust_scores.items():
+
+        assert 0.0 <= trust_score <= 1.0
 
 
     # --------------------------------------------------
@@ -198,7 +201,8 @@ def test_federated_pipeline():
             client_parameters,
             client_sizes,
             trust_scores,
-            risk_level
+            risk_level,
+            client_updates
         )
     )
 
@@ -211,8 +215,8 @@ def test_federated_pipeline():
 
     assert selected_aggregator in [
         "TRUST_AWARE_FEDAVG",
-        "TRIMMED_MEAN",
-        "MEDIAN"
+        "TRUST_WEIGHTED_ROBUST",
+        "TRUST_WEIGHTED_MEDIAN"
     ]
 
 

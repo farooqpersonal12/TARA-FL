@@ -1,7 +1,7 @@
 import csv
 import os
 import random
-import statistics
+
 import torch
 
 from server.server import Server
@@ -14,33 +14,11 @@ from attacks.label_flip import LabelFlipDataset
 # EXPERIMENT CONFIGURATION
 # ==========================================================
 
-# ----------------------------------------------------------
-# EXP-18
-#
-# Multi-seed TARA-FL validation
-#
-# 10 clients
-# 2 malicious clients
-# 75% label flipping
-# Original PID Detector
-# Improved Trust Engine
-# Improved Round Risk
-# Adaptive Aggregation
-#
-# Only the random seed changes between runs.
-# ----------------------------------------------------------
-
 NUM_CLIENTS = 10
 NUM_ROUNDS = 10
 LOCAL_EPOCHS = 1
 
-SEEDS = [
-    42,
-    123,
-    456,
-    789,
-    1000
-]
+SEED = 42
 
 MALICIOUS_CLIENTS = [9, 10]
 FLIP_RATIO = 0.75
@@ -59,520 +37,491 @@ os.makedirs(
 
 RESULT_FILE = os.path.join(
     RESULT_DIR,
-    "results_exp18_tara_multi_seed_10clients_2malicious_75pct.csv"
-)
-
-SUMMARY_FILE = os.path.join(
-    RESULT_DIR,
-    "summary_exp18_tara_multi_seed_10clients_2malicious_75pct.csv"
+    "results_dev_adaptive_trust_seed42.csv"
 )
 
 
 # ==========================================================
-# RUN ONE EXPERIMENT
+# REPRODUCIBILITY
 # ==========================================================
 
-def run_experiment(seed):
-
-    # ======================================================
-    # REPRODUCIBILITY
-    # ======================================================
-
-    random.seed(seed)
-    torch.manual_seed(seed)
+random.seed(SEED)
+torch.manual_seed(SEED)
 
 
-    # ======================================================
-    # CREATE SERVER
-    # ======================================================
+# ==========================================================
+# CREATE SERVER
+# ==========================================================
 
-    server = Server()
+server = Server()
+
+print()
+print("Server created.")
+print("Using Original PID Detector.")
+print("Using Adaptive Trust Engine.")
+print("Using Improved Round Risk.")
+print("Using Adaptive Aggregation.")
+
+
+# ==========================================================
+# LOAD MNIST
+# ==========================================================
+
+train_dataset, test_dataset = load_mnist()
+
+print("MNIST loaded.")
+
+
+# ==========================================================
+# CREATE CLIENT DATASETS
+# ==========================================================
+
+client_datasets = create_clients(
+    train_dataset,
+    num_clients=NUM_CLIENTS
+)
+
+
+# ==========================================================
+# CREATE CLIENTS
+# ==========================================================
+
+clients = []
+
+for i in range(NUM_CLIENTS):
+
+    client_id = i + 1
+
+    client_dataset = client_datasets[i]
+
+    # ------------------------------------------------------
+    # Apply label-flipping attack
+    # ------------------------------------------------------
+
+    if client_id in MALICIOUS_CLIENTS:
+
+        print(
+            f"Applying label-flip attack to "
+            f"Client {client_id}"
+        )
+
+        client_dataset = LabelFlipDataset(
+            client_dataset,
+            flip_ratio=FLIP_RATIO,
+            seed=SEED
+        )
+
+    # ------------------------------------------------------
+    # Create client
+    # ------------------------------------------------------
+
+    client = Client(
+        client_id=client_id,
+        dataset=client_dataset
+    )
+
+    clients.append(client)
+
+    print(
+        f"Client {client.client_id} created with "
+        f"{len(client.dataset)} samples."
+    )
+
+
+# ==========================================================
+# RESULTS STORAGE
+# ==========================================================
+
+results = []
+
+
+# ==========================================================
+# FEDERATED TRAINING
+# ==========================================================
+
+for round_number in range(
+        1,
+        NUM_ROUNDS + 1
+):
 
     print()
-    print("Server created.")
-    print("Using Original PID Detector.")
-    print("Using Improved Trust Engine.")
-    print("Using Improved Round Risk.")
-    print("Using Adaptive Aggregation.")
+    print("==============================")
+    print(
+        f"Federated Round {round_number}"
+    )
+    print("==============================")
 
 
     # ======================================================
-    # LOAD MNIST
+    # GET GLOBAL MODEL PARAMETERS
     # ======================================================
 
-    train_dataset, test_dataset = load_mnist()
-
-    print("MNIST loaded.")
-
-
-    # ======================================================
-    # CREATE CLIENT DATASETS
-    # ======================================================
-
-    client_datasets = create_clients(
-        train_dataset,
-        num_clients=NUM_CLIENTS
+    global_parameters = (
+        server.global_model.state_dict()
     )
 
 
     # ======================================================
-    # CREATE CLIENTS
+    # SEND GLOBAL MODEL TO CLIENTS
     # ======================================================
 
-    clients = []
+    for client in clients:
 
-    for i in range(NUM_CLIENTS):
-
-        client_id = i + 1
-
-        client_dataset = client_datasets[i]
-
-
-        # --------------------------------------------------
-        # Apply label-flipping attack
-        # --------------------------------------------------
-
-        if client_id in MALICIOUS_CLIENTS:
-
-            print(
-                f"Applying label-flip attack to "
-                f"Client {client_id}"
-            )
-
-            client_dataset = LabelFlipDataset(
-                client_dataset,
-                flip_ratio=FLIP_RATIO,
-                seed=seed
-            )
-
-
-        # --------------------------------------------------
-        # Create client
-        # --------------------------------------------------
-
-        client = Client(
-            client_id=client_id,
-            dataset=client_dataset
-        )
-
-        clients.append(client)
-
-        print(
-            f"Client {client.client_id} created with "
-            f"{len(client.dataset)} samples."
+        client.set_model(
+            global_parameters
         )
 
 
     # ======================================================
-    # RESULTS STORAGE
+    # CONTAINERS
     # ======================================================
 
-    results = []
+    client_parameters = []
+
+    client_sizes = []
+
+    client_updates = {}
 
 
     # ======================================================
-    # FEDERATED TRAINING
+    # LOCAL TRAINING
     # ======================================================
 
-    for round_number in range(
-            1,
-            NUM_ROUNDS + 1
-    ):
-
-        print()
-        print("==============================")
-        print(
-            f"Seed {seed} | "
-            f"Federated Round {round_number}"
-        )
-        print("==============================")
-
-
-        # ==================================================
-        # GET GLOBAL MODEL PARAMETERS
-        # ==================================================
-
-        global_parameters = (
-            server.global_model.state_dict()
-        )
-
-
-        # ==================================================
-        # SEND GLOBAL MODEL TO CLIENTS
-        # ==================================================
-
-        for client in clients:
-
-            client.set_model(
-                global_parameters
-            )
-
-
-        # ==================================================
-        # CONTAINERS
-        # ==================================================
-
-        client_parameters = []
-
-        client_sizes = []
-
-        client_updates = {}
-
-
-        # ==================================================
-        # LOCAL TRAINING
-        # ==================================================
-
-        for client in clients:
-
-            print(
-                f"Training Client "
-                f"{client.client_id}"
-            )
-
-
-            # ------------------------------------------------
-            # Local training
-            # ------------------------------------------------
-
-            client.train(
-                epochs=LOCAL_EPOCHS
-            )
-
-
-            # ------------------------------------------------
-            # Get trained parameters
-            # ------------------------------------------------
-
-            parameters = (
-                client.get_parameters()
-            )
-
-
-            # ------------------------------------------------
-            # Calculate update
-            # ------------------------------------------------
-
-            update = client.get_update(
-                global_parameters
-            )
-
-
-            # ------------------------------------------------
-            # Store parameters
-            # ------------------------------------------------
-
-            client_parameters.append(
-                parameters
-            )
-
-
-            # ------------------------------------------------
-            # Store client size
-            # ------------------------------------------------
-
-            client_sizes.append(
-                len(client.dataset)
-            )
-
-
-            # ------------------------------------------------
-            # Store client update
-            # ------------------------------------------------
-
-            client_updates[
-                client.client_id
-            ] = update
-
-
-        # ==================================================
-        # TRUST ANALYSIS
-        # ==================================================
-
-        distances, pid_scores = (
-            server.detector.calculate_scores(
-                client_updates
-            )
-        )
-
-
-        # --------------------------------------------------
-        # Calculate relative anomaly
-        # --------------------------------------------------
-
-        relative_anomaly = (
-            server.trust_engine.calculate_relative_anomaly(
-                pid_scores
-            )
-        )
-
-
-        # --------------------------------------------------
-        # Calculate dynamic trust
-        # --------------------------------------------------
-
-        trust_scores = (
-            server.trust_engine.calculate_trust(
-                pid_scores
-            )
-        )
-
-
-        # --------------------------------------------------
-        # Update trust history
-        # --------------------------------------------------
-
-        server.trust_engine.update_history(
-            trust_scores,
-            relative_anomaly
-        )
-
-
-        # ==================================================
-        # DISPLAY TRUST ANALYSIS
-        # ==================================================
-
-        print()
-        print("Trust Analysis")
-        print("------------------------------")
-
-
-        for client in clients:
-
-            client_id = client.client_id
-
-            trust_score = (
-                trust_scores[client_id]
-            )
-
-            zone = (
-                server.trust_engine.get_trust_zone(
-                    trust_score
-                )
-            )
-
-            print(
-                f"Client {client_id}: "
-                f"Trust={trust_score:.4f}, "
-                f"Zone={zone}"
-            )
-
-
-        # ==================================================
-        # ROUND RISK
-        # ==================================================
-
-        (
-            risk_score,
-            risk_level,
-            suspicious_clients
-        ) = server.round_risk.calculate_risk(
-            distances,
-            trust_scores
-        )
-
-
-        print()
-        print("Round Risk")
-        print("------------------------------")
+    for client in clients:
 
         print(
-            f"Risk Score: "
-            f"{risk_score:.4f}"
+            f"Training Client "
+            f"{client.client_id}"
         )
 
-        print(
-            f"Risk Level: "
-            f"{risk_level}"
+        client.train(
+            epochs=LOCAL_EPOCHS
         )
 
-        print(
-            f"Suspicious Clients: "
-            f"{suspicious_clients}/"
-            f"{NUM_CLIENTS}"
+        parameters = (
+            client.get_parameters()
         )
 
+        update = client.get_update(
+            global_parameters
+        )
 
-        # ==================================================
-        # ADAPTIVE AGGREGATION
-        # ==================================================
+        client_parameters.append(
+            parameters
+        )
 
-        (
-            new_parameters,
-            selected_aggregator
-        ) = server.aggregate(
-            client_parameters,
-            client_sizes,
-            trust_scores,
-            risk_level,
+        client_sizes.append(
+            len(client.dataset)
+        )
+
+        client_updates[
+            client.client_id
+        ] = update
+
+
+    # ======================================================
+    # PID ANOMALY DETECTION
+    # ======================================================
+
+    distances, pid_scores = (
+        server.detector.calculate_scores(
             client_updates
         )
+    )
 
 
-        # ==================================================
-        # UPDATE GLOBAL MODEL
-        # ==================================================
+    # ======================================================
+    # ADAPTIVE TRUST ANALYSIS
+    # ======================================================
 
-        server.global_model.load_state_dict(
-            new_parameters
+    all_pid_scores = list(
+        pid_scores.values()
+    )
+
+
+    # ------------------------------------------------------
+    # Calculate relative anomaly
+    # ------------------------------------------------------
+
+    relative_anomaly = {}
+
+    for client_id, pid_score in pid_scores.items():
+
+        relative_anomaly[client_id] = (
+            server.trust_engine.calculate_relative_anomaly(
+                pid_score,
+                all_pid_scores
+            )
         )
 
 
-        # ==================================================
-        # GLOBAL MODEL EVALUATION
-        # ==================================================
+    # ------------------------------------------------------
+    # Calculate continuous trust
+    # ------------------------------------------------------
 
-        accuracy = server.evaluate(
-            test_dataset
+    trust_scores = {}
+
+    trust_details = {}
+
+    for client_id, pid_score in pid_scores.items():
+
+        result = (
+            server.trust_engine.calculate_trust(
+                client_id,
+                pid_score,
+                all_pid_scores
+            )
         )
 
-        accuracy_percent = (
-                accuracy * 100
-        )
+        trust_scores[client_id] = result["trust"]
 
+        trust_details[client_id] = result
+
+
+    # ======================================================
+    # DISPLAY TRUST ANALYSIS
+    # ======================================================
+
+    print()
+    print("Trust Analysis")
+    print("------------------------------")
+
+    print(
+        "Client | PID Score | Relative Anomaly | "
+        "Current Trust | Historical Trust | "
+        "Persistence | Final Trust"
+    )
+
+    print(
+        "--------------------------------------------------------------------------"
+    )
+
+    for client in clients:
+
+        client_id = client.client_id
+
+        details = trust_details[client_id]
 
         print(
-            f"Round {round_number} Accuracy: "
-            f"{accuracy_percent:.2f}%"
+            f"{client_id:6} | "
+            f"{details['pid_score']:9.4f} | "
+            f"{details['relative_anomaly']:16.4f} | "
+            f"{details['current_trust']:13.4f} | "
+            f"{details['historical_trust']:16.4f} | "
+            f"{details['persistence']:11.4f} | "
+            f"{details['trust']:.4f}"
         )
 
 
-        # ==================================================
-        # STORE ROUND RESULTS
-        # ==================================================
-
-        row = {
-
-            "seed": seed,
-
-            "round": round_number,
-
-            "accuracy": accuracy,
-
-            "accuracy_percent":
-                accuracy_percent,
-
-            "risk_score":
-                risk_score,
-
-            "risk_level":
-                risk_level,
-
-            "suspicious_clients":
-                suspicious_clients,
-
-            "aggregator":
-                selected_aggregator
-        }
-
-
-        # --------------------------------------------------
-        # Store trust scores
-        # --------------------------------------------------
-
-        for client_id in range(
-                1,
-                NUM_CLIENTS + 1
-        ):
-
-            row[
-                f"trust_client_{client_id}"
-            ] = trust_scores[client_id]
-
-
-        results.append(row)
-
-
     # ======================================================
-    # RETURN RESULTS FOR THIS SEED
+    # ROUND RISK
     # ======================================================
 
-    return results
+    (
+        risk_score,
+        risk_level,
+        suspicious_clients
+    ) = server.round_risk.calculate_risk(
+        distances,
+        trust_scores
+    )
 
-
-# ==========================================================
-# MULTI-SEED EXPERIMENT
-# ==========================================================
-
-all_results = []
-
-seed_summary = []
-
-
-for seed in SEEDS:
 
     print()
-    print("########################################")
+    print("Round Risk")
+    print("------------------------------")
+
     print(
-        f"STARTING SEED {seed}"
-    )
-    print("########################################")
-
-
-    seed_results = run_experiment(
-        seed
+        f"Risk Score: "
+        f"{risk_score:.4f}"
     )
 
+    print(
+        f"Risk Level: "
+        f"{risk_level}"
+    )
 
-    # ------------------------------------------------------
-    # Add results to combined results
-    # ------------------------------------------------------
-
-    all_results.extend(
-        seed_results
+    print(
+        f"Suspicious Clients: "
+        f"{suspicious_clients}/"
+        f"{NUM_CLIENTS}"
     )
 
 
-    # ------------------------------------------------------
-    # Calculate seed statistics
-    # ------------------------------------------------------
+    # ======================================================
+    # ADAPTIVE AGGREGATION
+    # ======================================================
 
-    final_accuracy = (
-        seed_results[-1]["accuracy_percent"]
+    (
+        new_parameters,
+        selected_aggregator
+    ) = server.aggregate(
+        client_parameters,
+        client_sizes,
+        trust_scores,
+        risk_level,
+        client_updates
     )
 
-    best_accuracy = max(
-        row["accuracy_percent"]
-        for row in seed_results
+
+    # ======================================================
+    # CALCULATE EFFECTIVE TRUST WEIGHTS
+    # ======================================================
+
+    aggregation_weights = (
+        server.adaptive_aggregator.calculate_trust_weights(
+            client_sizes,
+            trust_scores
+        )
     )
 
 
-    seed_summary.append({
+    # ======================================================
+    # DISPLAY AGGREGATION WEIGHTS
+    # ======================================================
+
+    print()
+    print("Aggregation Weights")
+    print("------------------------------")
+
+    for client_id, weight in enumerate(
+            aggregation_weights,
+            start=1
+    ):
+
+        print(
+            f"Client {client_id}: "
+            f"{weight:.6f}"
+        )
+
+
+    # ======================================================
+    # UPDATE GLOBAL MODEL
+    # ======================================================
+
+    server.global_model.load_state_dict(
+        new_parameters
+    )
+
+
+    # ======================================================
+    # GLOBAL MODEL EVALUATION
+    # ======================================================
+
+    accuracy = server.evaluate(
+        test_dataset
+    )
+
+    accuracy_percent = (
+            accuracy * 100
+    )
+
+
+    print()
+    print(
+        f"Round {round_number} Accuracy: "
+        f"{accuracy_percent:.2f}%"
+    )
+
+
+    # ======================================================
+    # STORE ROUND RESULTS
+    # ======================================================
+
+    row = {
 
         "seed":
-            seed,
+            SEED,
 
-        "final_accuracy":
-            final_accuracy,
+        "round":
+            round_number,
 
-        "best_accuracy":
-            best_accuracy
-    })
+        "accuracy":
+            accuracy,
+
+        "accuracy_percent":
+            accuracy_percent,
+
+        "risk_score":
+            risk_score,
+
+        "risk_level":
+            risk_level,
+
+        "suspicious_clients":
+            suspicious_clients,
+
+        "aggregator":
+            selected_aggregator
+    }
 
 
-    print()
-    print("----------------------------------------")
-    print(
-        f"Seed {seed} Completed"
-    )
-    print("----------------------------------------")
+    # ------------------------------------------------------
+    # Store PID scores
+    # ------------------------------------------------------
 
-    print(
-        f"Final Accuracy: "
-        f"{final_accuracy:.2f}%"
-    )
+    for client_id in range(
+            1,
+            NUM_CLIENTS + 1
+    ):
 
-    print(
-        f"Best Accuracy: "
-        f"{best_accuracy:.2f}%"
-    )
+        row[
+            f"pid_client_{client_id}"
+        ] = pid_scores[client_id]
+
+
+    # ------------------------------------------------------
+    # Store relative anomaly
+    # ------------------------------------------------------
+
+    for client_id in range(
+            1,
+            NUM_CLIENTS + 1
+    ):
+
+        row[
+            f"relative_anomaly_client_{client_id}"
+        ] = relative_anomaly[client_id]
+
+
+    # ------------------------------------------------------
+    # Store trust scores
+    # ------------------------------------------------------
+
+    for client_id in range(
+            1,
+            NUM_CLIENTS + 1
+    ):
+
+        row[
+            f"trust_client_{client_id}"
+        ] = trust_scores[client_id]
+
+
+    # ------------------------------------------------------
+    # Store aggregation weights
+    # ------------------------------------------------------
+
+    for client_id in range(
+            1,
+            NUM_CLIENTS + 1
+    ):
+
+        row[
+            f"aggregation_weight_client_{client_id}"
+        ] = aggregation_weights[
+            client_id - 1
+            ]
+
+
+    results.append(row)
 
 
 # ==========================================================
-# SAVE ALL ROUND RESULTS
+# SAVE RESULTS
 # ==========================================================
 
-fieldnames = all_results[0].keys()
+fieldnames = results[0].keys()
 
 
 with open(
@@ -589,138 +538,28 @@ with open(
     writer.writeheader()
 
     writer.writerows(
-        all_results
+        results
     )
 
 
 # ==========================================================
-# MULTI-SEED STATISTICS
+# FINAL SUMMARY
 # ==========================================================
 
-final_accuracies = [
-    row["final_accuracy"]
-    for row in seed_summary
-]
-
-best_accuracies = [
-    row["best_accuracy"]
-    for row in seed_summary
-]
-
-
-mean_final_accuracy = (
-    statistics.mean(
-        final_accuracies
-    )
+final_accuracy = (
+    results[-1]["accuracy_percent"]
 )
 
-std_final_accuracy = (
-    statistics.stdev(
-        final_accuracies
-    )
-    if len(final_accuracies) > 1
-    else 0.0
+best_accuracy = max(
+    row["accuracy_percent"]
+    for row in results
 )
 
-
-mean_best_accuracy = (
-    statistics.mean(
-        best_accuracies
-    )
-)
-
-std_best_accuracy = (
-    statistics.stdev(
-        best_accuracies
-    )
-    if len(best_accuracies) > 1
-    else 0.0
-)
-
-
-# ==========================================================
-# SAVE SUMMARY
-# ==========================================================
-
-summary_rows = []
-
-
-for row in seed_summary:
-
-    summary_rows.append({
-
-        "seed":
-            row["seed"],
-
-        "final_accuracy":
-            row["final_accuracy"],
-
-        "best_accuracy":
-            row["best_accuracy"]
-    })
-
-
-# ----------------------------------------------------------
-# Add aggregate statistics
-# ----------------------------------------------------------
-
-summary_rows.append({
-
-    "seed":
-        "MEAN",
-
-    "final_accuracy":
-        mean_final_accuracy,
-
-    "best_accuracy":
-        mean_best_accuracy
-})
-
-
-summary_rows.append({
-
-    "seed":
-        "STD",
-
-    "final_accuracy":
-        std_final_accuracy,
-
-    "best_accuracy":
-        std_best_accuracy
-})
-
-
-with open(
-        SUMMARY_FILE,
-        "w",
-        newline=""
-) as file:
-
-    writer = csv.DictWriter(
-        file,
-        fieldnames=[
-            "seed",
-            "final_accuracy",
-            "best_accuracy"
-        ]
-    )
-
-    writer.writeheader()
-
-    writer.writerows(
-        summary_rows
-    )
-
-
-# ==========================================================
-# FINAL EXPERIMENT SUMMARY
-# ==========================================================
 
 print()
 print("==========================================")
-print("EXPERIMENT 18 COMPLETED")
+print("DEVELOPMENT EXPERIMENT COMPLETED")
 print("==========================================")
-
 
 print()
 print("Configuration")
@@ -747,57 +586,28 @@ print(
 )
 
 print(
-    f"Seeds: "
-    f"{SEEDS}"
+    f"Seed: "
+    f"{SEED}"
 )
 
 
 print()
-print("Per-Seed Results")
-print("------------------------------------------")
-
-
-for row in seed_summary:
-
-    print(
-        f"Seed {row['seed']}: "
-        f"Final={row['final_accuracy']:.2f}%, "
-        f"Best={row['best_accuracy']:.2f}%"
-    )
-
-
-print()
-print("Multi-Seed Statistics")
+print("Results")
 print("------------------------------------------")
 
 print(
-    f"Mean Final Accuracy: "
-    f"{mean_final_accuracy:.2f}%"
+    f"Final Accuracy: "
+    f"{final_accuracy:.2f}%"
 )
 
 print(
-    f"Std Final Accuracy: "
-    f"{std_final_accuracy:.2f}%"
-)
-
-print(
-    f"Mean Best Accuracy: "
-    f"{mean_best_accuracy:.2f}%"
-)
-
-print(
-    f"Std Best Accuracy: "
-    f"{std_best_accuracy:.2f}%"
+    f"Best Accuracy: "
+    f"{best_accuracy:.2f}%"
 )
 
 
 print()
 print(
-    f"Round results saved to: "
+    f"Results saved to: "
     f"{RESULT_FILE}"
-)
-
-print(
-    f"Summary saved to: "
-    f"{SUMMARY_FILE}"
 )

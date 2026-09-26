@@ -3,6 +3,7 @@ import torch
 from model.model import MNISTModel
 
 from detection.pid_detector import PIDDetector
+from detection.robust_pid_detector import RobustPIDDetector
 from trustengine.trust_engine import TrustEngine
 from risk.round_risk import RoundRisk
 from aggregation.adaptive_aggregator import AdaptiveAggregator
@@ -10,7 +11,7 @@ from aggregation.adaptive_aggregator import AdaptiveAggregator
 
 class Server:
 
-    def __init__(self):
+    def __init__(self, detector_type="standard"):
 
         self.global_model = MNISTModel()
 
@@ -18,7 +19,15 @@ class Server:
         # Malicious / anomaly detection
         # --------------------------------------------------
 
-        self.detector = PIDDetector()
+        if detector_type == "robust":
+
+            self.detector = RobustPIDDetector()
+
+        else:
+
+            self.detector = PIDDetector()
+
+        self.detector_type = detector_type
 
         # --------------------------------------------------
         # Dynamic client trust

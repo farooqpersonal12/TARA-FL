@@ -2,398 +2,381 @@ from trustengine.trust_history import TrustHistory
 
 
 class TrustEngine:
+    """
+    Continuous, adaptive trust mechanism.
+
+    Pipeline:
+        PID score
+            ↓
+        Robust relative anomaly
+            ↓
+        Current trust
+            ↓
+        Historical trust
+            ↓
+        Persistence penalty
+            ↓
+        Final trust
+    """
 
     def __init__(
             self,
             history_weight=0.6,
             current_weight=0.4,
-            persistence_penalty=0.15,
-            abnormality_threshold=1.25,
-            decay_factor=0.8
+            persistence_weight=0.2,
+            decay_factor=0.8,
+            mad_scale=3.0,
+            minimum_scale=0.01,
+            normal_deviation=1.0,
     ):
-
-        # --------------------------------------------------
-        # Trust configuration
-        # --------------------------------------------------
-
         self.history_weight = history_weight
         self.current_weight = current_weight
-
-        self.persistence_penalty = (
-            persistence_penalty
-        )
-
-        self.abnormality_threshold = (
-            abnormality_threshold
-        )
-
-        # --------------------------------------------------
-        # Recency configuration
-        # --------------------------------------------------
-
+        self.persistence_weight = persistence_weight
         self.decay_factor = decay_factor
+        self.mad_scale = mad_scale
+        self.minimum_scale = minimum_scale
+        self.normal_deviation = normal_deviation
 
-        # --------------------------------------------------
-        # Historical trust
-        # --------------------------------------------------
+        self.history = TrustHistory()
 
-        self.history = TrustHistory(
-            initial_trust=1.0
-        )
+    # ---------------------------------------------------------
+    # Robust statistics
+    # ---------------------------------------------------------
 
-        # --------------------------------------------------
-        # Historical relative anomaly
-        # --------------------------------------------------
+    def _median(self, values):
+        values = sorted(values)
 
-        self.anomaly_history = {}
-
-
-    # ======================================================
-    # RELATIVE ANOMALY
-    # ======================================================
-
-    def calculate_relative_anomaly(
-            self,
-            scores
-    ):
-
-        if not scores:
-            return {}
-
-        values = sorted(
-            scores.values()
-        )
+        if not values:
+            return 0.0
 
         n = len(values)
+        middle = n // 2
 
-        if n % 2 == 0:
+        if n % 2 == 1:
+            return float(values[middle])
 
-            median_score = (
-                                   values[n // 2 - 1]
-                                   + values[n // 2]
-                           ) / 2
+        return float((values[middle - 1] + values[middle]) / 2.0)
 
-        else:
+    def _mad(self, values, median):
+        deviations = [
+            abs(float(value) - median)
+            for value in values
+        ]
 
-            median_score = values[n // 2]
+        return self._median(deviations)
 
-        median_score = max(
-            median_score,
-            1e-12
+    def _calculate_scale(self, values, median, mad):
+        """
+        Calculate a robust scale.
+
+        Primary:
+            MAD
+
+        Fallback:
+            spread / 4
+
+        This prevents division by zero when most clients have
+        identical PID scores.
+        """
+
+        if mad > self.minimum_scale:
+            return mad
+
+        if not values:
+            return self.minimum_scale
+
+        value_range = max(values) - min(values)
+
+        fallback_scale = value_range / 4.0
+
+        if fallback_scale > self.minimum_scale:
+            return fallback_scale
+
+        # If everybody has almost exactly the same score,
+        # use a small scale relative to the population value.
+        relative_scale = abs(median) * 0.10
+
+        return max(relative_scale, self.minimum_scale)
+
+    # ---------------------------------------------------------
+    # Relative anomaly
+    # ---------------------------------------------------------
+
+    def calculate_relative_anomaly(self, pid_score, all_pid_scores):
+        """
+        Convert an absolute PID score into a peer-relative anomaly.
+
+        A client at or below the population median receives
+        anomaly = 1.
+
+        Clients above the median receive a continuous anomaly
+        proportional to their robust deviation.
+        """
+
+        if not all_pid_scores:
+            return 1.0
+
+        scores = [
+            float(score)
+            for score in all_pid_scores
+        ]
+
+        score = float(pid_score)
+
+        median = self._median(scores)
+        mad = self._mad(scores, median)
+        scale = self._calculate_scale(scores, median, mad)
+
+        if score <= median:
+            return 1.0
+
+        deviation = (score - median) / scale
+
+        return 1.0 + max(0.0, deviation)
+
+    # ---------------------------------------------------------
+    # Current trust
+    # ---------------------------------------------------------
+
+    def calculate_current_trust(self, relative_anomaly):
+        """
+        Convert relative anomaly into continuous current trust.
+
+        Small deviations inside the normal statistical region
+        are treated gently.
+
+        Strong deviations receive increasingly lower trust.
+        """
+
+        anomaly = max(1.0, float(relative_anomaly))
+
+        deviation = anomaly - 1.0
+
+        # Normal region:
+        # small peer-relative deviations should not heavily
+        # penalize otherwise normal clients.
+        excess_deviation = max(
+            0.0,
+            deviation - self.normal_deviation
         )
 
-        relative_anomaly = {}
+        if excess_deviation <= 0.0:
+            return 1.0
 
-        for client_id, score in scores.items():
+        # Smooth inverse mapping.
+        trust = 1.0 / (
+                1.0 + excess_deviation ** 2
+        )
 
-            relative_anomaly[client_id] = (
-                    score / median_score
-            )
+        return max(0.0, min(1.0, trust))
 
-        return relative_anomaly
+    # ---------------------------------------------------------
+    # Historical behavior
+    # ---------------------------------------------------------
 
+    def calculate_historical_trust(self, client_id):
+        """
+        Return the client's previous trust.
 
-    # ======================================================
-    # CURRENT TRUST
-    # ======================================================
+        New clients start with full trust.
+        """
 
-    def calculate_current_trust(
-            self,
-            relative_anomaly
-    ):
+        previous_trust = self.history.get_latest_trust(client_id)
 
-        current_trust = {}
+        if previous_trust is None:
+            return 1.0
 
-        for client_id, anomaly in (
-                relative_anomaly.items()
-        ):
+        return max(
+            0.0,
+            min(1.0, float(previous_trust))
+        )
 
-            anomaly = max(
-                anomaly,
-                1e-12
-            )
-
-            trust = 1.0 / anomaly
-
-            trust = max(
-                0.0,
-                min(
-                    1.0,
-                    trust
-                )
-            )
-
-            current_trust[client_id] = trust
-
-        return current_trust
-
-
-    # ======================================================
-    # RECENCY-WEIGHTED PERSISTENCE
-    # ======================================================
+    # ---------------------------------------------------------
+    # Persistence
+    # ---------------------------------------------------------
 
     def calculate_persistence(
             self,
+            client_id,
             relative_anomaly
     ):
         """
-        Calculate persistence of abnormal behavior.
+        Calculate a continuous persistence penalty.
 
-        Recent rounds receive higher importance than
-        older rounds.
+        Repeated anomalous behavior contributes more than
+        an isolated anomaly.
 
-        decay_factor = 0.8 means:
-
-            newest round      -> highest weight
-            previous round    -> 0.8
-            older round       -> 0.8^2
-            older round       -> 0.8^3
-            ...
-
-        Only behavior above abnormality_threshold is
-        considered persistent abnormal behavior.
+        Recency weighting is controlled by decay_factor.
         """
 
-        persistence = {}
+        anomaly = max(
+            1.0,
+            float(relative_anomaly)
+        )
 
-        for client_id in relative_anomaly:
+        severity = max(
+            0.0,
+            anomaly - 1.0
+        )
 
-            history = self.anomaly_history.get(
-                client_id,
-                []
+        # Convert anomaly severity into [0, 1].
+        normalized_severity = min(
+            1.0,
+            severity / self.mad_scale
+        )
+
+        anomaly_history = self.history.get_anomaly_history(
+            client_id
+        )
+
+        if not anomaly_history:
+            return normalized_severity
+
+        weighted_sum = normalized_severity
+        weight_sum = 1.0
+
+        decay_weight = self.decay_factor
+
+        for historical_anomaly in reversed(anomaly_history):
+            historical_anomaly = max(
+                1.0,
+                float(historical_anomaly)
             )
 
-            if not history:
-
-                persistence[client_id] = 0.0
-                continue
-
-            weighted_abnormal = 0.0
-            total_weight = 0.0
-
-            # --------------------------------------------------
-            # Newest historical observation receives
-            # the highest weight.
-            # --------------------------------------------------
-
-            reversed_history = list(
-                reversed(history)
+            historical_severity = max(
+                0.0,
+                historical_anomaly - 1.0
             )
 
-            for index, anomaly in enumerate(
-                    reversed_history
-            ):
-
-                weight = (
-                        self.decay_factor ** index
-                )
-
-                total_weight += weight
-
-                if anomaly >= (
-                        self.abnormality_threshold
-                ):
-
-                    weighted_abnormal += weight
-
-            if total_weight == 0:
-
-                persistence_score = 0.0
-
-            else:
-
-                persistence_score = (
-                        weighted_abnormal
-                        / total_weight
-                )
-
-            persistence[client_id] = (
-                persistence_score
+            historical_severity = min(
+                1.0,
+                historical_severity / self.mad_scale
             )
 
-        return persistence
+            weighted_sum += (
+                    historical_severity * decay_weight
+            )
 
+            weight_sum += decay_weight
 
-    # ======================================================
-    # DYNAMIC TRUST
-    # ======================================================
+            decay_weight *= self.decay_factor
+
+        return max(
+            0.0,
+            min(1.0, weighted_sum / weight_sum)
+        )
+
+    # ---------------------------------------------------------
+    # Final trust
+    # ---------------------------------------------------------
 
     def calculate_trust(
             self,
-            scores
-    ):
-
-        if not scores:
-            return {}
-
-        # --------------------------------------------------
-        # Calculate peer-relative anomaly
-        # --------------------------------------------------
-
-        relative_anomaly = (
-            self.calculate_relative_anomaly(
-                scores
-            )
-        )
-
-        # --------------------------------------------------
-        # Calculate current-round trust
-        # --------------------------------------------------
-
-        current_trust = (
-            self.calculate_current_trust(
-                relative_anomaly
-            )
-        )
-
-        # --------------------------------------------------
-        # Calculate persistent behavior
-        # --------------------------------------------------
-
-        persistence = (
-            self.calculate_persistence(
-                relative_anomaly
-            )
-        )
-
-        trust_scores = {}
-
-        for client_id in current_trust:
-
-            # --------------------------------------------------
-            # Historical trust
-            # --------------------------------------------------
-
-            previous_trust = (
-                self.history.get_trust(
-                    client_id
-                )
-            )
-
-            # --------------------------------------------------
-            # Current trust
-            # --------------------------------------------------
-
-            current = current_trust[
-                client_id
-            ]
-
-            # --------------------------------------------------
-            # Persistent anomaly
-            # --------------------------------------------------
-
-            persistent_behavior = (
-                persistence[client_id]
-            )
-
-            # --------------------------------------------------
-            # Historical + current trust
-            # --------------------------------------------------
-
-            trust_score = (
-                    self.history_weight
-                    * previous_trust
-                    +
-                    self.current_weight
-                    * current
-            )
-
-            # --------------------------------------------------
-            # Persistent anomaly penalty
-            # --------------------------------------------------
-
-            penalty = (
-                    self.persistence_penalty
-                    * persistent_behavior
-            )
-
-            trust_score -= penalty
-
-            # --------------------------------------------------
-            # Keep trust in [0, 1]
-            # --------------------------------------------------
-
-            trust_score = max(
-                0.0,
-                min(
-                    1.0,
-                    trust_score
-                )
-            )
-
-            trust_scores[client_id] = (
-                trust_score
-            )
-
-        return trust_scores
-
-
-    # ======================================================
-    # UPDATE HISTORY
-    # ======================================================
-
-    def update_history(
-            self,
-            trust_scores,
-            relative_anomaly=None
+            client_id,
+            pid_score,
+            all_pid_scores
     ):
         """
-        Store trust history and anomaly history.
+        Complete trust calculation for one client.
         """
 
-        # --------------------------------------------------
-        # Trust history
-        # --------------------------------------------------
+        relative_anomaly = self.calculate_relative_anomaly(
+            pid_score,
+            all_pid_scores
+        )
 
-        for client_id, trust_score in (
-                trust_scores.items()
-        ):
+        current_trust = self.calculate_current_trust(
+            relative_anomaly
+        )
 
-            self.history.update_trust(
-                client_id,
-                trust_score
-            )
+        historical_trust = self.calculate_historical_trust(
+            client_id
+        )
 
-        # --------------------------------------------------
-        # Anomaly history
-        # --------------------------------------------------
+        persistence = self.calculate_persistence(
+            client_id,
+            relative_anomaly
+        )
 
-        if relative_anomaly is not None:
+        final_trust = (
+                self.history_weight * historical_trust
+                + self.current_weight * current_trust
+                - self.persistence_weight * persistence
+        )
 
-            for client_id, anomaly in (
-                    relative_anomaly.items()
-            ):
+        final_trust = max(
+            0.0,
+            min(1.0, final_trust)
+        )
 
-                if client_id not in (
-                        self.anomaly_history
-                ):
+        # Store behavior for future rounds.
+        self.history.update(
+            client_id,
+            final_trust,
+            relative_anomaly
+        )
 
-                    self.anomaly_history[
-                        client_id
-                    ] = []
+        return {
+            "client_id": client_id,
+            "pid_score": float(pid_score),
+            "relative_anomaly": float(relative_anomaly),
+            "current_trust": float(current_trust),
+            "historical_trust": float(historical_trust),
+            "persistence": float(persistence),
+            "trust": float(final_trust),
+        }
 
-                self.anomaly_history[
-                    client_id
-                ].append(anomaly)
-
-
-    # ======================================================
-    # TRUST ZONE
-    # ======================================================
+    # ---------------------------------------------------------
+    # Trust zone
+    # ---------------------------------------------------------
 
     def get_trust_zone(
             self,
             trust_score,
-            high_threshold=0.75,
-            medium_threshold=0.40
+            population_trust=None
     ):
+        """
+        Classify trust relative to the current population.
 
-        if trust_score >= high_threshold:
+        This is descriptive only and is NOT used as the primary
+        trust calculation.
+        """
 
-            return "HIGH"
+        trust = float(trust_score)
 
-        if trust_score >= medium_threshold:
+        if population_trust is None:
+            return "NORMAL"
 
+        population_trust = [
+            float(value)
+            for value in population_trust
+        ]
+
+        if not population_trust:
+            return "NORMAL"
+
+        median_trust = self._median(
+            population_trust
+        )
+
+        mad_trust = self._mad(
+            population_trust,
+            median_trust
+        )
+
+        scale = max(
+            mad_trust,
+            self.minimum_scale
+        )
+
+        deviation = (
+                            median_trust - trust
+                    ) / scale
+
+        if deviation >= 3.0:
+            return "LOW"
+
+        if deviation >= 1.5:
             return "MEDIUM"
 
-        return "LOW"
+        return "NORMAL"

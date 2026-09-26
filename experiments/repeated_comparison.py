@@ -234,15 +234,23 @@ def run_tara_fl(
             )
         )
 
-        trust_scores = (
-            server.trust_engine.calculate_trust(
-                pid_scores
-            )
+        all_pid_scores = list(
+            pid_scores.values()
         )
 
-        server.trust_engine.update_history(
-            trust_scores
-        )
+        trust_scores = {}
+
+        for client_id, pid_score in pid_scores.items():
+
+            result = (
+                server.trust_engine.calculate_trust(
+                    client_id,
+                    pid_score,
+                    all_pid_scores
+                )
+            )
+
+            trust_scores[client_id] = result["trust"]
 
         for client in clients:
 
@@ -305,7 +313,8 @@ def run_tara_fl(
             client_parameters,
             client_sizes,
             trust_scores,
-            risk_level
+            risk_level,
+            client_updates
         )
 
         server.global_model.load_state_dict(
