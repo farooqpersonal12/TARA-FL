@@ -1,0 +1,20 @@
+{
+  "status": {
+    "status": "running",
+    "data_dir": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results"
+  },
+  "runs": {
+    "runs": [
+      "baseline_fedavg.csv",
+      "baseline_tara.csv",
+      "baseline_trust_fedavg.csv",
+      "baseline_trust_robust.csv",
+      "e2e_results.csv",
+      "phase5_baselines.csv",
+      "phase6_malicious_matrix.csv",
+      "phase7_noniid_dropout.csv",
+      "phase8_ldp.csv"
+    ]
+  },
+  "metrics_count": 5
+}

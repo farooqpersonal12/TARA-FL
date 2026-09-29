@@ -131,26 +131,19 @@ class TrustWeightedMedian(BaseAggregator):
             original_shape = stacked.shape[1:]
             flattened = stacked.reshape(stacked.shape[0], -1)
 
-            result = torch.zeros(flattened.shape[1], dtype=stacked.dtype, device=stacked.device)
-
-            for coord in range(flattened.shape[1]):
-                vals = flattened[:, coord]
-                sorted_indices = torch.argsort(vals)
-                cum_weight = 0.0
-                selected_idx = sorted_indices[-1].item()
-
-                for idx in sorted_indices:
-                    c_idx = idx.item()
-                    cum_weight += normalized_weights[c_idx]
-                    if cum_weight >= 0.5:
-                        selected_idx = c_idx
-                        break
-
-                result[coord] = vals[selected_idx]
+            # Vectorized coordinate-wise weighted median across client dimension (dim=0)
+            sorted_vals, sorted_indices = torch.sort(flattened, dim=0)
+            weights_tensor = torch.tensor(normalized_weights, device=stacked.device, dtype=stacked.dtype)
+            weight_per_elem = weights_tensor[sorted_indices]
+            cum_weights = torch.cumsum(weight_per_elem, dim=0)
+            mask = (cum_weights >= 0.5)
+            first_true_idx = torch.argmax(mask.int(), dim=0)
+            result = torch.gather(sorted_vals, 0, first_true_idx.unsqueeze(0)).squeeze(0)
 
             new_parameters[name] = result.reshape(original_shape)
 
         return new_parameters
+
 
 
 # ==============================================================================

@@ -1,0 +1,6 @@
+round,seed,method,accuracy,accuracy_percent,loss,risk_score,risk_level,selected_aggregator,num_participating,quarantined_clients,mean_trust_honest,mean_trust_malicious,client_1_trust,client_2_trust,client_3_trust,client_4_trust,client_5_trust,client_6_trust,client_7_trust,client_8_trust,client_9_trust,client_10_trust
+1,42,fedavg,0.334,33.4,2.205380006790161,0.0,N/A,STANDARD_FEDAVG,10,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+2,42,fedavg,0.488,48.8,1.71308114528656,0.0,N/A,STANDARD_FEDAVG,10,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+3,42,fedavg,0.731,73.1,1.0329897775650025,0.0,N/A,STANDARD_FEDAVG,10,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+4,42,fedavg,0.708,70.8,0.8598572940826416,0.0,N/A,STANDARD_FEDAVG,10,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+5,42,fedavg,0.777,77.7,0.6913894095420837,0.0,N/A,STANDARD_FEDAVG,10,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0

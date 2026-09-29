@@ -279,3 +279,11 @@ def simulate_client_dropout(
         # Guarantee at least 1 client communicates
         surviving = [rng.choice(client_ids)]
     return surviving
+
+
+# Aliases for functional API consistency
+partition_iid = create_clients
+partition_dirichlet = create_clients_noniid
+partition_pathological = create_clients_pathological
+simulate_dropout = simulate_client_dropout
+

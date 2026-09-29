@@ -1,0 +1,8 @@
+{
+  "single_client": "PASS",
+  "zero_malicious": "PASS",
+  "invalid_model_error": "PASS: raised ValueError",
+  "invalid_detector_error": "PASS: raised ValueError",
+  "invalid_attack_error": "PASS: raised ValueError",
+  "missing_checkpoint_error": "PASS: cleanly caught error"
+}

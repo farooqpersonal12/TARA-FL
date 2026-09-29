@@ -1,0 +1,7 @@
+{
+  "time_risk_routing_3_rounds_sec": 13.063497499999357,
+  "time_candidate_eval_3_rounds_sec": 42.172625600000174,
+  "candidate_eval_overhead_ratio": 3.22827983853499,
+  "checkpoint_size_bytes": 904487,
+  "checkpoint_size_kb": 883.2880859375
+}

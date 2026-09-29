@@ -12,11 +12,14 @@ class AttackFactory:
     _registry: Dict[str, Type[BaseAttack]] = {
         "label_flip": LabelFlipAttack,
         "gradient_scale": GradientScaleAttack,
+        "gradient_scaling": GradientScaleAttack,
         "sign_flip": SignFlipAttack,
         "backdoor": BackdoorAttack,
         "gaussian_noise": GaussianNoiseAttack,
         "param_zero": RandomParameterZeroAttack,
+        "zero_out": RandomParameterZeroAttack,
     }
+
 
     @classmethod
     def register(cls, name: str, attack_class: Type[BaseAttack]):

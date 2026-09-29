@@ -1,6 +1,7 @@
-from typing import Dict, Tuple, Optional
+from typing import Dict, Tuple, Optional, Union, List
 import torch
 import torch.nn as nn
+
 from torch.utils.data import DataLoader, Dataset
 
 
@@ -39,15 +40,17 @@ class ValidationProbeEvaluator:
     def evaluate_updates(
             self,
             global_model: nn.Module,
-            client_updates: Dict[int, Dict[str, torch.Tensor]]
+            client_updates: Union[Dict[int, Dict[str, torch.Tensor]], List[Tuple[int, Dict[str, torch.Tensor]]]]
     ) -> Dict[int, float]:
         """
         Evaluate all client updates and return functional quality scores in [0, 1].
         """
+        import copy
         global_loss = self._compute_loss(global_model)
         quality_scores = {}
 
-        for client_id, update in client_updates:
+        items = client_updates.items() if isinstance(client_updates, dict) else client_updates
+        for client_id, update in items:
             # Apply prospective update to cloned model state
             prospective_state = {}
             for name, param in global_model.state_dict().items():
@@ -56,8 +59,11 @@ class ValidationProbeEvaluator:
                 else:
                     prospective_state[name] = param.clone()
 
-            # Temp model for loss check
-            temp_model = type(global_model)().to(self.device)
+            # Temp model for loss check via deepcopy
+            try:
+                temp_model = copy.deepcopy(global_model).to(self.device)
+            except Exception:
+                temp_model = type(global_model)().to(self.device)
             temp_model.load_state_dict(prospective_state)
             prospective_loss = self._compute_loss(temp_model)
 
@@ -67,3 +73,4 @@ class ValidationProbeEvaluator:
             quality_scores[client_id] = max(0.0, min(1.0, quality))
 
         return quality_scores
+

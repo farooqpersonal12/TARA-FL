@@ -1,0 +1,92 @@
+{
+  "phase4_e2e": {
+    "csv": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\e2e_results.csv",
+    "final_acc": 79.10000000000001,
+    "rounds": 5
+  },
+  "phase5_baselines": {
+    "fedavg": 77.7,
+    "trust_fedavg": 79.10000000000001,
+    "trust_robust": 79.10000000000001,
+    "tara": 79.10000000000001
+  },
+  "phase6_malicious_matrix": {
+    "clean": 75.0,
+    "label_flip_10pct": 73.9,
+    "label_flip_20pct": 75.1,
+    "label_flip_30pct": 73.1,
+    "gradient_scale_10x": 74.1,
+    "sign_flip": 74.8,
+    "backdoor": 74.4,
+    "gaussian_noise": 74.0,
+    "zero_out": 73.1,
+    "sybil_collusion": 73.5
+  },
+  "phase7_noniid_dropout": {
+    "IID_Standard": 75.1,
+    "Dirichlet_NonIID_alpha_0.5": 70.1,
+    "Pathological_NonIID_2class": 26.1,
+    "Partial_Participation_C_0.5": 44.9,
+    "Client_Dropout_20pct": 80.30000000000001
+  },
+  "phase8_ldp": {
+    "acc_no_ldp": 75.1,
+    "acc_ldp": 73.4
+  },
+  "phase9_reproducibility": {
+    "param_diff": 0.0,
+    "reproducible": true
+  },
+  "phase10_checkpoint_resume": {
+    "checkpoint_file": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\server_phase10_chk.pt",
+    "restored_round": 2,
+    "round2_restore_diff": 0.0
+  },
+  "phase11_visualization": {
+    "p_acc": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\phase11_plots\\accuracy_comparison.png",
+    "p_trust": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\phase11_plots\\trust_trajectories.png",
+    "p_risk": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\phase11_plots\\risk_aggregator.png",
+    "p_bar": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\phase11_plots\\method_comparison_bar.png"
+  },
+  "phase12_dashboard": {
+    "status": {
+      "status": "running",
+      "data_dir": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results"
+    },
+    "runs": {
+      "runs": [
+        "baseline_fedavg.csv",
+        "baseline_tara.csv",
+        "baseline_trust_fedavg.csv",
+        "baseline_trust_robust.csv",
+        "e2e_results.csv",
+        "phase5_baselines.csv",
+        "phase6_malicious_matrix.csv",
+        "phase7_noniid_dropout.csv",
+        "phase8_ldp.csv"
+      ]
+    },
+    "metrics_count": 5
+  },
+  "phase13_report": {
+    "md_path": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\phase13_report\\EXPERIMENT_REPORT.md",
+    "html_path": "C:\\Users\\uf913\\OneDrive\\Documents\\Desktop\\Federated Learning\\Code\\TARA-FL\\qa_validation_results\\phase13_report\\report.html",
+    "cross_check_acc": 79.10000000000001
+  },
+  "phase14_performance": {
+    "time_risk_routing_3_rounds_sec": 13.063497499999357,
+    "time_candidate_eval_3_rounds_sec": 42.172625600000174,
+    "candidate_eval_overhead_ratio": 3.22827983853499,
+    "checkpoint_size_bytes": 904487,
+    "checkpoint_size_kb": 883.2880859375
+  },
+  "phase15_edge_cases": {
+    "single_client": "PASS",
+    "zero_malicious": "PASS",
+    "invalid_model_error": "PASS: raised ValueError",
+    "invalid_detector_error": "PASS: raised ValueError",
+    "invalid_attack_error": "PASS: raised ValueError",
+    "missing_checkpoint_error": "PASS: cleanly caught error"
+  },
+  "total_runtime_seconds": 611.2173793315887
+}

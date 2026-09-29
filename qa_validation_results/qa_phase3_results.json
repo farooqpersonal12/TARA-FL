@@ -1,0 +1,102 @@
+{
+  "A_MODEL_LAYER": {
+    "status": "PASS",
+    "details": {
+      "mnist": {
+        "num_params": 225034,
+        "diff": 0.0
+      },
+      "fashion_mnist": {
+        "num_params": 825162,
+        "diff": 0.0
+      },
+      "cifar10": {
+        "num_params": 1195306,
+        "diff": 0.0
+      },
+      "resnet18": {
+        "num_params": 175258,
+        "diff": 0.0
+      },
+      "mlp": {
+        "num_params": 235914,
+        "diff": 0.0
+      }
+    },
+    "error": null
+  },
+  "B_CLIENT_LAYER": {
+    "status": "PASS",
+    "details": {
+      "optimizer_sgd_delta": 0.0321042463183403,
+      "optimizer_adam_delta": 7.767439842224121,
+      "optimizer_adamw_delta": 8.281845092773438,
+      "ldp_perturbation_norm": 0.4100324213504791
+    },
+    "error": null
+  },
+  "C_DATA_PARTITIONING": {
+    "status": "PASS",
+    "details": {
+      "dirichlet_std": 9.937287418298029,
+      "dropout_survivors": 10
+    },
+    "error": null
+  },
+  "D_ATTACK_SUITE": {
+    "status": "PASS",
+    "details": {
+      "status": "all 7 attacks verified"
+    },
+    "error": null
+  },
+  "E_DETECTION_ENGINE": {
+    "status": "PASS",
+    "details": {
+      "pid_malicious_ratio": 4.323201605877469,
+      "multimetric_malicious_ratio": 60.30390559335822
+    },
+    "error": null
+  },
+  "F_TRUST_ENGINE_AND_QUARANTINE": {
+    "status": "PASS",
+    "details": {
+      "status": "trust engine, quarantine and persistence passed"
+    },
+    "error": null
+  },
+  "G_VALIDATION_PROBE": {
+    "status": "PASS",
+    "details": {
+      "q_clean": 0.4998035904722224,
+      "q_harm": 0.0
+    },
+    "error": null
+  },
+  "H_ROUND_RISK_AND_THREATS": {
+    "status": "PASS",
+    "details": {
+      "risk_low": 0.04777976190476189,
+      "risk_high": 0.8057241048593351,
+      "escalated": 0.1066032913165266
+    },
+    "error": null
+  },
+  "I_AGGREGATION_SUITE": {
+    "status": "PASS",
+    "details": {
+      "status": "all aggregators and candidate selection passed"
+    },
+    "error": null
+  },
+  "J_SERVER_ORCHESTRATION": {
+    "status": "PASS",
+    "details": {
+      "eval_loss": 2.3689653873443604,
+      "eval_acc": 0.0,
+      "restored_round": 5,
+      "checkpoint_diff": 0.0
+    },
+    "error": null
+  }
+}

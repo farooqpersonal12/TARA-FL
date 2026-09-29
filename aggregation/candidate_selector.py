@@ -40,9 +40,14 @@ class CandidateModelSelector:
             parameters: Dict[str, torch.Tensor]
     ) -> Tuple[float, float]:
         """Returns (average_loss, accuracy)."""
-        temp_model = type(model_template)().to(self.device)
+        import copy
+        try:
+            temp_model = copy.deepcopy(model_template).to(self.device)
+        except Exception:
+            temp_model = type(model_template)().to(self.device)
         temp_model.load_state_dict({k: v.to(self.device) for k, v in parameters.items()})
         temp_model.eval()
+
 
         total_loss = 0.0
         correct = 0
