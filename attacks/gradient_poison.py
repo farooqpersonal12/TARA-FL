@@ -1,7 +1,9 @@
 import torch
+from typing import Dict
+from attacks.base_attack import BaseAttack
 
 
-class GradientScaleAttack:
+class GradientScaleAttack(BaseAttack):
     """
     Gradient / model-update poisoning attack.
 
@@ -16,37 +18,24 @@ class GradientScaleAttack:
         poisoned_update = attack.apply(client_update)
     """
 
-    def __init__(
-            self,
-            scale_factor=10.0
-    ):
-
+    def __init__(self, scale_factor: float = 10.0):
+        super().__init__(name="GradientScaleAttack")
         self.scale_factor = scale_factor
 
-    def apply(self, update):
+    def apply(self, update: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         """
-        Scale every parameter in the update by
-        scale_factor.
-
-        Parameters:
-            update: dict of parameter_name -> tensor delta
-
-        Returns:
-            Scaled update dict.
+        Scale every parameter in the update by scale_factor.
         """
-
         poisoned_update = {}
-
         for name, delta in update.items():
-
-            poisoned_update[name] = (
-                    delta * self.scale_factor
-            )
-
+            if torch.is_floating_point(delta):
+                poisoned_update[name] = delta * self.scale_factor
+            else:
+                poisoned_update[name] = delta.clone()
         return poisoned_update
 
 
-class SignFlipAttack:
+class SignFlipAttack(BaseAttack):
     """
     Sign-flip attack.
 
@@ -54,40 +43,25 @@ class SignFlipAttack:
     moves the global model away from convergence.
 
     This is harder to detect than simple scaling because
-    the update magnitude can remain similar to honest
-    clients.
+    the update magnitude can remain similar to honest clients.
 
     Usage:
         attack = SignFlipAttack()
         poisoned_update = attack.apply(client_update)
     """
 
-    def __init__(
-            self,
-            scale_factor=1.0
-    ):
-
+    def __init__(self, scale_factor: float = 1.0):
+        super().__init__(name="SignFlipAttack")
         self.scale_factor = scale_factor
 
-    def apply(self, update):
+    def apply(self, update: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         """
         Negate every parameter in the update.
-
-        Parameters:
-            update: dict of parameter_name -> tensor delta
-
-        Returns:
-            Negated (and optionally scaled) update dict.
         """
-
         poisoned_update = {}
-
         for name, delta in update.items():
-
-            poisoned_update[name] = (
-                    -1.0
-                    * self.scale_factor
-                    * delta
-            )
-
+            if torch.is_floating_point(delta):
+                poisoned_update[name] = -1.0 * self.scale_factor * delta
+            else:
+                poisoned_update[name] = delta.clone()
         return poisoned_update
