@@ -1,0 +1,978 @@
+TOTAL PAGES: 29
+
+=== PAGE 1 ===
+TARA-FL
+Trust-Aware Robust Adaptive Federated Learning
+Final-Year Capstone Project + Research Paper
+1. WHAT DID OUR SIR GIVE US?
+Our professor gave us the broad research area:
+Efficiency & Decentralization — Federated Analytics & Learning: Creating decentralized
+algorithms that train models across edge devices without transferring raw, private
+data.
+He does NOT expect us to invent Federated Learning from scratch.
+The expected approach is:
+Existing Project / Research
+          ↓
+Understand it
+          ↓
+Use it as a baseline
+          ↓
+Add our own meaningful features
+          ↓
+Run experiments
+          ↓
+Compare results
+          ↓
+Build capstone
+          ↓
+Write research paper
+So our project is primarily a final-year capstone. The research paper is an additional output based on the
+project and experiments.
+1
+
+=== PAGE 2 ===
+2. OUR CURRENT PROJECT NAME
+TARA-FL
+Trust-Aware Robust Adaptive Federated Learning
+This is currently our working project name.
+The name may be finalized after our literature review, but the current project direction is TARA-FL.
+3. THE BASIC PROBLEM
+Imagine 20 phones/laptops/hospitals have private data.
+We want to train one AI model using data from all of them.
+But we don't want this:
+Client 1 ──┐
+Client 2 ──┤
+Client 3 ──┤
+Client 4 ──┼──→ Central Server
+...        │
+Client 20 ─┘
+Raw private data → Server
+Because the data could be:
+medical information
+financial information
+personal information
+user activity
+private images
+etc.
+4. WHAT IS FEDERATED LEARNING?
+Federated Learning solves this by keeping the raw data on the client.
+• 
+• 
+• 
+• 
+• 
+• 
+2
+
+=== PAGE 3 ===
+Instead:
+                    SERVER
+                       │
+                  Global Model
+                       │
+        ┌──────────────┼──────────────┐
+        ↓              ↓              ↓
+     Client 1       Client 2       Client 3
+        │              │              │
+     Local data     Local data     Local data
+        │              │              │
+     Train locally  Train locally  Train locally
+        │              │              │
+        └──────────────┼──────────────┘
+                       ↓
+                Model Updates
+                       ↓
+                    SERVER
+                       │
+                   Aggregate
+                       │
+                       ▼
+                New Global Model
+The important point:
+Raw data stays local.
+The server receives model parameters/updates rather than the client's raw training dataset.
+5. WHAT IS A CLIENT?
+A client represents a device or organization participating in federated training.
+For our capstone, we don't need 20 real phones.
+We can simulate:
+Client 1
+Client 2
+Client 3
+3
+
+=== PAGE 4 ===
+...
+Client 20
+on one computer .
+Each simulated client receives a portion of a dataset.
+For example:
+MNIST dataset
+     ↓
+Split into client datasets
+     ↓
+Client 1 → subset
+Client 2 → subset
+Client 3 → subset
+...
+Client 20 → subset
+Each client trains locally.
+6. WHAT IS THE PROBLEM WITH NORMAL
+FEDERATED LEARNING?
+Suppose we have:
+Client 1 → Honest
+Client 2 → Honest
+Client 3 → Honest
+Client 4 → Unreliable
+Client 5 → Malicious
+Client 6 → Honest
+...
+If the server randomly selects clients, it might select:
+C1
+C3
+C5 ← malicious
+4
+
+=== PAGE 5 ===
+C7
+C10
+The malicious client can send an abnormal or poisoned model update.
+That update can negatively influence the global model.
+So we have a second problem:
+How do we know which clients should be trusted?
+7. OUR FIRST IDEA: TRUST SCORE
+TARA-FL assigns each client a dynamic trust score.
+Example:
+Client Trust
+C1 0.95
+C2 0.91
+C3 0.84
+C4 0.65
+C5 0.29
+C6 0.12
+Higher score generally means more trustworthy behavior .
+The trust score can consider things such as:
+historical behavior
+quality of model updates
+consistency
+reliability
+anomaly indicators
+The exact formula will be finalized after studying existing trust-based methods.
+• 
+• 
+• 
+• 
+• 
+5
+
+=== PAGE 6 ===
+8. WHY IS IT CALLED "DYNAMIC" TRUST?
+Trust is not fixed.
+Example:
+Round 1
+Client 5 → Trust = 0.30
+It behaves well.
+Round 2
+Client 5 → Trust = 0.50
+Again good.
+Round 3
+Client 5 → Trust = 0.70
+It may now be considered more trustworthy.
+But another client could behave badly:
+Round 1 → 0.90
+Round 2 → 0.80
+Round 3 → 0.45
+Round 4 → 0.18
+So trust changes according to behavior .
+9. BUT WE ARE NOT SIMPLY BUILDING "HIGH
+TRUST = SELECT"
+This is an important difference.
+6
+
+=== PAGE 7 ===
+A basic trust-based project would do:
+High trust → Select
+Low trust → Reject
+We want to investigate something more flexible.
+TARA-FL can divide clients into trust levels.
+High trust
+0.75 – 1.00
+→ normal participation/influence
+Medium trust
+0.40 – 0.74
+→ reduced influence or additional checking
+Low trust
+0.00 – 0.39
+→ verification, reduced influence, or quarantine
+These thresholds are examples and are NOT finalized yet.
+10. WHY NOT JUST DELETE LOW-TRUST CLIENTS?
+This is one of our interesting ideas.
+A low trust score does not necessarily mean:
+"This client is definitely malicious."
+It could be:
+unreliable network• 
+7
+
+=== PAGE 8 ===
+unusual local data
+non-IID data
+temporary bad update
+actual malicious behavior
+Therefore, blindly deleting every low-trust client could be unfair or harmful.
+Our system can investigate low-trust clients differently.
+Possible behavior:
+Low Trust
+    ↓
+Verification
+    ↓
+Is the update actually suspicious?
+       /   
+     YES  NO
+      ↓    ↓
+Quarantine   Reduced influence /
+             trust recovery
+This is a potential feature we want to investigate.
+11. WHAT IS AGGREGATION?
+After clients train, the server receives updates.
+Example:
+Client 1 → Update A
+Client 2 → Update B
+Client 3 → Update C
+The server must combine them into one new global model.
+This is called:
+Aggregation
+The most common baseline is:
+• 
+• 
+• 
+• 
+8
+
+=== PAGE 9 ===
+FedAvg
+Conceptually:
+Update A
+Update B
+Update C
+    ↓
+  FedAvg
+    ↓
+Global Model
+FedAvg is our baseline, not our invention.
+12. WHY ARE WE INTERESTED IN MULTIPLE
+AGGREGATION METHODS?
+Our friend suggested an important extension:
+Why always use the same aggregation strategy?
+Different aggregation strategies have different behavior .
+Possible methods we can investigate include:
+FedAvg
+Standard weighted averaging.
+FedAvgM
+Adds server-side momentum behavior .
+FedAdam
+Uses an Adam-style server optimization approach.
+Robust methods
+Potential candidates include:
+Median• 
+9
+
+=== PAGE 10 ===
+Trimmed Mean
+Krum
+Bulyan
+We do NOT need all of these.
+We should choose a small, technically meaningful set after reviewing the literature and implementation
+complexity.
+13. THE MAIN IDEA OF TARA-FL
+Now combine:
+Federated Learning
++
+Trust Evaluation
++
+Low-Trust Handling
++
+Risk Assessment
++
+Adaptive Aggregation
+That produces:
+TARA-FL
+14. COMPLETE HIGH-LEVEL ARCHITECTURE
+                         TARA-FL
+                            │
+                            ▼
+                      Global Model
+• 
+• 
+• 
+10
+
+=== PAGE 11 ===
+                            │
+                            ▼
+                     Client Training
+                            │
+                            ▼
+                     Client Updates
+                            │
+                            ▼
+                  ┌─────────────────┐
+                  │   TRUST ENGINE  │
+                  │                 │
+                  │ Trust Score     │
+                  │ History         │
+                  │ Update Quality  │
+                  │ Anomaly Score   │
+                  └────────┬────────┘
+                           │
+                           ▼
+                     TRUST ZONES
+                           │
+             ┌─────────────┼─────────────┐
+             ↓             ↓             ↓
+           HIGH          MEDIUM          LOW
+             │             │             │
+          Normal        Reduced       Verify /
+          influence     influence     quarantine
+             │             │             │
+             └─────────────┼─────────────┘
+                           ▼
+                    ROUND RISK PROFILE
+                           │
+             ┌─────────────┼─────────────┐
+             ↓             ↓             ↓
+          LOW RISK      MEDIUM RISK    HIGH RISK
+             │             │             │
+          FedAvg       Robust method   Stronger
+                                      robust method
+             │             │             │
+             └─────────────┼─────────────┘
+                           ▼
+                  GLOBAL MODEL UPDATE
+                           │
+                           ▼
+                       NEXT ROUND
+This is the overall concept.
+11
+
+=== PAGE 12 ===
+15. WHAT IS "ROUND RISK"?
+This is one of the ideas that could make TARA-FL more interesting.
+Instead of only looking at one client's trust, the server looks at the overall condition of the current
+training round.
+For example:
+Trust distribution
++
+Number of suspicious updates
++
+Update differences
++
+Possible attack indicators
++
+Client/data heterogeneity
+        ↓
+ROUND RISK
+Example:
+Round 5
+Most clients trustworthy.
+Few unusual updates.
+Risk = LOW
+The system may use:
+FedAvg
+Round 15
+Several suspicious clients.
+Large update differences.
+12
+
+=== PAGE 13 ===
+Risk = HIGH
+The system may use:
+A more robust aggregation method
+This is the adaptive part of TARA-FL.
+16. THE ADAPTIVE AGGREGATION IDEA
+Instead of:
+Every round → FedAvg
+we want to investigate:
+Current round
+     ↓
+Trust analysis
+     ↓
+Risk assessment
+     ↓
+Choose appropriate aggregator
+Conceptually:
+                 Client Updates
+                       │
+                       ▼
+                 Trust Analysis
+                       │
+                       ▼
+                  Round Risk
+                       │
+          ┌────────────┼────────────┐
+          ↓            ↓            ↓
+       LOW RISK     MEDIUM RISK   HIGH RISK
+          ↓            ↓            ↓
+       FedAvg      Trimmed Mean    Krum /
+13
+
+=== PAGE 14 ===
+                                  other robust
+                       │
+                       ▼
+                  Global Model
+The exact mapping will be determined through research and experiments.
+17. ANOTHER POSSIBLE VERSION: CANDIDATE
+MODELS
+A more advanced approach would be:
+Same client updates
+       │
+ ┌─────┼─────┐
+ ↓     ↓     ↓
+FedAvg FedAvgM FedAdam
+ ↓     ↓     ↓
+Model A Model B Model C
+ └─────┼─────┘
+       ↓
+Evaluate
+       ↓
+Choose best
+       ↓
+Global Model
+This is possible, but it requires additional computation.
+Therefore:
+Basic version
+Use a risk-based decision rule.
+Advanced version
+Generate candidate results from several aggregation strategies and select the best using an evaluation
+score.
+We should only implement the advanced version if it is justified and feasible.
+14
+
+=== PAGE 15 ===
+18. WHAT MAKES OUR PROJECT DIFFERENT?
+We should NOT claim:
+"Trust-based FL is new."
+It isn't.
+We should NOT claim:
+"Robust aggregation is new."
+It isn't.
+We should NOT claim:
+"Combining trust and aggregation has never been done."
+Existing research already combines related mechanisms.
+Our contribution should be a specific extension/combination that we identify after our literature review.
+Our current candidate contribution is:
+A trust-aware adaptive mechanism that evaluates client behavior, regulates the
+influence of low-trust updates, characterizes the risk of each training round, and adapts
+the aggregation strategy accordingly.
+We need to verify the literature before calling this novel.
+19. WHY THE LITERATURE REVIEW IS IMPORTANT
+There are already closely related research directions.
+Our previous research discussion identified examples involving:
+adaptive client selection
+malicious-client detection
+robust aggregation
+trust-based filtering
+reputation
+adaptive aggregation
+• 
+• 
+• 
+• 
+• 
+• 
+15
+
+=== PAGE 16 ===
+Therefore, before final implementation we need to determine:
+What already exists?
+        ↓
+What does each paper/project do?
+        ↓
+What is missing?
+        ↓
+What can WE reasonably add?
+That missing piece becomes our research contribution.
+20. WHAT EXISTING PROJECTS WILL WE USE?
+Our professor specifically said we can utilize existing projects.
+So we should find an open-source Federated Learning implementation and use it as our baseline.
+Potential stack:
+Python
+PyTorch
+Flower
+MNIST
+Matplotlib
+Pandas
+But this is not finalized.
+We will choose the actual GitHub project after reviewing available implementations.
+21. WHY MNIST?
+MNIST is a simple dataset containing handwritten digits.
+It is useful for the first version because:
+training is relatively lightweight,
+it is easy to understand,
+it works well for demonstrating FL,
+• 
+• 
+• 
+16
+
+=== PAGE 17 ===
+experiments can run on normal student hardware.
+Later , if necessary, we can consider another dataset.
+22. CLIENT SIMULATION
+We could simulate:
+20 clients
+For example:
+15 honest
+3 unreliable
+2 malicious
+The exact numbers will be decided experimentally.
+The malicious clients would be controlled simulations, not real-world attacks.
+Possible attack simulations:
+label flipping
+abnormal model updates
+model/update poisoning
+We should select attacks that are feasible and meaningful.
+23. BASELINE VS OUR METHOD
+This is extremely important for the research paper .
+Baseline
+Random Client Selection
+        ↓
+Local Training
+        ↓
+FedAvg
+• 
+• 
+• 
+• 
+17
+
+=== PAGE 18 ===
+        ↓
+Global Model
+Trust baseline
+Trust-Based Selection
+        ↓
+Local Training
+        ↓
+FedAvg
+        ↓
+Global Model
+Robust baseline
+Trust/selection
+        ↓
+Fixed robust aggregation
+        ↓
+Global Model
+Our proposed TARA-FL
+Trust Analysis
+        ↓
+Trust-aware client handling
+        ↓
+Round Risk Assessment
+        ↓
+Adaptive Aggregation
+        ↓
+Global Model
+This comparison tells us whether each additional component actually helps.
+24. EXPERIMENTS
+Possible experimental setup:
+18
+
+=== PAGE 19 ===
+Experiment A
+No malicious clients.
+Purpose:
+See whether TARA-FL works normally.
+Experiment B
+10% malicious clients.
+Purpose:
+Test robustness.
+Experiment C
+20% malicious clients.
+Purpose:
+Test increased attack conditions.
+Experiment D
+30% malicious clients.
+Purpose:
+Test stronger conditions.
+Potentially also:
+IID vs non-IID
+Because different clients may have different data distributions.
+We don't have to do every experiment if it makes the project too large.
+25. WHAT WILL WE MEASURE?
+We will measure:
+19
+
+=== PAGE 20 ===
+1. Accuracy
+How well does the final global model perform?
+2. Loss
+How well does training converge?
+3. Convergence
+How many rounds are needed to reach a certain performance?
+4. Malicious influence
+How much can malicious clients affect the global model?
+5. Robustness
+How does performance change as malicious clients increase?
+6. Efficiency
+Does our adaptive mechanism introduce significant computation overhead?
+7. Client participation/fairness
+Does the trust mechanism permanently exclude some clients?
+These results will be generated by our experiments.
+We must NOT invent them.
+26. EXAMPLE OF FINAL RESULTS TABLE
+The following is ONLY an example of the format.
+We will replace it with actual experimental values.
+Method Accuracy Loss Malicious Influence Convergence
+Random + FedAvg Actual Actual Actual Actual
+Trust + FedAvg Actual Actual Actual Actual
+Trust + Robust Aggregation Actual Actual Actual Actual
+20
+
+=== PAGE 21 ===
+Method Accuracy Loss Malicious Influence Convergence
+TARA-FL Actual Actual Actual Actual
+This is how we will demonstrate whether our proposed method is actually useful.
+27. POSSIBLE DASHBOARD
+For the final demo, we could build a simple dashboard.
+Example:
+╔══════════════════════════════════════════╗
+║               TARA-FL                    ║
+║ Trust-Aware Robust Adaptive FL            ║
+╠══════════════════════════════════════════╣
+║ Round:              15                    ║
+║ Global Accuracy:    93.4%                 ║
+║ Round Risk:         MEDIUM                ║
+║ Selected Clients:   5 / 20                ║
+║ Suspicious Clients: 2                     ║
+║                                          ║
+║ Client   Trust       Status               ║
+║ C1       0.95        Normal               ║
+║ C2       0.91        Normal               ║
+║ C3       0.62        Reduced Influence    ║
+║ C4       0.27        Verification         ║
+║ C5       0.12        Quarantine           ║
+║                                          ║
+║ Aggregation: Trimmed Mean                ║
+║                                          ║
+║ [Accuracy vs Round Graph]                ║
+║ [Trust Score Graph]                      ║
+║ [Risk Graph]                             ║
+╚══════════════════════════════════════════╝
+This is optional, but it could make the final demonstration much stronger .
+21
+
+=== PAGE 22 ===
+28. WHAT EACH TEAM MEMBER CAN WORK ON
+Member 1 — Federated Learning
+Responsible for:
+baseline project
+server
+client
+local training
+FedAvg
+dataset
+simulation
+Member 2 — Trust Engine
+Responsible for:
+trust score
+client history
+anomaly detection
+trust updates
+trust zones
+low-trust handling
+Member 3 — Adaptive Aggregation
+Responsible for:
+aggregation algorithms
+round-risk calculation
+adaptive selection
+evaluation
+comparison experiments
+Everyone should understand the entire project, not only their own module.
+29. RESEARCH PAPER
+The paper can be structured as:
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+22
+
+=== PAGE 23 ===
+1. Abstract
+Explain:
+FL problem
+malicious/unreliable clients
+limitations of fixed selection/aggregation
+TARA-FL
+experiments
+results
+2. Introduction
+Explain:
+Federated Learning
+privacy
+client unreliability
+malicious updates
+aggregation problem
+3. Related Work
+Study:
+Federated Learning
+FedAvg
+trust-based FL
+client selection
+malicious-client detection
+robust aggregation
+adaptive aggregation
+4. Problem Statement
+Explain what existing approaches don't adequately address.
+5. Proposed TARA-FL
+Explain:
+trust engine
+trust zones
+low-trust handling
+risk profile
+adaptive aggregation
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+23
+
+=== PAGE 24 ===
+6. Implementation
+Explain:
+Python
+framework
+dataset
+number of clients
+model
+experiments
+7. Results
+Graphs and tables from our experiments.
+8. Discussion
+Explain:
+why the method worked
+where it failed
+trade-offs
+limitations
+9. Conclusion
+Summarize what we achieved.
+10. Future Work
+Possible:
+larger datasets
+real edge devices
+stronger attacks
+privacy mechanisms
+better trust models
+advanced adaptive aggregation
+30. IMPORTANT: WHAT WE ARE NOT CLAIMING
+We are NOT claiming:
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+24
+
+=== PAGE 25 ===
+“We invented Federated Learning.”
+We are NOT claiming:
+“We invented FedAvg.”
+We are NOT claiming:
+“We invented Krum/Median/Trimmed Mean.”
+We are NOT claiming:
+“Trust-based FL has never been studied.”
+Instead:
+We are building an extended framework based on existing work and investigating a specific
+trust-aware adaptive mechanism.
+The novelty claim will only be finalized after the literature review.
+31. WHAT WE SHOULD DO FIRST
+DO NOT immediately start coding the full TARA-FL system.
+Step 1
+Find 3–5 good existing FL GitHub projects.
+Step 2
+Choose one as our baseline.
+Step 3
+Run the baseline successfully.
+Step 4
+Understand the code.
+Step 5
+Find 5–10 relevant research papers.
+25
+
+=== PAGE 26 ===
+Step 6
+Create a comparison:
+Paper/Project Trust Client Selection Attack Detection Aggregation Adaptive?
+Step 7
+Identify a realistic gap.
+Step 8
+Finalize our exact contribution.
+Step 9
+Implement TARA-FL.
+Step 10
+Run experiments.
+Step 11
+Analyze results.
+Step 12
+Write the research paper .
+32. THE PROJECT IN ONE SIMPLE EXPLANATION
+If someone asks:
+“Bro, what are we actually doing?”
+Say:
+We are building a Federated Learning system where the server does not blindly trust all
+clients. It continuously evaluates client behavior and assigns trust scores. Instead of
+simply removing every low-trust client, the system can reduce their influence or send
+suspicious clients for verification. The server also evaluates the risk of the current
+training round and can adapt the aggregation strategy accordingly. We will compare
+26
+
+=== PAGE 27 ===
+this approach against normal Federated Learning and fixed aggregation methods under
+simulated unreliable or malicious clients.
+33. THE PROJECT IN ONE LINE
+TARA-FL dynamically evaluates client trust and adapts how client updates are handled
+and aggregated according to the security and statistical conditions of each federated-
+learning round.
+34. FINAL PROJECT PIPELINE
+Remember this:
+                 TARA-FL
+                    │
+                    ▼
+             Global Model
+                    │
+                    ▼
+            Select/participate
+               clients
+                    │
+                    ▼
+             Local Training
+                    │
+                    ▼
+             Client Updates
+                    │
+                    ▼
+             Trust Analysis
+                    │
+          ┌─────────┼─────────┐
+          ▼         ▼         ▼
+        HIGH      MEDIUM      LOW
+        TRUST      TRUST      TRUST
+          │         │         │
+       Normal     Reduced    Verify /
+       influence  influence  quarantine
+          └─────────┼─────────┘
+                    ▼
+             Round Risk
+                    │
+27
+
+=== PAGE 28 ===
+          ┌─────────┼─────────┐
+          ▼         ▼         ▼
+        LOW       MEDIUM      HIGH
+        RISK       RISK        RISK
+          │         │           │
+       FedAvg    Robust       Strong
+                 method       robust
+          └─────────┼───────────┘
+                    ▼
+             Global Model
+                    │
+                    ▼
+              Next Round
+THE MAIN IDEA
+Privacy comes from Federated Learning.
+Trust tells us how reliable clients are.
+Trust zones determine how clients should be treated.
+Risk assessment tells us how dangerous the current round looks.
+Adaptive aggregation decides how to combine updates.
+Experiments prove whether the system actually improves robustness and performance.
+The research paper documents the implementation, comparison, and results.
+CURRENT STATUS
+Finalized concept:
+TARA-FL — Trust-Aware Robust Adaptive Federated Learning
+Strong candidate features:
+Federated Learning baseline
+dynamic trust scoring
+trust zones
+low-trust handling
+anomaly/malicious-client detection
+• 
+• 
+• 
+• 
+• 
+28
+
+=== PAGE 29 ===
+round-risk assessment
+adaptive aggregation
+NOT finalized yet:
+exact trust formula
+exact thresholds
+exact aggregation algorithms
+exact attacks
+exact dataset
+exact GitHub baseline
+exact novelty claim
+exact final title/subtitle
+These should be decided after the literature and GitHub survey.
+Our goal:
+Existing open-source FL → understand → extend → experiment → evaluate → research paper.
+We are not trying to make the project artificially complicated. We are trying to make a working,
+understandable, defensible capstone with a meaningful research contribution.
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+29
+

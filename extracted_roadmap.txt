@@ -1,0 +1,476 @@
+TOTAL PAGES: 11
+
+=== PAGE 1 ===
+TARA-FL Implementation Roadmap
+Page 1
+IMPLEMENTATION ROADMAP  •  TRUST-AWARE, RISK-ADAPTIVE FEDERATED LEARNING
+TARA-FL
+A phased plan for building a trust- and risk-aware federated
+learning system
+This document captures the full build order, technology stack, project structure, and
+staged development plan for TARA-FL — from a standard FedAvg baseline through a trust
+engine, trust zones, robust aggregation, round-risk assessment, and adaptive
+aggregation.
+Approach
+Baseline first, trust
+later
+Core stack
+Python · Flower ·
+PyTorch
+Dataset
+MNIST
+Phases
+11 (Baseline →
+Paper)
+ 0
+Build order & architecture
+We will build TARA-FL in the following order. Each phase depends on the one before it, so the
+standard federated-learning baseline is completed and frozen before any trust logic is introduced.
+
+
+=== PAGE 2 ===
+TARA-FL Implementation Roadmap
+Page 2
+ PHASE
+ 1
+Federated Learning Baseline
+ ▼
+ PHASE
+ 2
+Client Simulation
+ ▼
+ PHASE
+ 3
+Malicious / Unreliable Clients
+ ▼
+ PHASE
+ 4
+Trust Engine
+ ▼
+ PHASE
+ 5
+Trust Zones & Low-Trust Handling
+ ▼
+ PHASE
+ 6
+Robust Aggregation
+ ▼
+ PHASE
+ 7
+Round-Risk Assessment
+ ▼
+ PHASE
+ 8
+Adaptive Aggregation
+ ▼
+ PHASE
+ 9
+Experiments & Evaluation
+ ▼
+ PHASE
+ 10
+Dashboard
+ ▼
+ PHASE
+ 11
+Research Paper
+Runtime architecture (the closed loop)
+This follows the architecture in the briefing. Each training round flows through trust analysis, trust
+zones, and round-risk assessment before the adaptive aggregator updates the global model. The
+final pipeline is illustrated on pages 27–28 of the briefing.
+
+
+=== PAGE 3 ===
+TARA-FL Implementation Roadmap
+Page 3
+ Global Model
+ ▼
+ Client Training
+ ▼
+ Client Updates
+ ▼
+ Trust Analysis
+ ▼
+ Trust Zones
+ ▼
+ Round Risk
+ ▼
+ Adaptive Aggregation
+ ↳ loops back to the Global Model for the next round
+ 1
+Technology stack
+For the first implementation, we lock this stack. It is consistent with the briefing's proposed stack
+of Python, PyTorch, Flower, MNIST, Matplotlib, and Pandas.
+Component
+Technology
+Language
+Python
+FL framework
+Flower
+ML framework
+PyTorch
+Dataset
+MNIST
+Visualization
+Matplotlib
+Experiment data
+Pandas
+Configuration
+Python / JSON (initially)
+Version control
+Git / GitHub
+Why Flower: Flower's current documentation supports PyTorch federated simulations with ClientApp,
+ServerApp, and FedAvg, and recommends simulation mode for getting started.
+ 2
+Our first milestone
+
+
+=== PAGE 4 ===
+TARA-FL Implementation Roadmap
+Page 4
+Do NOT implement trust yet. The first milestone is to run 10–20 simulated clients training MNIST
+using standard FedAvg and successfully obtain a global model with improving accuracy. This becomes
+our experimental baseline.
+The briefing specifically defines the baseline as:
+ Random Client Selection
+ ▼
+ Local Training
+ ▼
+ FedAvg
+ ▼
+ Global Model
+Once this works, we freeze it as BASELINE v1 and never modify it when developing TARA-FL. That
+is important because all later experiments need a reliable comparison.
+ 3
+Project structure
+We create the project as shown below. We won't implement all these files immediately — they
+define the destination.
+
+
+=== PAGE 5 ===
+TARA-FL Implementation Roadmap
+Page 5
+TARA-FL/
+│
+├── README.md
+├── requirements.txt
+├── pyproject.toml
+│
+├── src/
+│   └── tara_fl/
+│       ├── __init__.py
+│       ├── client/
+│       │   ├── __init__.py
+│       │   ├── client.py
+│       │   ├── local_training.py
+│       │   └── data.py
+│       ├── server/
+│       │   ├── __init__.py
+│       │   ├── server.py
+│       │   └── evaluation.py
+│       ├── models/
+│       │   ├── __init__.py
+│       │   └── mnist_model.py
+│       ├── trust/
+│       │   ├── __init__.py
+│       │   ├── trust_engine.py
+│       │   ├── trust_score.py
+│       │   └── trust_history.py
+│       ├── attacks/
+│       │   ├── __init__.py
+│       │   ├── label_flip.py
+│       │   └── model_poisoning.py
+│       ├── aggregation/
+│       │   ├── __init__.py
+│       │   ├── fedavg.py
+│       │   ├── median.py
+│       │   ├── trimmed_mean.py
+│       │   └── krum.py
+│       ├── risk/
+│       │   ├── __init__.py
+│       │   └── risk_engine.py
+│       ├── experiments/
+│       │   ├── __init__.py
+│       │   ├── baseline.py
+│       │   ├── attacks.py
+│       │   └── adaptive.py
+│       └── utils/
+│           ├── __init__.py
+│           ├── metrics.py
+│           └── visualization.py
+│
+├── data/
+│
+├── results/
+│   ├── baseline/
+│   ├── attacks/
+│   └── tara_fl/
+│
+└── tests/
+    ├── test_model.py
+    ├── test_training.py
+    ├── test_trust.py
+    └── test_aggregation.py
+
+
+=== PAGE 6 ===
+TARA-FL Implementation Roadmap
+Page 6
+ 4
+Development stages — Stage 1: Baseline
+ MNIST
+ ▼
+ Partition dataset
+ ▼
+ 20 simulated clients
+ ▼
+ Local PyTorch training
+ ▼
+ Client model updates
+ ▼
+ FedAvg
+ ▼
+ Global model
+ ▼
+ Evaluation
+Initial configuration
+Parameter
+Value
+Clients
+20
+Participation
+configurable
+Rounds
+10 (initially)
+Local epochs
+1–2
+Dataset
+MNIST
+Model
+small CNN
+Aggregator
+FedAvg
+Attack clients
+0
+Trust system
+OFF
+The exact client count and experiment conditions remain configurable, because the briefing says
+those values are not finalized.
+
+
+=== PAGE 7 ===
+TARA-FL Implementation Roadmap
+Page 7
+ 5
+Stage 2 — Attack simulation
+Once the baseline works, the 20 clients are split into three behavioural groups:
+ 20 clients
+ ▼
+ Honest clients
+ Train normally on true labels
+ Unreliable clients
+ Noisy / inconsistent updates
+ Malicious clients
+ Deliberate attacks
+Label flipping first
+We initially implement label flipping, because it is easy to reproduce and measure. Then we
+investigate model / update poisoning.
+ NORMAL
+ 1 → 1    2 → 2    3 → 3
+ MALICIOUS
+ 1 → 7    2 → 8    3 → 9
+The briefing explicitly proposes controlled simulations such as label flipping, abnormal model
+updates, and model / update poisoning.
+Experimental conditions
+We test increasing proportions of malicious clients — the proposed experimental conditions in the
+briefing:
+ 0%
+ MALICIOUS
+ 10%
+ MALICIOUS
+ 20%
+ MALICIOUS
+ 30%
+ MALICIOUS
+ 6
+Stage 3 — Trust Engine
+Then we introduce the main TARA-FL component. Each client update is scored by the Trust Engine
+across five signals:
+ Client Update
+ ▼
+ Trust Engine
+ ▼
+ Historical
+ Behavior
+ Update
+Quality
+ Consistency
+ Anomaly
+Indicators
+ Reliability
+ ▼
+ Trust Score
+Illustrative scores (not hard-coded)
+
+
+=== PAGE 8 ===
+TARA-FL Implementation Roadmap
+Page 8
+Client
+Trust
+C1
+0.94
+C2
+0.88
+C3
+0.72
+C4
+0.41
+C5
+0.18
+We will not hard-code these values. We design the actual trust formula after establishing the
+baseline and reviewing the relevant literature, because the project briefing explicitly says the exact
+trust formula is not finalized.
+ 7
+Stage 4 — Trust zones
+The trust score routes each client into one of three zones, which determines how much influence
+its update receives:
+ Trust Score
+ ▼
+ HIGH
+ 0.75 – 1.0
+ Normal influence
+ MEDIUM
+ 0.40 – 0.74
+ Reduced influence
+ LOW
+ 0 – 0.39
+ Verify / quarantine
+These thresholds are initial design values only, not final research claims. The briefing explicitly
+says they still need to be finalized.
+ 8
+Stage 5 — Robust aggregation
+We implement several aggregators separately. The briefing identifies FedAvg as the baseline and
+Median, Trimmed Mean, and Krum as possible robust methods. We test them independently
+before making them adaptive.
+ FedAvg
+ Median
+ Trimmed Mean
+ Krum
+Experiment matrix
+ EXPERIMENT 1
+ FedAvg
+ EXPERIMENT 2
+ Median
+ EXPERIMENT 3
+ Trimmed Mean
+ EXPERIMENT 4
+ Krum
+ EXPERIMENT 5
+ TARA-FL
+adaptive
+
+
+=== PAGE 9 ===
+TARA-FL Implementation Roadmap
+Page 9
+ 9
+Stage 6 — Round Risk Engine
+This is where TARA-FL becomes adaptive. We combine several signals into a single round-level
+risk estimate:
+ Client Trust Distribution
+ +
+ Suspicious Updates
+ +
+ Update Differences
+ +
+ Attack Indicators
+ +
+ Client / Data Heterogeneity
+ ▼
+ ROUND RISK
+Risk → aggregation mapping
+ LOW RISK
+ →
+FedAvg
+ MEDIUM RISK
+ →
+Trimmed Mean / robust method
+ HIGH RISK
+ →
+Stronger robust aggregation
+The exact mapping will be experimentally determined rather than assumed. This matches the
+briefing's stated adaptive-aggregation concept.
+ 10
+Final TARA-FL pipeline
+Eventually our implementation becomes the full closed loop below — the implementation target
+described in the project briefing.
+
+
+=== PAGE 10 ===
+TARA-FL Implementation Roadmap
+Page 10
+ TARA-FL
+ ▼
+ Global Model
+ ▼
+ Client Participation
+ ▼
+ Local Training
+ ▼
+ Client Updates
+ ▼
+ Trust Engine
+ ▼
+ HIGH TRUST
+ Normal influence
+ MEDIUM TRUST
+ Reduced influence
+ LOW TRUST
+ Verify / quarantine
+ ▼
+ Round Risk
+ ▼
+ LOW RISK
+ FedAvg
+ MEDIUM RISK
+ Robust Method
+ HIGH RISK
+ Strong Robust
+ ▼
+ Global Model
+ ▼
+ Next Round ↳
+ 11
+Most important rule — four baselines
+We maintain four separate experimental baselines. This is directly aligned with the comparison
+structure in the briefing, and it is what lets us attribute any improvement to a specific component.
+ A
+Normal FL
+FedAvg
+ B
+Trust-based FL
+Trust + FedAvg
+ C
+Robust FL
+Trust + Fixed Robust Aggregation
+ D
+TARA-FL
+Trust + Risk + Adaptive Aggregation
+That way, when we eventually get a result such as the following, we can actually determine which
+component contributed to the improvement, rather than simply claiming that TARA-FL is better:
+
+
+=== PAGE 11 ===
+TARA-FL Implementation Roadmap
+Page 11
+FedAvg      →  X%
+Trust + FedAvg  →  Y%
+Trust + Robust  →  Z%
+TARA-FL     →  W%
+In short: because trust, robust aggregation, and adaptive risk are layered on one at a time from
+baseline A through D, the gap between any two rows isolates the contribution of the single component
+added between them. That component-level attribution — not one headline accuracy number — is the
+entire point of the study, and the reason baselines A, B, and C must never be modified once frozen.
+
+
