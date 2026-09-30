@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TARA-FL Experiment Report: 10clients_2mal_label_flip_iid</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans p-6 md:p-12">
+    <div class="max-w-6xl mx-auto space-y-8">
+        <!-- Header -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-slate-900">TARA-FL Benchmark Report</h1>
+                    <p class="text-sm text-slate-500 mt-1">Experiment: <span class="font-mono font-semibold text-indigo-600">10clients_2mal_label_flip_iid</span> &bull; Generated: 2026-09-30 03:58:09 UTC</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg border border-indigo-200">Dataset: MNIST</span>
+                    <span class="px-3 py-1.5 bg-rose-50 text-rose-700 text-xs font-bold rounded-lg border border-rose-200">Attack: label_flip</span>
+                    <span class="px-3 py-1.5 bg-amber-50 text-amber-700 text-xs font-bold rounded-lg border border-amber-200">Malicious: 20%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metric Table -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">Four-Tier Baseline Performance Matrix</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-200 bg-slate-50 text-slate-600 uppercase text-xs">
+                            <th class="py-3 px-4">Method / Architecture</th>
+                            <th class="py-3 px-4">Status</th>
+                            <th class="py-3 px-4 text-center">Final Accuracy</th>
+                            <th class="py-3 px-4 text-center">Max Accuracy</th>
+                            <th class="py-3 px-4 text-center">Final Loss</th>
+                            <th class="py-3 px-4 text-center">Mean Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4 font-semibold text-gray-800">FEDAVG</td>
+                <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">Active</span></td>
+                <td class="py-3 px-4 text-center font-bold text-gray-900">93.16%</td>
+                <td class="py-3 px-4 text-center text-gray-600">93.16%</td>
+                <td class="py-3 px-4 text-center text-gray-600">0.2499</td>
+                <td class="py-3 px-4 text-center text-purple-700 font-medium">0.000</td>
+            </tr>
+            
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4 font-semibold text-gray-800">TRUST_FEDAVG</td>
+                <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">Active</span></td>
+                <td class="py-3 px-4 text-center font-bold text-gray-900">93.33%</td>
+                <td class="py-3 px-4 text-center text-gray-600">93.33%</td>
+                <td class="py-3 px-4 text-center text-gray-600">0.2222</td>
+                <td class="py-3 px-4 text-center text-purple-700 font-medium">0.000</td>
+            </tr>
+            
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4 font-semibold text-gray-800">TRUST_ROBUST</td>
+                <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">Active</span></td>
+                <td class="py-3 px-4 text-center font-bold text-gray-900">93.36%</td>
+                <td class="py-3 px-4 text-center text-gray-600">93.36%</td>
+                <td class="py-3 px-4 text-center text-gray-600">0.2217</td>
+                <td class="py-3 px-4 text-center text-purple-700 font-medium">0.000</td>
+            </tr>
+            
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4 font-semibold text-gray-800">TARA</td>
+                <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">Active</span></td>
+                <td class="py-3 px-4 text-center font-bold text-gray-900">93.27%</td>
+                <td class="py-3 px-4 text-center text-gray-600">93.27%</td>
+                <td class="py-3 px-4 text-center text-gray-600">0.2256</td>
+                <td class="py-3 px-4 text-center text-purple-700 font-medium">0.499</td>
+            </tr>
+            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Interactive Convergence Chart -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">Convergence Trajectory Comparison</h2>
+            <div class="h-96">
+                <canvas id="accuracyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('accuracyChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                datasets: [{"label": "FEDAVG", "data": [48.1, 65.06, 81.2, 85.50999999999999, 88.4, 90.13, 91.12, 91.75999999999999, 92.17999999999999, 93.16], "borderColor": "#ef4444", "backgroundColor": "#ef444420", "fill": false, "tension": 0.2, "borderWidth": 2.5}, {"label": "TRUST_FEDAVG", "data": [49.730000000000004, 66.09, 83.45, 86.68, 89.31, 90.69, 91.51, 92.28, 92.54, 93.33], "borderColor": "#3b82f6", "backgroundColor": "#3b82f620", "fill": false, "tension": 0.2, "borderWidth": 2.5}, {"label": "TRUST_ROBUST", "data": [50.62, 67.07, 83.78, 86.88, 89.36, 90.75, 91.56, 92.27, 92.56, 93.36], "borderColor": "#f59e0b", "backgroundColor": "#f59e0b20", "fill": false, "tension": 0.2, "borderWidth": 2.5}, {"label": "TARA", "data": [50.62, 66.14999999999999, 82.72, 86.86, 88.88000000000001, 90.18, 91.57, 92.2, 92.97999999999999, 93.27], "borderColor": "#10b981", "backgroundColor": "#10b98120", "fill": false, "tension": 0.2, "borderWidth": 2.5}]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'sans-serif', size: 12 } } }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Federated Round' } },
+                    y: { title: { display: true, text: 'Test Accuracy (%)' }, min: 0, max: 100 }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

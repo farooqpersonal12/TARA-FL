@@ -176,13 +176,19 @@ class TrustEngine:
 
     def calculate_trust(
             self,
-            client_id: int,
-            pid_score: float,
-            all_pid_scores: List[float]
-    ) -> Dict[str, float]:
+            client_id: Union[int, Dict[int, float]],
+            pid_score: Optional[float] = None,
+            all_pid_scores: Optional[List[float]] = None
+    ) -> Union[Dict[str, float], Dict[int, float]]:
         """
-        Complete trust calculation for one client.
+        Calculate trust for one client or batch of clients.
+        If client_id is a Dict[int, float] (pid_scores), delegates to calculate_all_trust.
         """
+        if isinstance(client_id, dict):
+            return self.calculate_all_trust(client_id)
+
+        if pid_score is None or all_pid_scores is None:
+            raise ValueError("pid_score and all_pid_scores must be provided when calculating trust for a single client.")
         relative_anomaly = self.calculate_relative_anomaly(pid_score, all_pid_scores)
         current_trust = self.calculate_current_trust(relative_anomaly)
         historical_trust = self.calculate_historical_trust(client_id)
@@ -196,10 +202,14 @@ class TrustEngine:
         final_trust = max(0.0, min(1.0, final_trust))
 
         # Update quarantine status if enabled
+        zone = None
+        is_quarantined = False
         if self.quarantine_manager is not None:
-            self.quarantine_manager.evaluate_client(
+            zone = self.quarantine_manager.evaluate_client(
                 client_id, final_trust, relative_anomaly
             )
+            is_quarantined = self.quarantine_manager.is_quarantined(client_id)
+            self.history.record_quarantine_status(client_id, is_quarantined)
 
         # Store behavior for future rounds
         self.history.update(client_id, final_trust, relative_anomaly)
@@ -212,6 +222,8 @@ class TrustEngine:
             "historical_trust": float(historical_trust),
             "persistence": float(persistence),
             "trust": float(final_trust),
+            "zone": str(zone) if zone is not None else self.get_trust_zone(final_trust),
+            "is_quarantined": is_quarantined,
         }
 
     def calculate_all_trust(
@@ -261,3 +273,12 @@ class TrustEngine:
         if deviation >= 1.5:
             return "MEDIUM"
         return "NORMAL"
+
+    def update_history(self, trust_scores: Dict[int, float], anomalies: Optional[Dict[int, float]] = None):
+        """
+        Explicitly update trust history for all clients if not already recorded.
+        """
+        for client_id, trust in trust_scores.items():
+            anomaly = anomalies.get(client_id, 1.0) if anomalies else 1.0
+            # If trust history does not already have an entry for this round or needs update:
+            self.history.update(client_id, trust, anomaly)

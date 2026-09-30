@@ -1,0 +1,4 @@
+method,seed,round,accuracy,accuracy_percent,loss,risk_score,risk_level,threat_type,suspicious_clients,malicious_weight,aggregator,round_time_sec,trust_client_1,trust_client_2,trust_client_3,trust_client_4,trust_client_5
+fedavg,42,1,0.6617,66.17,1.8463446411132813,0.0,N/A,N/A,0,0.2,STANDARD_FEDAVG,70.99295425415039,N/A,N/A,N/A,N/A,N/A
+fedavg,42,2,0.8728,87.28,0.5102777176856995,0.0,N/A,N/A,0,0.2,STANDARD_FEDAVG,79.37485218048096,N/A,N/A,N/A,N/A,N/A
+fedavg,42,3,0.8976,89.75999999999999,0.37306069828271865,0.0,N/A,N/A,0,0.2,STANDARD_FEDAVG,71.29123711585999,N/A,N/A,N/A,N/A,N/A

@@ -1,0 +1,78 @@
+{
+  "FEDAVG": {
+    "scenario_id": 11,
+    "scenario_name": "grad_scale_20pct_iid",
+    "attack": "gradient_scale",
+    "malicious_ratio": 0.2,
+    "data_split": "iid",
+    "method": "FEDAVG",
+    "mean_final_accuracy": 48.935,
+    "std_final_accuracy": 10.035,
+    "mean_best_accuracy": 55.68,
+    "mean_final_loss": 1.8179939784049988,
+    "mean_malicious_weight": 0.2,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.63723242282867,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_FEDAVG": {
+    "scenario_id": 11,
+    "scenario_name": "grad_scale_20pct_iid",
+    "attack": "gradient_scale",
+    "malicious_ratio": 0.2,
+    "data_split": "iid",
+    "method": "TRUST_FEDAVG",
+    "mean_final_accuracy": 90.435,
+    "std_final_accuracy": 0.355000000000004,
+    "mean_best_accuracy": 90.435,
+    "mean_final_loss": 0.3284167777210474,
+    "mean_malicious_weight": 0.022033314915684058,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.36637723445892,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_ROBUST": {
+    "scenario_id": 11,
+    "scenario_name": "grad_scale_20pct_iid",
+    "attack": "gradient_scale",
+    "malicious_ratio": 0.2,
+    "data_split": "iid",
+    "method": "TRUST_ROBUST",
+    "mean_final_accuracy": 89.79499999999999,
+    "std_final_accuracy": 0.4649999999999963,
+    "mean_best_accuracy": 89.79499999999999,
+    "mean_final_loss": 0.3500586452424526,
+    "mean_malicious_weight": 0.0,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.67938721179962,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TARA": {
+    "scenario_id": 11,
+    "scenario_name": "grad_scale_20pct_iid",
+    "attack": "gradient_scale",
+    "malicious_ratio": 0.2,
+    "data_split": "iid",
+    "method": "TARA",
+    "mean_final_accuracy": 89.55000000000001,
+    "std_final_accuracy": 0.6499999999999986,
+    "mean_best_accuracy": 89.55000000000001,
+    "mean_final_loss": 0.3550242421865463,
+    "mean_malicious_weight": 0.01914745128523678,
+    "mean_risk_score": 0.49583725792449784,
+    "mean_runtime_sec": 97.28848803043365,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  }
+}

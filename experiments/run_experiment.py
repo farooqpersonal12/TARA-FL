@@ -1,6 +1,10 @@
 import csv
 import os
+import sys
 import random
+
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import torch
 
@@ -133,6 +137,7 @@ for i in range(NUM_CLIENTS):
 # ==========================================================
 
 results = []
+last_accuracy = None
 
 
 # ==========================================================
@@ -314,7 +319,7 @@ for round_number in range(
 
 
     # ======================================================
-    # ROUND RISK
+    # ROUND RISK & THREAT CLASSIFICATION
     # ======================================================
 
     (
@@ -322,13 +327,20 @@ for round_number in range(
         risk_level,
         suspicious_clients
     ) = server.round_risk.calculate_risk(
-        distances,
-        trust_scores
+        distances=distances,
+        trust_scores=trust_scores,
+        current_accuracy=last_accuracy,
+        client_updates=client_updates
     )
 
+    threat_type = server.round_risk.classify_threat(
+        distances=distances,
+        trust_scores=trust_scores,
+        client_updates=client_updates
+    )
 
     print()
-    print("Round Risk")
+    print("Round Risk Assessment")
     print("------------------------------")
 
     print(
@@ -342,10 +354,21 @@ for round_number in range(
     )
 
     print(
+        f"Threat Type: "
+        f"{threat_type.value}"
+    )
+
+    print(
         f"Suspicious Clients: "
         f"{suspicious_clients}/"
         f"{NUM_CLIENTS}"
     )
+
+    if last_accuracy is not None:
+        print(
+            f"Performance Baseline: "
+            f"{last_accuracy * 100:.2f}%"
+        )
 
 
     # ======================================================
@@ -412,6 +435,9 @@ for round_number in range(
         test_dataset
     )
 
+    # Update accuracy tracker for next round's performance feedback
+    last_accuracy = accuracy
+
     accuracy_percent = (
             accuracy * 100
     )
@@ -447,6 +473,9 @@ for round_number in range(
 
         "risk_level":
             risk_level,
+
+        "threat_type":
+            threat_type.value,
 
         "suspicious_clients":
             suspicious_clients,

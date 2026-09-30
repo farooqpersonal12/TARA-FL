@@ -24,16 +24,19 @@ class ThreatClassifier:
 
     def classify_threat(
             self,
-            distances: Dict[int, float],
-            trust_scores: Dict[int, float],
+            distances: Optional[Dict[int, float]] = None,
+            trust_scores: Optional[Dict[int, float]] = None,
             client_updates: Optional[Dict[int, Dict[str, torch.Tensor]]] = None
     ) -> ThreatType:
-        if not distances or not trust_scores:
+        if not distances and not trust_scores:
             return ThreatType.CLEAN
 
-        max_dist = max(distances.values())
-        min_trust = min(trust_scores.values())
-        avg_dist = sum(distances.values()) / len(distances)
+        distances = distances or {}
+        trust_scores = trust_scores or {}
+
+        max_dist = max(distances.values()) if distances else 0.0
+        min_trust = min(trust_scores.values()) if trust_scores else 1.0
+        avg_dist = sum(distances.values()) / len(distances) if distances else 0.0
 
         # 1. Clean condition
         if max_dist < 1.0 and min_trust >= 0.75:
@@ -46,27 +49,29 @@ class ThreatClassifier:
         # 3. Check for angular divergence (Sign-Flip) if raw updates are provided
         if client_updates is not None and len(client_updates) >= 2:
             try:
-                # Compute centroid
+                # Compute centroid on CPU
                 vectors = []
                 for cid in client_updates:
-                    tensors = [p.detach().float().flatten() for p in client_updates[cid].values() if torch.is_floating_point(p)]
-                    vectors.append(torch.cat(tensors))
-                stacked = torch.stack(vectors)
-                centroid = torch.mean(stacked, dim=0)
+                    tensors = [p.detach().float().cpu().flatten() for p in client_updates[cid].values() if torch.is_floating_point(p)]
+                    if tensors:
+                        vectors.append(torch.cat(tensors))
+                if len(vectors) >= 2:
+                    stacked = torch.stack(vectors)
+                    centroid = torch.mean(stacked, dim=0)
 
-                # Check if any client has negative cosine similarity with centroid
-                for v in vectors:
-                    norm_v = torch.norm(v, p=2)
-                    norm_c = torch.norm(centroid, p=2)
-                    if norm_v > 1e-12 and norm_c > 1e-12:
-                        cos_sim = (torch.dot(v, centroid) / (norm_v * norm_c)).item()
-                        if cos_sim < -0.1:
-                            return ThreatType.SIGN_FLIP_ANGULAR
+                    # Check if any client has negative cosine similarity with centroid
+                    for v in vectors:
+                        norm_v = torch.norm(v, p=2)
+                        norm_c = torch.norm(centroid, p=2)
+                        if norm_v > 1e-12 and norm_c > 1e-12:
+                            cos_sim = (torch.dot(v, centroid) / (norm_v * norm_c)).item()
+                            if cos_sim < -0.1:
+                                return ThreatType.SIGN_FLIP_ANGULAR
             except Exception:
                 pass
 
         # 4. Moderate deviation with isolated low-trust -> Targeted Poisoning
-        if min_trust < 0.40 and max_dist >= 1.5:
+        if min_trust < 0.40 and (max_dist >= 1.5 or not distances):
             return ThreatType.TARGETED_POISONING
 
         # 5. Mild dispersed deviation with acceptable trust -> Non-IID Drift

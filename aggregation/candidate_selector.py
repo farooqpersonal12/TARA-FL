@@ -73,7 +73,8 @@ class CandidateModelSelector:
             client_parameters: List[Dict[str, torch.Tensor]],
             client_sizes: List[int],
             trust_scores: Dict[int, float],
-            client_updates: Optional[Dict[int, Dict[str, torch.Tensor]]] = None
+            client_updates: Optional[Dict[int, Dict[str, torch.Tensor]]] = None,
+            client_ids: Optional[List[int]] = None
     ) -> Tuple[Dict[str, torch.Tensor], str, Dict[str, float]]:
         """
         Runs all candidate aggregators, evaluates them, and returns:
@@ -87,7 +88,8 @@ class CandidateModelSelector:
                 client_parameters=client_parameters,
                 client_sizes=client_sizes,
                 trust_scores=trust_scores,
-                client_updates=client_updates
+                client_updates=client_updates,
+                client_ids=client_ids
             )
             loss, acc = self._evaluate_model_params(model_template, params)
             results[name] = params

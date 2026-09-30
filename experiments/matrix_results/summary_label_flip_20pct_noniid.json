@@ -1,0 +1,78 @@
+{
+  "FEDAVG": {
+    "scenario_id": 6,
+    "scenario_name": "label_flip_20pct_noniid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "FEDAVG",
+    "mean_final_accuracy": 86.82,
+    "std_final_accuracy": 0.3200000000000003,
+    "mean_best_accuracy": 86.82,
+    "mean_final_loss": 0.4620409642577171,
+    "mean_malicious_weight": 0.18999166666666667,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 127.63770759105682,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_FEDAVG": {
+    "scenario_id": 6,
+    "scenario_name": "label_flip_20pct_noniid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "TRUST_FEDAVG",
+    "mean_final_accuracy": 84.78,
+    "std_final_accuracy": 1.4200000000000017,
+    "mean_best_accuracy": 85.08500000000001,
+    "mean_final_loss": 0.47633966925144194,
+    "mean_malicious_weight": 0.06251062139878388,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 126.45382761955261,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_ROBUST": {
+    "scenario_id": 6,
+    "scenario_name": "label_flip_20pct_noniid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "TRUST_ROBUST",
+    "mean_final_accuracy": 83.945,
+    "std_final_accuracy": 2.0549999999999997,
+    "mean_best_accuracy": 84.25,
+    "mean_final_loss": 0.4949984045028687,
+    "mean_malicious_weight": 0.06003427014178691,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 126.41129183769226,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TARA": {
+    "scenario_id": 6,
+    "scenario_name": "label_flip_20pct_noniid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "TARA",
+    "mean_final_accuracy": 83.21000000000001,
+    "std_final_accuracy": 2.3500000000000014,
+    "mean_best_accuracy": 84.82,
+    "mean_final_loss": 0.5018937142133713,
+    "mean_malicious_weight": 0.0523925608713155,
+    "mean_risk_score": 0.4999936214805869,
+    "mean_runtime_sec": 125.6887776851654,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  }
+}

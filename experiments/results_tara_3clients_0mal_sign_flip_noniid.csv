@@ -1,0 +1,3 @@
+method,seed,round,accuracy,accuracy_percent,loss,risk_score,risk_level,threat_type,suspicious_clients,malicious_weight,aggregator,round_time_sec,trust_client_1,trust_client_2,trust_client_3
+tara,42,1,0.7081,70.81,1.0808003806114197,0.3637823674106284,MEDIUM,NON_IID_DRIFT,1,0.0,TRUST_WEIGHTED_ROBUST,22.522613286972046,1.0,0.44889828635759704,1.0
+tara,42,2,0.8279,82.78999999999999,0.613875951385498,0.34613518380684893,MEDIUM,NON_IID_DRIFT,1,0.0,TRUST_WEIGHTED_ROBUST,22.69294762611389,1.0,0.5101200893701077,1.0

@@ -1,0 +1,78 @@
+{
+  "FEDAVG": {
+    "scenario_id": 1,
+    "scenario_name": "clean_iid",
+    "attack": "none",
+    "malicious_ratio": 0.0,
+    "data_split": "iid",
+    "method": "FEDAVG",
+    "mean_final_accuracy": 89.73499999999999,
+    "std_final_accuracy": 0.41499999999999915,
+    "mean_best_accuracy": 89.73499999999999,
+    "mean_final_loss": 0.35040387238860127,
+    "mean_malicious_weight": 0.0,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 100.36891770362854,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_FEDAVG": {
+    "scenario_id": 1,
+    "scenario_name": "clean_iid",
+    "attack": "none",
+    "malicious_ratio": 0.0,
+    "data_split": "iid",
+    "method": "TRUST_FEDAVG",
+    "mean_final_accuracy": 89.67500000000001,
+    "std_final_accuracy": 0.384999999999998,
+    "mean_best_accuracy": 89.67500000000001,
+    "mean_final_loss": 0.3524822962284088,
+    "mean_malicious_weight": 0.0,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.47930932044983,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_ROBUST": {
+    "scenario_id": 1,
+    "scenario_name": "clean_iid",
+    "attack": "none",
+    "malicious_ratio": 0.0,
+    "data_split": "iid",
+    "method": "TRUST_ROBUST",
+    "mean_final_accuracy": 89.48,
+    "std_final_accuracy": 0.39000000000000057,
+    "mean_best_accuracy": 89.48,
+    "mean_final_loss": 0.3552582738816738,
+    "mean_malicious_weight": 0.0,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.47566413879395,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TARA": {
+    "scenario_id": 1,
+    "scenario_name": "clean_iid",
+    "attack": "none",
+    "malicious_ratio": 0.0,
+    "data_split": "iid",
+    "method": "TARA",
+    "mean_final_accuracy": 89.465,
+    "std_final_accuracy": 0.42500000000000426,
+    "mean_best_accuracy": 89.465,
+    "mean_final_loss": 0.35539459804892537,
+    "mean_malicious_weight": 0.0,
+    "mean_risk_score": 0.2634672651010202,
+    "mean_runtime_sec": 101.25414311885834,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  }
+}

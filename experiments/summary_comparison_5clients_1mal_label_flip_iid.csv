@@ -1,0 +1,5 @@
+method,mean_final_accuracy,std_final_accuracy,mean_best_accuracy,std_best_accuracy,mean_final_loss,mean_runtime_sec
+FEDAVG,89.76%,0.00%,89.76%,0.00%,0.3731,190.00s
+TRUST_FEDAVG,90.60%,0.00%,90.60%,0.00%,0.3241,212.60s
+TRUST_ROBUST,90.71%,0.00%,90.71%,0.00%,0.3215,207.24s
+TARA,90.39%,0.00%,90.39%,0.00%,0.3331,217.13s

@@ -1,0 +1,1562 @@
+{
+  "clean_iid": {
+    "FEDAVG": {
+      "scenario_id": 1,
+      "scenario_name": "clean_iid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 89.73499999999999,
+      "std_final_accuracy": 0.41499999999999915,
+      "mean_best_accuracy": 89.73499999999999,
+      "mean_final_loss": 0.35040387238860127,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 100.36891770362854,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 1,
+      "scenario_name": "clean_iid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.67500000000001,
+      "std_final_accuracy": 0.384999999999998,
+      "mean_best_accuracy": 89.67500000000001,
+      "mean_final_loss": 0.3524822962284088,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.47930932044983,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 1,
+      "scenario_name": "clean_iid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.48,
+      "std_final_accuracy": 0.39000000000000057,
+      "mean_best_accuracy": 89.48,
+      "mean_final_loss": 0.3552582738816738,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.47566413879395,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 1,
+      "scenario_name": "clean_iid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.465,
+      "std_final_accuracy": 0.42500000000000426,
+      "mean_best_accuracy": 89.465,
+      "mean_final_loss": 0.35539459804892537,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.2634672651010202,
+      "mean_runtime_sec": 101.25414311885834,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "clean_noniid": {
+    "FEDAVG": {
+      "scenario_id": 2,
+      "scenario_name": "clean_noniid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 88.68,
+      "std_final_accuracy": 0.7199999999999989,
+      "mean_best_accuracy": 88.68,
+      "mean_final_loss": 0.3805444985628128,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 113.6737688779831,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 2,
+      "scenario_name": "clean_noniid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 87.005,
+      "std_final_accuracy": 0.2850000000000037,
+      "mean_best_accuracy": 87.005,
+      "mean_final_loss": 0.4225595828533173,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 128.15347981452942,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 2,
+      "scenario_name": "clean_noniid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 85.255,
+      "std_final_accuracy": 1.2549999999999955,
+      "mean_best_accuracy": 85.255,
+      "mean_final_loss": 0.4669528383016586,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 128.13148999214172,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 2,
+      "scenario_name": "clean_noniid",
+      "attack": "none",
+      "malicious_ratio": 0.0,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 85.44999999999999,
+      "std_final_accuracy": 0.22000000000000597,
+      "mean_best_accuracy": 85.44999999999999,
+      "mean_final_loss": 0.46205196619033817,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.42985213916100073,
+      "mean_runtime_sec": 113.86557233333588,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "label_flip_10pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 3,
+      "scenario_name": "label_flip_10pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 89.44,
+      "std_final_accuracy": 0.5,
+      "mean_best_accuracy": 89.44,
+      "mean_final_loss": 0.3739792636334896,
+      "mean_malicious_weight": 0.1,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.55110442638397,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 3,
+      "scenario_name": "label_flip_10pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.775,
+      "std_final_accuracy": 0.4750000000000014,
+      "mean_best_accuracy": 89.775,
+      "mean_final_loss": 0.35164873361587523,
+      "mean_malicious_weight": 0.011747663761069178,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.22501218318939,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 3,
+      "scenario_name": "label_flip_10pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.66,
+      "std_final_accuracy": 0.3400000000000034,
+      "mean_best_accuracy": 89.66,
+      "mean_final_loss": 0.35475985105633734,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.29793095588684,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 3,
+      "scenario_name": "label_flip_10pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.72,
+      "std_final_accuracy": 0.4200000000000017,
+      "mean_best_accuracy": 89.72,
+      "mean_final_loss": 0.3524415051817894,
+      "mean_malicious_weight": 0.009409117787144459,
+      "mean_risk_score": 0.389986346034337,
+      "mean_runtime_sec": 97.36684083938599,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "label_flip_10pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 4,
+      "scenario_name": "label_flip_10pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 87.125,
+      "std_final_accuracy": 0.15500000000000114,
+      "mean_best_accuracy": 87.125,
+      "mean_final_loss": 0.43762558088302617,
+      "mean_malicious_weight": 0.11664166666666666,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.7131998538971,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 4,
+      "scenario_name": "label_flip_10pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 85.47,
+      "std_final_accuracy": 0.4399999999999977,
+      "mean_best_accuracy": 85.495,
+      "mean_final_loss": 0.4566634458065033,
+      "mean_malicious_weight": 0.02646126535880091,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.00627446174622,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 4,
+      "scenario_name": "label_flip_10pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 83.83,
+      "std_final_accuracy": 0.1700000000000017,
+      "mean_best_accuracy": 83.845,
+      "mean_final_loss": 0.4936477942585945,
+      "mean_malicious_weight": 0.015121853585638601,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.47998428344727,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 4,
+      "scenario_name": "label_flip_10pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 82.71000000000001,
+      "std_final_accuracy": 0.6400000000000077,
+      "mean_best_accuracy": 84.65,
+      "mean_final_loss": 0.5103632086277008,
+      "mean_malicious_weight": 0.022456635016428694,
+      "mean_risk_score": 0.4888550796047888,
+      "mean_runtime_sec": 97.60179960727692,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "label_flip_20pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 5,
+      "scenario_name": "label_flip_20pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 88.625,
+      "std_final_accuracy": 0.22499999999999432,
+      "mean_best_accuracy": 88.625,
+      "mean_final_loss": 0.41925685130357737,
+      "mean_malicious_weight": 0.2,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.48363959789276,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 5,
+      "scenario_name": "label_flip_20pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.715,
+      "std_final_accuracy": 0.40500000000000114,
+      "mean_best_accuracy": 89.715,
+      "mean_final_loss": 0.3535682865619659,
+      "mean_malicious_weight": 0.024080354954085142,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.55351758003235,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 5,
+      "scenario_name": "label_flip_20pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.76499999999999,
+      "std_final_accuracy": 0.40499999999999403,
+      "mean_best_accuracy": 89.76499999999999,
+      "mean_final_loss": 0.35078865538835524,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.5996423959732,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 5,
+      "scenario_name": "label_flip_20pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.47,
+      "std_final_accuracy": 0.5899999999999963,
+      "mean_best_accuracy": 89.47,
+      "mean_final_loss": 0.35622472663521765,
+      "mean_malicious_weight": 0.01920992424806507,
+      "mean_risk_score": 0.4567498659404547,
+      "mean_runtime_sec": 98.31243777275085,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "label_flip_20pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 6,
+      "scenario_name": "label_flip_20pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 86.82,
+      "std_final_accuracy": 0.3200000000000003,
+      "mean_best_accuracy": 86.82,
+      "mean_final_loss": 0.4620409642577171,
+      "mean_malicious_weight": 0.18999166666666667,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 127.63770759105682,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 6,
+      "scenario_name": "label_flip_20pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 84.78,
+      "std_final_accuracy": 1.4200000000000017,
+      "mean_best_accuracy": 85.08500000000001,
+      "mean_final_loss": 0.47633966925144194,
+      "mean_malicious_weight": 0.06251062139878388,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 126.45382761955261,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 6,
+      "scenario_name": "label_flip_20pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 83.945,
+      "std_final_accuracy": 2.0549999999999997,
+      "mean_best_accuracy": 84.25,
+      "mean_final_loss": 0.4949984045028687,
+      "mean_malicious_weight": 0.06003427014178691,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 126.41129183769226,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 6,
+      "scenario_name": "label_flip_20pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 83.21000000000001,
+      "std_final_accuracy": 2.3500000000000014,
+      "mean_best_accuracy": 84.82,
+      "mean_final_loss": 0.5018937142133713,
+      "mean_malicious_weight": 0.0523925608713155,
+      "mean_risk_score": 0.4999936214805869,
+      "mean_runtime_sec": 125.6887776851654,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "label_flip_30pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 7,
+      "scenario_name": "label_flip_30pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 86.63,
+      "std_final_accuracy": 0.2700000000000031,
+      "mean_best_accuracy": 86.63,
+      "mean_final_loss": 0.49718140968084334,
+      "mean_malicious_weight": 0.3,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 125.62656831741333,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 7,
+      "scenario_name": "label_flip_30pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.68,
+      "std_final_accuracy": 0.5200000000000031,
+      "mean_best_accuracy": 89.68,
+      "mean_final_loss": 0.3568595390915871,
+      "mean_malicious_weight": 0.033776163598792326,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.26882517337799,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 7,
+      "scenario_name": "label_flip_30pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.72,
+      "std_final_accuracy": 0.519999999999996,
+      "mean_best_accuracy": 89.72,
+      "mean_final_loss": 0.3541647580385208,
+      "mean_malicious_weight": 0.006179112815166427,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.29073643684387,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 7,
+      "scenario_name": "label_flip_30pct_iid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.65,
+      "std_final_accuracy": 0.4299999999999997,
+      "mean_best_accuracy": 89.65,
+      "mean_final_loss": 0.3544130408704281,
+      "mean_malicious_weight": 0.029474539031653126,
+      "mean_risk_score": 0.5132640370485094,
+      "mean_runtime_sec": 98.17364585399628,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "label_flip_30pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 8,
+      "scenario_name": "label_flip_30pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 84.24,
+      "std_final_accuracy": 1.2800000000000011,
+      "mean_best_accuracy": 84.24,
+      "mean_final_loss": 0.5366958143115044,
+      "mean_malicious_weight": 0.27723333333333333,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.90693092346191,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 8,
+      "scenario_name": "label_flip_30pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 84.47999999999999,
+      "std_final_accuracy": 1.3000000000000043,
+      "mean_best_accuracy": 84.8,
+      "mean_final_loss": 0.4870173900961876,
+      "mean_malicious_weight": 0.12985444478254238,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.15055298805237,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 8,
+      "scenario_name": "label_flip_30pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 83.845,
+      "std_final_accuracy": 1.7549999999999955,
+      "mean_best_accuracy": 84.08,
+      "mean_final_loss": 0.5064819762706756,
+      "mean_malicious_weight": 0.11106511767891658,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.38599288463593,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 8,
+      "scenario_name": "label_flip_30pct_noniid",
+      "attack": "label_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 82.055,
+      "std_final_accuracy": 1.875000000000007,
+      "mean_best_accuracy": 82.055,
+      "mean_final_loss": 0.5372191601991654,
+      "mean_malicious_weight": 0.1141682601648348,
+      "mean_risk_score": 0.5114683337125019,
+      "mean_runtime_sec": 97.8892651796341,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "grad_scale_10pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 9,
+      "scenario_name": "grad_scale_10pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 85.33500000000001,
+      "std_final_accuracy": 3.895000000000003,
+      "mean_best_accuracy": 87.08000000000001,
+      "mean_final_loss": 0.45121197465658186,
+      "mean_malicious_weight": 0.1,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 110.26801764965057,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 9,
+      "scenario_name": "grad_scale_10pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 90.265,
+      "std_final_accuracy": 0.34499999999999886,
+      "mean_best_accuracy": 90.265,
+      "mean_final_loss": 0.3360637707829475,
+      "mean_malicious_weight": 0.010448717725396782,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 129.40230894088745,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 9,
+      "scenario_name": "grad_scale_10pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.875,
+      "std_final_accuracy": 0.49499999999999034,
+      "mean_best_accuracy": 89.875,
+      "mean_final_loss": 0.3485264105618,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 128.02665436267853,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 9,
+      "scenario_name": "grad_scale_10pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.805,
+      "std_final_accuracy": 0.33500000000000085,
+      "mean_best_accuracy": 89.805,
+      "mean_final_loss": 0.3506577770292759,
+      "mean_malicious_weight": 0.009109306573565467,
+      "mean_risk_score": 0.45683144841388323,
+      "mean_runtime_sec": 128.22677075862885,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "grad_scale_10pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 10,
+      "scenario_name": "grad_scale_10pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 65.755,
+      "std_final_accuracy": 23.535000000000004,
+      "mean_best_accuracy": 71.045,
+      "mean_final_loss": 5.186805582612752,
+      "mean_malicious_weight": 0.11664166666666666,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 114.7262955904007,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 10,
+      "scenario_name": "grad_scale_10pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.18,
+      "std_final_accuracy": 1.3800000000000026,
+      "mean_best_accuracy": 89.18,
+      "mean_final_loss": 0.3555645297944546,
+      "mean_malicious_weight": 0.02676785057276756,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.05644857883453,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 10,
+      "scenario_name": "grad_scale_10pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 87.35,
+      "std_final_accuracy": 0.03999999999999915,
+      "mean_best_accuracy": 87.36,
+      "mean_final_loss": 0.41524913358688353,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 101.42479288578033,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 10,
+      "scenario_name": "grad_scale_10pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 84.54499999999999,
+      "std_final_accuracy": 1.2749999999999986,
+      "mean_best_accuracy": 85.63,
+      "mean_final_loss": 0.4732599169015884,
+      "mean_malicious_weight": 0.011204530345578187,
+      "mean_risk_score": 0.5485304458448712,
+      "mean_runtime_sec": 98.10298979282379,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "grad_scale_20pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 11,
+      "scenario_name": "grad_scale_20pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 48.935,
+      "std_final_accuracy": 10.035,
+      "mean_best_accuracy": 55.68,
+      "mean_final_loss": 1.8179939784049988,
+      "mean_malicious_weight": 0.2,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.63723242282867,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 11,
+      "scenario_name": "grad_scale_20pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 90.435,
+      "std_final_accuracy": 0.355000000000004,
+      "mean_best_accuracy": 90.435,
+      "mean_final_loss": 0.3284167777210474,
+      "mean_malicious_weight": 0.022033314915684058,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.36637723445892,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 11,
+      "scenario_name": "grad_scale_20pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.79499999999999,
+      "std_final_accuracy": 0.4649999999999963,
+      "mean_best_accuracy": 89.79499999999999,
+      "mean_final_loss": 0.3500586452424526,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.67938721179962,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 11,
+      "scenario_name": "grad_scale_20pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.55000000000001,
+      "std_final_accuracy": 0.6499999999999986,
+      "mean_best_accuracy": 89.55000000000001,
+      "mean_final_loss": 0.3550242421865463,
+      "mean_malicious_weight": 0.01914745128523678,
+      "mean_risk_score": 0.49583725792449784,
+      "mean_runtime_sec": 97.28848803043365,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "grad_scale_20pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 12,
+      "scenario_name": "grad_scale_20pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 29.93,
+      "std_final_accuracy": 0.7799999999999994,
+      "mean_best_accuracy": 51.035,
+      "mean_final_loss": 20.32337201690674,
+      "mean_malicious_weight": 0.18999166666666667,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.34370636940002,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 12,
+      "scenario_name": "grad_scale_20pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.47,
+      "std_final_accuracy": 1.0899999999999963,
+      "mean_best_accuracy": 89.47,
+      "mean_final_loss": 0.3396304348289967,
+      "mean_malicious_weight": 0.047941527841183475,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.35325384140015,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 12,
+      "scenario_name": "grad_scale_20pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 85.75999999999999,
+      "std_final_accuracy": 1.3500000000000014,
+      "mean_best_accuracy": 86.33500000000001,
+      "mean_final_loss": 0.4515059705257416,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.27903187274933,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 12,
+      "scenario_name": "grad_scale_20pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 85.195,
+      "std_final_accuracy": 1.7050000000000054,
+      "mean_best_accuracy": 85.26500000000001,
+      "mean_final_loss": 0.45817545351982114,
+      "mean_malicious_weight": 0.018256295468349178,
+      "mean_risk_score": 0.5531894178184077,
+      "mean_runtime_sec": 97.28817629814148,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "grad_scale_30pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 13,
+      "scenario_name": "grad_scale_30pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 22.650000000000002,
+      "std_final_accuracy": 12.910000000000002,
+      "mean_best_accuracy": 44.905,
+      "mean_final_loss": 2.1472658279418946,
+      "mean_malicious_weight": 0.3,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.87982988357544,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 13,
+      "scenario_name": "grad_scale_30pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 90.555,
+      "std_final_accuracy": 0.2850000000000037,
+      "mean_best_accuracy": 90.555,
+      "mean_final_loss": 0.3219316683381796,
+      "mean_malicious_weight": 0.035764335464759614,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.40885472297668,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 13,
+      "scenario_name": "grad_scale_30pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 90.07499999999999,
+      "std_final_accuracy": 0.384999999999998,
+      "mean_best_accuracy": 90.07499999999999,
+      "mean_final_loss": 0.3385884262561798,
+      "mean_malicious_weight": 0.007060471105478338,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.62397539615631,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 13,
+      "scenario_name": "grad_scale_30pct_iid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 90.005,
+      "std_final_accuracy": 0.4450000000000003,
+      "mean_best_accuracy": 90.005,
+      "mean_final_loss": 0.34082523159384726,
+      "mean_malicious_weight": 0.030790304986185124,
+      "mean_risk_score": 0.5293349811959494,
+      "mean_runtime_sec": 97.68986749649048,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "grad_scale_30pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 14,
+      "scenario_name": "grad_scale_30pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 16.505000000000003,
+      "std_final_accuracy": 2.6549999999999994,
+      "mean_best_accuracy": 29.19,
+      "mean_final_loss": 19.671138624572755,
+      "mean_malicious_weight": 0.27723333333333333,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.02289116382599,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 14,
+      "scenario_name": "grad_scale_30pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.2,
+      "std_final_accuracy": 1.1400000000000006,
+      "mean_best_accuracy": 89.21000000000001,
+      "mean_final_loss": 0.3429892825961113,
+      "mean_malicious_weight": 0.06675120814991647,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.42181420326233,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 14,
+      "scenario_name": "grad_scale_30pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 86.79499999999999,
+      "std_final_accuracy": 0.134999999999998,
+      "mean_best_accuracy": 87.655,
+      "mean_final_loss": 0.41687803157567976,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.01660346984863,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 14,
+      "scenario_name": "grad_scale_30pct_noniid",
+      "attack": "gradient_scale",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 83.33,
+      "std_final_accuracy": 1.4599999999999937,
+      "mean_best_accuracy": 83.82,
+      "mean_final_loss": 0.504303980064392,
+      "mean_malicious_weight": 0.05114374192196031,
+      "mean_risk_score": 0.5464203854196974,
+      "mean_runtime_sec": 97.1086356639862,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "sign_flip_10pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 15,
+      "scenario_name": "sign_flip_10pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 88.69500000000001,
+      "std_final_accuracy": 0.5349999999999966,
+      "mean_best_accuracy": 88.69500000000001,
+      "mean_final_loss": 0.4023785766899586,
+      "mean_malicious_weight": 0.1,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.74717366695404,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 15,
+      "scenario_name": "sign_flip_10pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.75,
+      "std_final_accuracy": 0.4799999999999969,
+      "mean_best_accuracy": 89.75,
+      "mean_final_loss": 0.3532726663470268,
+      "mean_malicious_weight": 0.010601979526119484,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.66014349460602,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 15,
+      "scenario_name": "sign_flip_10pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.775,
+      "std_final_accuracy": 0.5449999999999946,
+      "mean_best_accuracy": 89.775,
+      "mean_final_loss": 0.35293711239695547,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.49200451374054,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 15,
+      "scenario_name": "sign_flip_10pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.76,
+      "std_final_accuracy": 0.3400000000000034,
+      "mean_best_accuracy": 89.76,
+      "mean_final_loss": 0.35164742295742035,
+      "mean_malicious_weight": 0.00878373586636343,
+      "mean_risk_score": 0.42621342162160214,
+      "mean_runtime_sec": 97.94009912014008,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "sign_flip_10pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 16,
+      "scenario_name": "sign_flip_10pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 76.025,
+      "std_final_accuracy": 8.125,
+      "mean_best_accuracy": 76.025,
+      "mean_final_loss": 0.7724815841197967,
+      "mean_malicious_weight": 0.11664166666666666,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.37237882614136,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 16,
+      "scenario_name": "sign_flip_10pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 82.98,
+      "std_final_accuracy": 1.75,
+      "mean_best_accuracy": 83.465,
+      "mean_final_loss": 0.5152640818238259,
+      "mean_malicious_weight": 0.02326358834248831,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.51136815547943,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 16,
+      "scenario_name": "sign_flip_10pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 82.755,
+      "std_final_accuracy": 0.33500000000000085,
+      "mean_best_accuracy": 83.295,
+      "mean_final_loss": 0.5164649865031242,
+      "mean_malicious_weight": 0.015046232220996778,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.32792210578918,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 16,
+      "scenario_name": "sign_flip_10pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.1,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 83.74,
+      "std_final_accuracy": 0.9500000000000028,
+      "mean_best_accuracy": 84.39999999999999,
+      "mean_final_loss": 0.49510802257061004,
+      "mean_malicious_weight": 0.02315684906732544,
+      "mean_risk_score": 0.49347369662942214,
+      "mean_runtime_sec": 97.94369447231293,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "sign_flip_20pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 17,
+      "scenario_name": "sign_flip_20pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 86.175,
+      "std_final_accuracy": 0.7650000000000006,
+      "mean_best_accuracy": 86.175,
+      "mean_final_loss": 0.53017178709507,
+      "mean_malicious_weight": 0.2,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.09626066684723,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 17,
+      "scenario_name": "sign_flip_20pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.57,
+      "std_final_accuracy": 0.4299999999999997,
+      "mean_best_accuracy": 89.57,
+      "mean_final_loss": 0.3578795797348022,
+      "mean_malicious_weight": 0.021185956707777252,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.31958937644958,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 17,
+      "scenario_name": "sign_flip_20pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.765,
+      "std_final_accuracy": 0.41500000000000625,
+      "mean_best_accuracy": 89.765,
+      "mean_final_loss": 0.3514989986896515,
+      "mean_malicious_weight": 0.0,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.01755058765411,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 17,
+      "scenario_name": "sign_flip_20pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.475,
+      "std_final_accuracy": 0.5949999999999918,
+      "mean_best_accuracy": 89.475,
+      "mean_final_loss": 0.35642133079767224,
+      "mean_malicious_weight": 0.0186304844570789,
+      "mean_risk_score": 0.5065634536639001,
+      "mean_runtime_sec": 98.25841963291168,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "sign_flip_20pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 18,
+      "scenario_name": "sign_flip_20pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 69.16,
+      "std_final_accuracy": 4.690000000000005,
+      "mean_best_accuracy": 69.16,
+      "mean_final_loss": 0.92082410364151,
+      "mean_malicious_weight": 0.18999166666666667,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.83846318721771,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 18,
+      "scenario_name": "sign_flip_20pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 82.235,
+      "std_final_accuracy": 1.9050000000000011,
+      "mean_best_accuracy": 82.96000000000001,
+      "mean_final_loss": 0.5328804710149765,
+      "mean_malicious_weight": 0.06186642843310365,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.82507157325745,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 18,
+      "scenario_name": "sign_flip_20pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 83.355,
+      "std_final_accuracy": 1.2950000000000017,
+      "mean_best_accuracy": 84.04,
+      "mean_final_loss": 0.5040053960084915,
+      "mean_malicious_weight": 0.03586481870247636,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 98.50018751621246,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 18,
+      "scenario_name": "sign_flip_20pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.2,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 82.36,
+      "std_final_accuracy": 3.280000000000001,
+      "mean_best_accuracy": 85.265,
+      "mean_final_loss": 0.5209879883408546,
+      "mean_malicious_weight": 0.060794429671601834,
+      "mean_risk_score": 0.5279932093002779,
+      "mean_runtime_sec": 98.43396854400635,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "sign_flip_30pct_iid": {
+    "FEDAVG": {
+      "scenario_id": 19,
+      "scenario_name": "sign_flip_30pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 79.625,
+      "std_final_accuracy": 1.5549999999999997,
+      "mean_best_accuracy": 79.625,
+      "mean_final_loss": 0.9719790150165557,
+      "mean_malicious_weight": 0.3,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 97.94569957256317,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 19,
+      "scenario_name": "sign_flip_30pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 89.385,
+      "std_final_accuracy": 0.5150000000000006,
+      "mean_best_accuracy": 89.385,
+      "mean_final_loss": 0.36587029544711114,
+      "mean_malicious_weight": 0.03450005118871208,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 142.7701359987259,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 19,
+      "scenario_name": "sign_flip_30pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 89.63499999999999,
+      "std_final_accuracy": 0.3950000000000031,
+      "mean_best_accuracy": 89.63499999999999,
+      "mean_final_loss": 0.3577089007437229,
+      "mean_malicious_weight": 0.006396630749583082,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 122.99331176280975,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 19,
+      "scenario_name": "sign_flip_30pct_iid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "iid",
+      "method": "TARA",
+      "mean_final_accuracy": 89.60499999999999,
+      "std_final_accuracy": 0.41499999999999915,
+      "mean_best_accuracy": 89.60499999999999,
+      "mean_final_loss": 0.3573944257974625,
+      "mean_malicious_weight": 0.029972298318842606,
+      "mean_risk_score": 0.5834355309536217,
+      "mean_runtime_sec": 132.42391681671143,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  },
+  "sign_flip_30pct_noniid": {
+    "FEDAVG": {
+      "scenario_id": 20,
+      "scenario_name": "sign_flip_30pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "FEDAVG",
+      "mean_final_accuracy": 61.995000000000005,
+      "std_final_accuracy": 13.474999999999998,
+      "mean_best_accuracy": 61.995000000000005,
+      "mean_final_loss": 1.291390647649765,
+      "mean_malicious_weight": 0.27723333333333333,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 147.23734974861145,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_FEDAVG": {
+      "scenario_id": 20,
+      "scenario_name": "sign_flip_30pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TRUST_FEDAVG",
+      "mean_final_accuracy": 78.77,
+      "std_final_accuracy": 0.5,
+      "mean_best_accuracy": 78.77,
+      "mean_final_loss": 0.6776819670200347,
+      "mean_malicious_weight": 0.166059131150538,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 127.79343593120575,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TRUST_ROBUST": {
+      "scenario_id": 20,
+      "scenario_name": "sign_flip_30pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TRUST_ROBUST",
+      "mean_final_accuracy": 81.78,
+      "std_final_accuracy": 2.3700000000000045,
+      "mean_best_accuracy": 81.78,
+      "mean_final_loss": 0.5787798180103302,
+      "mean_malicious_weight": 0.11581455784456454,
+      "mean_risk_score": 0.0,
+      "mean_runtime_sec": 130.88413166999817,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    },
+    "TARA": {
+      "scenario_id": 20,
+      "scenario_name": "sign_flip_30pct_noniid",
+      "attack": "sign_flip",
+      "malicious_ratio": 0.3,
+      "data_split": "noniid",
+      "method": "TARA",
+      "mean_final_accuracy": 81.975,
+      "std_final_accuracy": 1.6649999999999991,
+      "mean_best_accuracy": 81.975,
+      "mean_final_loss": 0.5436599551677703,
+      "mean_malicious_weight": 0.13923899911661314,
+      "mean_risk_score": 0.4863694221229134,
+      "mean_runtime_sec": 125.24017179012299,
+      "seeds_tested": [
+        42,
+        43
+      ]
+    }
+  }
+}

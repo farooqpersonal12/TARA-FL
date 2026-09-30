@@ -1,0 +1,78 @@
+{
+  "FEDAVG": {
+    "scenario_id": 18,
+    "scenario_name": "sign_flip_20pct_noniid",
+    "attack": "sign_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "FEDAVG",
+    "mean_final_accuracy": 69.16,
+    "std_final_accuracy": 4.690000000000005,
+    "mean_best_accuracy": 69.16,
+    "mean_final_loss": 0.92082410364151,
+    "mean_malicious_weight": 0.18999166666666667,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.83846318721771,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_FEDAVG": {
+    "scenario_id": 18,
+    "scenario_name": "sign_flip_20pct_noniid",
+    "attack": "sign_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "TRUST_FEDAVG",
+    "mean_final_accuracy": 82.235,
+    "std_final_accuracy": 1.9050000000000011,
+    "mean_best_accuracy": 82.96000000000001,
+    "mean_final_loss": 0.5328804710149765,
+    "mean_malicious_weight": 0.06186642843310365,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.82507157325745,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_ROBUST": {
+    "scenario_id": 18,
+    "scenario_name": "sign_flip_20pct_noniid",
+    "attack": "sign_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "TRUST_ROBUST",
+    "mean_final_accuracy": 83.355,
+    "std_final_accuracy": 1.2950000000000017,
+    "mean_best_accuracy": 84.04,
+    "mean_final_loss": 0.5040053960084915,
+    "mean_malicious_weight": 0.03586481870247636,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 98.50018751621246,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TARA": {
+    "scenario_id": 18,
+    "scenario_name": "sign_flip_20pct_noniid",
+    "attack": "sign_flip",
+    "malicious_ratio": 0.2,
+    "data_split": "noniid",
+    "method": "TARA",
+    "mean_final_accuracy": 82.36,
+    "std_final_accuracy": 3.280000000000001,
+    "mean_best_accuracy": 85.265,
+    "mean_final_loss": 0.5209879883408546,
+    "mean_malicious_weight": 0.060794429671601834,
+    "mean_risk_score": 0.5279932093002779,
+    "mean_runtime_sec": 98.43396854400635,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  }
+}

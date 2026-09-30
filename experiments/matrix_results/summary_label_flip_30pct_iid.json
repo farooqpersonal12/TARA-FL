@@ -1,0 +1,78 @@
+{
+  "FEDAVG": {
+    "scenario_id": 7,
+    "scenario_name": "label_flip_30pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.3,
+    "data_split": "iid",
+    "method": "FEDAVG",
+    "mean_final_accuracy": 86.63,
+    "std_final_accuracy": 0.2700000000000031,
+    "mean_best_accuracy": 86.63,
+    "mean_final_loss": 0.49718140968084334,
+    "mean_malicious_weight": 0.3,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 125.62656831741333,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_FEDAVG": {
+    "scenario_id": 7,
+    "scenario_name": "label_flip_30pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.3,
+    "data_split": "iid",
+    "method": "TRUST_FEDAVG",
+    "mean_final_accuracy": 89.68,
+    "std_final_accuracy": 0.5200000000000031,
+    "mean_best_accuracy": 89.68,
+    "mean_final_loss": 0.3568595390915871,
+    "mean_malicious_weight": 0.033776163598792326,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 98.26882517337799,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_ROBUST": {
+    "scenario_id": 7,
+    "scenario_name": "label_flip_30pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.3,
+    "data_split": "iid",
+    "method": "TRUST_ROBUST",
+    "mean_final_accuracy": 89.72,
+    "std_final_accuracy": 0.519999999999996,
+    "mean_best_accuracy": 89.72,
+    "mean_final_loss": 0.3541647580385208,
+    "mean_malicious_weight": 0.006179112815166427,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 98.29073643684387,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TARA": {
+    "scenario_id": 7,
+    "scenario_name": "label_flip_30pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.3,
+    "data_split": "iid",
+    "method": "TARA",
+    "mean_final_accuracy": 89.65,
+    "std_final_accuracy": 0.4299999999999997,
+    "mean_best_accuracy": 89.65,
+    "mean_final_loss": 0.3544130408704281,
+    "mean_malicious_weight": 0.029474539031653126,
+    "mean_risk_score": 0.5132640370485094,
+    "mean_runtime_sec": 98.17364585399628,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  }
+}

@@ -136,11 +136,43 @@ class AdaptiveAggregator:
             risk_level: str = "LOW",
             client_updates: Optional[Dict[int, Dict[str, torch.Tensor]]] = None,
             model_template: Optional[nn.Module] = None,
-            mode: str = "risk_routing"
+            mode: str = "risk_routing",
+            client_ids: Optional[List[int]] = None,
+            quarantine_manager: Optional[Any] = None
     ) -> Tuple[Dict[str, torch.Tensor], str]:
         """
-        Master aggregation dispatch.
+        Master aggregation dispatch with QuarantineManager support.
         """
+        # 1. Resolve client IDs
+        if client_ids is None:
+            if client_updates is not None and len(client_updates) == len(client_parameters):
+                client_ids = list(client_updates.keys())
+            elif len(trust_scores) == len(client_parameters):
+                client_ids = list(trust_scores.keys())
+            else:
+                client_ids = list(range(1, len(client_parameters) + 1))
+
+        # 2. Filter quarantined clients if quarantine_manager provided
+        if quarantine_manager is not None:
+            eligible_indices = []
+            eligible_cids = []
+            for i, cid in enumerate(client_ids):
+                if quarantine_manager.is_eligible_for_aggregation(cid):
+                    eligible_indices.append(i)
+                    eligible_cids.append(cid)
+
+            if len(eligible_indices) == 0:
+                if model_template is not None:
+                    return {k: v.clone() for k, v in model_template.state_dict().items()}, "QUARANTINE_ALL_RETAINED"
+                return {}, "QUARANTINE_ALL_RETAINED"
+
+            client_parameters = [client_parameters[i] for i in eligible_indices]
+            client_sizes = [client_sizes[i] for i in eligible_indices]
+            trust_scores = {cid: trust_scores.get(cid, 0.0) for cid in eligible_cids}
+            if client_updates is not None:
+                client_updates = {cid: client_updates[cid] for cid in eligible_cids}
+            client_ids = eligible_cids
+
         # Mode 2: Multi-Model Candidate Selection
         if mode == "candidate_eval" and self.candidate_selector is not None and model_template is not None:
             best_params, best_strategy, _ = self.candidate_selector.select_best_candidate(
@@ -148,7 +180,8 @@ class AdaptiveAggregator:
                 client_parameters=client_parameters,
                 client_sizes=client_sizes,
                 trust_scores=trust_scores,
-                client_updates=client_updates
+                client_updates=client_updates,
+                client_ids=client_ids
             )
             return best_params, best_strategy
 
@@ -159,7 +192,8 @@ class AdaptiveAggregator:
             new_params = self.strategy_fedavg.aggregate(
                 client_parameters=client_parameters,
                 client_sizes=client_sizes,
-                trust_scores=trust_scores
+                trust_scores=trust_scores,
+                client_ids=client_ids
             )
         elif aggregator_name == "TRUST_WEIGHTED_ROBUST":
             new_params = self.strategy_robust.aggregate(
@@ -167,13 +201,15 @@ class AdaptiveAggregator:
                 client_sizes=client_sizes,
                 trust_scores=trust_scores,
                 client_updates=client_updates,
-                risk_level=risk_level
+                risk_level=risk_level,
+                client_ids=client_ids
             )
         elif aggregator_name == "TRUST_WEIGHTED_MEDIAN":
             new_params = self.strategy_median.aggregate(
                 client_parameters=client_parameters,
                 client_sizes=client_sizes,
-                trust_scores=trust_scores
+                trust_scores=trust_scores,
+                client_ids=client_ids
             )
         else:
             raise ValueError(f"Unsupported aggregator: {aggregator_name}")

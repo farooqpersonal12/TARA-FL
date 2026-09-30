@@ -1,0 +1,20 @@
+# TARA-FL Dependency Specification
+# Tested with Python 3.10 - 3.14
+
+# Core Machine Learning and Numerical Computing
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.24.0
+scipy>=1.10.0
+scikit-learn>=1.2.0
+
+# Data Manipulation & Analysis
+pandas>=2.0.0
+
+# Visualization & Reporting
+matplotlib>=3.7.0
+Pillow>=9.5.0
+Jinja2>=3.1.0
+
+# Testing & Quality Assurance
+pytest>=7.3.0

@@ -86,6 +86,7 @@ if __name__ == "__main__":
     # ------------------------------------------------------
 
     num_rounds = 5
+    last_accuracy = None
 
 
     # ======================================================
@@ -291,11 +292,18 @@ if __name__ == "__main__":
 
         risk_score, risk_level, suspicious_clients = (
             server.round_risk.calculate_risk(
-                distances,
-                trust_scores
+                distances=distances,
+                trust_scores=trust_scores,
+                current_accuracy=last_accuracy,
+                client_updates=client_updates
             )
         )
 
+        threat_type = server.round_risk.classify_threat(
+            distances=distances,
+            trust_scores=trust_scores,
+            client_updates=client_updates
+        )
 
         print()
         print("Round Risk Assessment")
@@ -312,9 +320,20 @@ if __name__ == "__main__":
         )
 
         print(
+            f"Threat Type: "
+            f"{threat_type.value}"
+        )
+
+        print(
             f"Suspicious Clients: "
             f"{suspicious_clients}/{len(clients)}"
         )
+
+        if last_accuracy is not None:
+            print(
+                f"Performance Baseline: "
+                f"{last_accuracy * 100:.2f}%"
+            )
 
 
         # ==================================================
@@ -326,7 +345,8 @@ if __name__ == "__main__":
                 client_parameters,
                 client_sizes,
                 trust_scores,
-                risk_level
+                risk_level,
+                client_updates
             )
         )
 
@@ -347,6 +367,9 @@ if __name__ == "__main__":
         accuracy = server.evaluate(
             test_dataset
         )
+
+        # Update accuracy tracker for next round's performance feedback
+        last_accuracy = accuracy
 
 
         print(

@@ -1,0 +1,20 @@
+{
+  "method": "TRUST_ROBUST",
+  "mean_final_accuracy": 90.71000000000001,
+  "std_final_accuracy": 0.0,
+  "mean_best_accuracy": 90.71000000000001,
+  "std_best_accuracy": 0.0,
+  "mean_final_loss": 0.3214835063576698,
+  "mean_runtime_sec": 209.12238192558289,
+  "per_seed_runs": [
+    {
+      "seed": 42,
+      "final_accuracy": 90.71000000000001,
+      "best_accuracy": 90.71000000000001,
+      "final_loss": 0.3214835063576698,
+      "min_loss": 0.3214835063576698,
+      "mean_malicious_weight": 0.0,
+      "total_time_sec": 209.12238192558289
+    }
+  ]
+}

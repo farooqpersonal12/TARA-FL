@@ -1,0 +1,78 @@
+{
+  "FEDAVG": {
+    "scenario_id": 3,
+    "scenario_name": "label_flip_10pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.1,
+    "data_split": "iid",
+    "method": "FEDAVG",
+    "mean_final_accuracy": 89.44,
+    "std_final_accuracy": 0.5,
+    "mean_best_accuracy": 89.44,
+    "mean_final_loss": 0.3739792636334896,
+    "mean_malicious_weight": 0.1,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 98.55110442638397,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_FEDAVG": {
+    "scenario_id": 3,
+    "scenario_name": "label_flip_10pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.1,
+    "data_split": "iid",
+    "method": "TRUST_FEDAVG",
+    "mean_final_accuracy": 89.775,
+    "std_final_accuracy": 0.4750000000000014,
+    "mean_best_accuracy": 89.775,
+    "mean_final_loss": 0.35164873361587523,
+    "mean_malicious_weight": 0.011747663761069178,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 98.22501218318939,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TRUST_ROBUST": {
+    "scenario_id": 3,
+    "scenario_name": "label_flip_10pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.1,
+    "data_split": "iid",
+    "method": "TRUST_ROBUST",
+    "mean_final_accuracy": 89.66,
+    "std_final_accuracy": 0.3400000000000034,
+    "mean_best_accuracy": 89.66,
+    "mean_final_loss": 0.35475985105633734,
+    "mean_malicious_weight": 0.0,
+    "mean_risk_score": 0.0,
+    "mean_runtime_sec": 97.29793095588684,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  },
+  "TARA": {
+    "scenario_id": 3,
+    "scenario_name": "label_flip_10pct_iid",
+    "attack": "label_flip",
+    "malicious_ratio": 0.1,
+    "data_split": "iid",
+    "method": "TARA",
+    "mean_final_accuracy": 89.72,
+    "std_final_accuracy": 0.4200000000000017,
+    "mean_best_accuracy": 89.72,
+    "mean_final_loss": 0.3524415051817894,
+    "mean_malicious_weight": 0.009409117787144459,
+    "mean_risk_score": 0.389986346034337,
+    "mean_runtime_sec": 97.36684083938599,
+    "seeds_tested": [
+      42,
+      43
+    ]
+  }
+}

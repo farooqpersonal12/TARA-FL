@@ -1,0 +1,20 @@
+{
+  "method": "TARA",
+  "mean_final_accuracy": 82.78999999999999,
+  "std_final_accuracy": 0.0,
+  "mean_best_accuracy": 82.78999999999999,
+  "std_best_accuracy": 0.0,
+  "mean_final_loss": 0.613875951385498,
+  "mean_runtime_sec": 45.21556091308594,
+  "per_seed_runs": [
+    {
+      "seed": 42,
+      "final_accuracy": 82.78999999999999,
+      "best_accuracy": 82.78999999999999,
+      "final_loss": 0.613875951385498,
+      "min_loss": 0.613875951385498,
+      "mean_malicious_weight": 0.0,
+      "total_time_sec": 45.21556091308594
+    }
+  ]
+}

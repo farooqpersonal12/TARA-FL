@@ -82,6 +82,70 @@ def plot_accuracy_comparison(
     print(f"Saved plot: {output_path}")
 
 
+def plot_loss_comparison(
+        csv_files_dict: Dict[str, str],
+        output_path: str = "plots/loss_comparison.png",
+        title: str = "Federated Learning Test Loss vs Rounds"
+):
+    """
+    Plots multi-seed test loss curves with standard deviation confidence bands.
+    """
+    os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    plt.figure(figsize=(9, 5), dpi=300)
+
+    colors = ['#1f77b4', '#d62728', '#2ca02c', '#ff7f0e', '#9467bd', '#8c564b']
+
+    for idx, (method_name, file_path) in enumerate(csv_files_dict.items()):
+        if not os.path.exists(file_path):
+            continue
+
+        rounds = []
+        losses_by_seed = {}
+
+        with open(file_path, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                seed = row.get("seed", "default")
+                r = int(row["round"])
+                loss_val = float(row.get("loss", 0.0))
+
+                if seed not in losses_by_seed:
+                    losses_by_seed[seed] = {}
+                losses_by_seed[seed][r] = loss_val
+                if r not in rounds:
+                    rounds.append(r)
+
+        if not rounds:
+            continue
+
+        rounds = sorted(rounds)
+        loss_matrix = []
+        for seed, r_dict in losses_by_seed.items():
+            loss_matrix.append([r_dict[r] for r in rounds if r in r_dict])
+
+        loss_matrix = np.array(loss_matrix)
+        if loss_matrix.size == 0:
+            continue
+
+        mean_loss = np.mean(loss_matrix, axis=0)
+        std_loss = np.std(loss_matrix, axis=0)
+        color = colors[idx % len(colors)]
+
+        plt.plot(rounds, mean_loss, label=method_name, linewidth=2, marker='s', color=color)
+        if len(losses_by_seed) > 1:
+            plt.fill_between(rounds, mean_loss - std_loss, mean_loss + std_loss, alpha=0.15, color=color)
+
+    plt.title(title, fontsize=13, fontweight='bold')
+    plt.xlabel("Federated Communication Round", fontsize=11)
+    plt.ylabel("Test Loss", fontsize=11)
+    plt.grid(True, linestyle="--", alpha=0.6)
+    plt.legend(fontsize=10, loc="upper right")
+    plt.tight_layout()
+    plt.savefig(output_path)
+    plt.close()
+    print(f"Saved plot: {output_path}")
+
+
 def plot_trust_trajectories(
         csv_path: str,
         num_clients: int = 10,

@@ -18,9 +18,18 @@ class TrustAwareFedAvg(BaseAggregator):
             client_parameters: List[Dict[str, torch.Tensor]],
             client_sizes: List[int],
             trust_scores: Dict[int, float],
+            client_ids: Optional[List[int]] = None,
             **kwargs
     ) -> Dict[str, torch.Tensor]:
-        normalized_weights = self.calculate_trust_weights(client_sizes, trust_scores)
+        if not client_parameters:
+            if "global_parameters" in kwargs and kwargs["global_parameters"] is not None:
+                return {k: v.clone() for k, v in kwargs["global_parameters"].items()}
+            return {}
+
+        if len(client_parameters) == 1:
+            return {k: v.clone() for k, v in client_parameters[0].items()}
+
+        normalized_weights = self.calculate_trust_weights(client_sizes, trust_scores, client_ids=client_ids)
         new_parameters = {}
 
         for name in client_parameters[0]:
@@ -74,10 +83,25 @@ class TrustWeightedRobustTrimming(BaseAggregator):
             trust_scores: Dict[int, float],
             client_updates: Optional[Dict[int, Dict[str, torch.Tensor]]] = None,
             risk_level: str = "MEDIUM",
+            client_ids: Optional[List[int]] = None,
             **kwargs
     ) -> Dict[str, torch.Tensor]:
         num_clients = len(client_parameters)
-        client_ids = list(range(1, num_clients + 1))
+        if num_clients == 0:
+            if "global_parameters" in kwargs and kwargs["global_parameters"] is not None:
+                return {k: v.clone() for k, v in kwargs["global_parameters"].items()}
+            return {}
+
+        if num_clients == 1:
+            return {k: v.clone() for k, v in client_parameters[0].items()}
+
+        if client_ids is None:
+            if client_updates is not None and len(client_updates) == num_clients:
+                client_ids = list(client_updates.keys())
+            else:
+                client_ids = list(range(1, num_clients + 1))
+
+        cid_to_idx = {cid: idx for idx, cid in enumerate(client_ids)}
 
         if client_updates:
             distances = self._calculate_update_distances(client_updates)
@@ -93,14 +117,14 @@ class TrustWeightedRobustTrimming(BaseAggregator):
             selected_clients = client_ids
 
         # Compute weights for selected clients
-        selected_sizes = [client_sizes[cid - 1] for cid in selected_clients]
+        selected_indices = [cid_to_idx[cid] for cid in selected_clients]
+        selected_sizes = [client_sizes[idx] for idx in selected_indices]
         normalized_weights = self.calculate_trust_weights(selected_sizes, trust_scores, client_ids=selected_clients)
 
         new_parameters = {}
         for name in client_parameters[0]:
             new_parameters[name] = torch.zeros_like(client_parameters[0][name])
-            for cid, weight in zip(selected_clients, normalized_weights):
-                idx = cid - 1
+            for idx, weight in zip(selected_indices, normalized_weights):
                 new_parameters[name] += weight * client_parameters[idx][name].to(new_parameters[name].device)
 
         return new_parameters
@@ -121,9 +145,18 @@ class TrustWeightedMedian(BaseAggregator):
             client_parameters: List[Dict[str, torch.Tensor]],
             client_sizes: List[int],
             trust_scores: Dict[int, float],
+            client_ids: Optional[List[int]] = None,
             **kwargs
     ) -> Dict[str, torch.Tensor]:
-        normalized_weights = self.calculate_trust_weights(client_sizes, trust_scores)
+        if not client_parameters:
+            if "global_parameters" in kwargs and kwargs["global_parameters"] is not None:
+                return {k: v.clone() for k, v in kwargs["global_parameters"].items()}
+            return {}
+
+        if len(client_parameters) == 1:
+            return {k: v.clone() for k, v in client_parameters[0].items()}
+
+        normalized_weights = self.calculate_trust_weights(client_sizes, trust_scores, client_ids=client_ids)
         new_parameters = {}
 
         for name in client_parameters[0]:
@@ -145,7 +178,6 @@ class TrustWeightedMedian(BaseAggregator):
         return new_parameters
 
 
-
 # ==============================================================================
 # 4. TRUST-AWARE FEDAVGM (Server-Side Momentum)
 # ==============================================================================
@@ -165,9 +197,15 @@ class TrustAwareFedAvgM(BaseAggregator):
             client_sizes: List[int],
             trust_scores: Dict[int, float],
             global_parameters: Optional[Dict[str, torch.Tensor]] = None,
+            client_ids: Optional[List[int]] = None,
             **kwargs
     ) -> Dict[str, torch.Tensor]:
-        normalized_weights = self.calculate_trust_weights(client_sizes, trust_scores)
+        if not client_parameters:
+            if global_parameters is not None:
+                return {k: v.clone() for k, v in global_parameters.items()}
+            return {}
+
+        normalized_weights = self.calculate_trust_weights(client_sizes, trust_scores, client_ids=client_ids)
 
         # 1. Weighted Average Target
         avg_params = {}
@@ -210,11 +248,24 @@ class MultiKrumAggregator(BaseAggregator):
             client_parameters: List[Dict[str, torch.Tensor]],
             client_sizes: List[int],
             trust_scores: Dict[int, float],
+            client_ids: Optional[List[int]] = None,
             **kwargs
     ) -> Dict[str, torch.Tensor]:
         n = len(client_parameters)
+        if n == 0:
+            if "global_parameters" in kwargs and kwargs["global_parameters"] is not None:
+                return {k: v.clone() for k, v in kwargs["global_parameters"].items()}
+            return {}
+
+        if n == 1:
+            return {k: v.clone() for k, v in client_parameters[0].items()}
+
+        if client_ids is None:
+            client_ids = list(range(1, n + 1))
+
         f = self.num_malicious
         m = self.to_select if self.to_select is not None else max(1, n - f - 2)
+        m = max(1, min(m, n))
 
         # Flatten parameter vectors
         vectors = []
@@ -224,7 +275,7 @@ class MultiKrumAggregator(BaseAggregator):
 
         # Compute pairwise distance matrix
         scores = []
-        num_neighbors = max(1, n - f - 2)
+        num_neighbors = max(1, min(n - f - 2, n - 1))
         for i in range(n):
             dists = [torch.norm(vectors[i] - vectors[j], p=2).item() for j in range(n) if i != j]
             dists.sort()
@@ -233,7 +284,7 @@ class MultiKrumAggregator(BaseAggregator):
 
         scores.sort(key=lambda x: x[0])
         selected_indices = [idx for _, idx in scores[:m]]
-        selected_client_ids = [idx + 1 for idx in selected_indices]
+        selected_client_ids = [client_ids[idx] for idx in selected_indices]
         selected_sizes = [client_sizes[idx] for idx in selected_indices]
 
         weights = self.calculate_trust_weights(selected_sizes, trust_scores, client_ids=selected_client_ids)

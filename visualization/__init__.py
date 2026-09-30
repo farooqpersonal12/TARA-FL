@@ -4,6 +4,7 @@ TARA-FL Visualization, Dashboard & Reporting Package.
 
 from .plots import (
     plot_accuracy_comparison,
+    plot_loss_comparison,
     plot_trust_trajectories,
     plot_risk_and_aggregator,
     plot_method_bar_comparison
@@ -19,6 +20,7 @@ from .dashboard import (
 
 __all__ = [
     "plot_accuracy_comparison",
+    "plot_loss_comparison",
     "plot_trust_trajectories",
     "plot_risk_and_aggregator",
     "plot_method_bar_comparison",
