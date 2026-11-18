@@ -50,6 +50,7 @@ from visualization.plots import (
     plot_method_bar_comparison
 )
 from visualization.report_generator import ReportGenerator, generate_experiment_report
+from experiments.results_export import ResultsExporter, build_config_snapshot
 
 
 # ==========================================================
@@ -75,11 +76,18 @@ def fedavg(client_parameters: List[Dict[str, torch.Tensor]], client_sizes: List[
 # RUN SINGLE EXPERIMENT
 # ==========================================================
 
-def run_experiment(config, seed: int, method_override: Optional[str] = None) -> List[Dict[str, Any]]:
+def run_experiment(config, seed: int, method_override: Optional[str] = None,
+                   exporter: Optional[ResultsExporter] = None) -> List[Dict[str, Any]]:
     """
     Run one complete federated learning experiment with the given configuration and seed.
 
     Returns a list of per-round result dictionaries.
+
+    If `exporter` (experiments.results_export.ResultsExporter) is provided, every
+    completed round - including the full per-client trust / quarantine detail
+    produced by the real TrustEngine - is progressively published to the live
+    dashboard JSON files. This is purely observational: it does not alter any
+    training, trust, risk, or aggregation behaviour.
     """
     method = method_override if method_override is not None else config.method
     num_clients = config.num_clients
@@ -209,6 +217,10 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             threat_type = "N/A"
             suspicious_clients = 0
             trust_scores = {}
+            trust_details = {}
+            distances = None
+            pid_scores = None
+            risk_details = None
 
             # Malicious influence calculation
             total_samples = sum(client_sizes)
@@ -223,9 +235,11 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             all_pid_scores = list(pid_scores.values())
 
             trust_scores = {}
+            trust_details = {}
             for cid, score in pid_scores.items():
                 res = server.trust_engine.calculate_trust(cid, score, all_pid_scores)
                 trust_scores[cid] = res["trust"]
+                trust_details[cid] = res
 
             client_ids_list = list(range(1, num_clients + 1))
             new_parameters = server.adaptive_aggregator.strategy_fedavg.aggregate(
@@ -239,6 +253,7 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             risk_level = "N/A"
             threat_type = "N/A"
             suspicious_clients = sum(1 for t in trust_scores.values() if t < 0.75)
+            risk_details = None
 
             weights = server.adaptive_aggregator.strategy_fedavg.calculate_trust_weights(client_sizes, trust_scores)
             malicious_weight = sum(weights[cid - 1] for cid in malicious_ids) if malicious_ids and len(weights) == num_clients else 0.0
@@ -249,9 +264,11 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             all_pid_scores = list(pid_scores.values())
 
             trust_scores = {}
+            trust_details = {}
             for cid, score in pid_scores.items():
                 res = server.trust_engine.calculate_trust(cid, score, all_pid_scores)
                 trust_scores[cid] = res["trust"]
+                trust_details[cid] = res
 
             client_ids_list = list(range(1, num_clients + 1))
             new_parameters = server.adaptive_aggregator.strategy_robust.aggregate(
@@ -275,6 +292,7 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             surviving_trust = {cid: trust_scores.get(cid, 0.0) for cid in surviving}
             surv_weights = server.adaptive_aggregator.calculate_trust_weights(surviving_sizes, surviving_trust)
             malicious_weight = sum(w for cid, w in zip(surviving, surv_weights) if cid in malicious_ids)
+            risk_details = None
 
         elif method == "tara":
             # Method 4: Full TARA-FL Pipeline (Trust + Quarantine + RoundRisk + Adaptive Aggregation)
@@ -282,9 +300,11 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             all_pid_scores = list(pid_scores.values())
 
             trust_scores = {}
+            trust_details = {}
             for cid, score in pid_scores.items():
                 res = server.trust_engine.calculate_trust(cid, score, all_pid_scores)
                 trust_scores[cid] = res["trust"]
+                trust_details[cid] = res
 
             risk_score, risk_level, suspicious_clients = server.round_risk.calculate_risk(
                 distances=distances,
@@ -297,6 +317,7 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
                 trust_scores=trust_scores,
                 client_updates=client_updates
             ).value
+            risk_details = server.round_risk.get_last_details()
 
             new_parameters, selected_aggregator = server.aggregate(
                 client_parameters=client_parameters,
@@ -344,6 +365,7 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             "loss": loss,
             "risk_score": risk_score,
             "risk_level": risk_level,
+            "risk_details": risk_details,
             "threat_type": threat_type,
             "suspicious_clients": suspicious_clients,
             "malicious_weight": malicious_weight,
@@ -356,6 +378,24 @@ def run_experiment(config, seed: int, method_override: Optional[str] = None) -> 
             row[f"trust_client_{cid}"] = trust_scores.get(cid, "N/A")
 
         results.append(row)
+
+        # ==============================================
+        # LIVE DASHBOARD EXPORT (real metrics only)
+        # ==============================================
+        if exporter is not None:
+            exporter.record_round(
+                method=method,
+                seed=seed,
+                row=row,
+                num_clients=num_clients,
+                malicious_ids=malicious_ids,
+                trust_details=trust_details if method != "fedavg" else None,
+                distances=distances if method != "fedavg" else None,
+                pid_scores=pid_scores if method != "fedavg" else None,
+                quarantine_manager=(
+                    server.trust_engine.quarantine_manager if method == "tara" else None
+                ),
+            )
 
     return results
 
@@ -486,6 +526,20 @@ def parse_args():
         help="Custom experiment identifier name"
     )
 
+    parser.add_argument(
+        "--dashboard_dir",
+        type=str,
+        default="dashboard_data",
+        help="Directory for live dashboard JSON export (live.json / history / index)"
+    )
+
+    parser.add_argument(
+        "--dashboard_export",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Export real experiment metrics to the live dashboard JSON files (default: on)"
+    )
+
     return parser.parse_args()
 
 
@@ -519,87 +573,136 @@ def main():
 
     methods_to_run = ["fedavg", "trust_fedavg", "trust_robust", "tara"] if config.method == "all" else [config.method]
 
+    # ======================================================
+    # LIVE DASHBOARD EXPORTER (real execution -> browser)
+    # ======================================================
+    exporter: Optional[ResultsExporter] = None
+    if config.dashboard_export:
+        exporter = ResultsExporter(
+            dashboard_dir=config.dashboard_dir,
+            config=build_config_snapshot(
+                args=config,
+                scenario_tag=scenario_tag,
+                methods_to_run=methods_to_run,
+                num_malicious=num_malicious,
+                malicious_ids=malicious_ids
+            ),
+            source_info={
+                "script": "experiments/run_unified.py",
+                "argv": sys.argv[1:],
+                "cwd": os.getcwd()
+            }
+        )
+        print(f"[Dashboard] Live export active -> {os.path.abspath(config.dashboard_dir)} "
+              f"(experiment {exporter.experiment_id})")
+
     all_method_results: Dict[str, List[Dict[str, Any]]] = {}
     all_method_summaries: Dict[str, Dict[str, Any]] = {}
     csv_file_map: Dict[str, str] = {}
 
     benchmark_start_time = time.time()
 
-    for method in methods_to_run:
-        print()
-        print(f"===============================================================")
-        print(f"  EXECUTING METHOD: {method.upper()}")
-        print(f"===============================================================")
+    try:
+        for method in methods_to_run:
+            print()
+            print(f"===============================================================")
+            print(f"  EXECUTING METHOD: {method.upper()}")
+            print(f"===============================================================")
 
-        method_all_rounds = []
-        method_seed_summaries = []
+            method_all_rounds = []
+            method_seed_summaries = []
 
-        method_file_name = f"results_{method}_{scenario_tag}.csv"
-        method_csv_path = os.path.join(config.output_dir, method_file_name)
-        csv_file_map[method.upper()] = method_csv_path
+            method_file_name = f"results_{method}_{scenario_tag}.csv"
+            method_csv_path = os.path.join(config.output_dir, method_file_name)
+            csv_file_map[method.upper()] = method_csv_path
 
-        for seed in config.seeds:
-            seed_results = run_experiment(config, seed, method_override=method)
-            method_all_rounds.extend(seed_results)
+            for seed in config.seeds:
+                seed_results = run_experiment(config, seed, method_override=method, exporter=exporter)
+                method_all_rounds.extend(seed_results)
 
-            final_acc = seed_results[-1]["accuracy_percent"]
-            best_acc = max(r["accuracy_percent"] for r in seed_results)
-            final_loss = seed_results[-1]["loss"]
-            min_loss = min(r["loss"] for r in seed_results)
-            mean_mal_weight = sum(r["malicious_weight"] for r in seed_results) / len(seed_results)
-            total_seed_time = sum(r["round_time_sec"] for r in seed_results)
+                final_acc = seed_results[-1]["accuracy_percent"]
+                best_acc = max(r["accuracy_percent"] for r in seed_results)
+                final_loss = seed_results[-1]["loss"]
+                min_loss = min(r["loss"] for r in seed_results)
+                mean_mal_weight = sum(r["malicious_weight"] for r in seed_results) / len(seed_results)
+                total_seed_time = sum(r["round_time_sec"] for r in seed_results)
 
-            method_seed_summaries.append({
-                "seed": seed,
-                "final_accuracy": final_acc,
-                "best_accuracy": best_acc,
-                "final_loss": final_loss,
-                "min_loss": min_loss,
-                "mean_malicious_weight": mean_mal_weight,
-                "total_time_sec": total_seed_time
-            })
+                method_seed_summaries.append({
+                    "seed": seed,
+                    "final_accuracy": final_acc,
+                    "best_accuracy": best_acc,
+                    "final_loss": final_loss,
+                    "min_loss": min_loss,
+                    "mean_malicious_weight": mean_mal_weight,
+                    "total_time_sec": total_seed_time
+                })
 
-        all_method_results[method.upper()] = method_all_rounds
+            # Publish this seed's real summary to the live dashboard
+            if exporter is not None:
+                exporter.finish_run(method, seed, method_seed_summaries[-1])
 
-        # Save per-method round results CSV
-        if method_all_rounds:
-            fieldnames = list(method_all_rounds[0].keys())
-            with open(method_csv_path, "w", newline="", encoding="utf-8") as f:
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
-                writer.writerows(method_all_rounds)
+            all_method_results[method.upper()] = method_all_rounds
 
-        # Compute summary metrics across seeds
-        final_accs = [s["final_accuracy"] for s in method_seed_summaries]
-        best_accs = [s["best_accuracy"] for s in method_seed_summaries]
-        final_losses = [s["final_loss"] for s in method_seed_summaries]
-        mean_times = [s["total_time_sec"] for s in method_seed_summaries]
+            # Save per-method round results CSV
+            if method_all_rounds:
+                fieldnames = list(method_all_rounds[0].keys())
+                with open(method_csv_path, "w", newline="", encoding="utf-8") as f:
+                    writer = csv.DictWriter(f, fieldnames=fieldnames)
+                    writer.writeheader()
+                    writer.writerows(method_all_rounds)
 
-        mean_final_acc = float(sum(final_accs) / len(final_accs))
-        std_final_acc = float((sum((x - mean_final_acc) ** 2 for x in final_accs) / max(1, len(final_accs) - 1)) ** 0.5) if len(final_accs) > 1 else 0.0
+            # Compute summary metrics across seeds
+            final_accs = [s["final_accuracy"] for s in method_seed_summaries]
+            best_accs = [s["best_accuracy"] for s in method_seed_summaries]
+            final_losses = [s["final_loss"] for s in method_seed_summaries]
+            mean_times = [s["total_time_sec"] for s in method_seed_summaries]
 
-        mean_best_acc = float(sum(best_accs) / len(best_accs))
-        std_best_acc = float((sum((x - mean_best_acc) ** 2 for x in best_accs) / max(1, len(best_accs) - 1)) ** 0.5) if len(best_accs) > 1 else 0.0
+            mean_final_acc = float(sum(final_accs) / len(final_accs))
+            std_final_acc = float((sum((x - mean_final_acc) ** 2 for x in final_accs) / max(1, len(final_accs) - 1)) ** 0.5) if len(final_accs) > 1 else 0.0
 
-        mean_final_loss = float(sum(final_losses) / len(final_losses))
-        mean_runtime = float(sum(mean_times) / len(mean_times))
+            mean_best_acc = float(sum(best_accs) / len(best_accs))
+            std_best_acc = float((sum((x - mean_best_acc) ** 2 for x in best_accs) / max(1, len(best_accs) - 1)) ** 0.5) if len(best_accs) > 1 else 0.0
 
-        summary_dict = {
-            "method": method.upper(),
-            "mean_final_accuracy": mean_final_acc,
-            "std_final_accuracy": std_final_acc,
-            "mean_best_accuracy": mean_best_acc,
-            "std_best_accuracy": std_best_acc,
-            "mean_final_loss": mean_final_loss,
-            "mean_runtime_sec": mean_runtime,
-            "per_seed_runs": method_seed_summaries
-        }
-        all_method_summaries[method.upper()] = summary_dict
+            mean_final_loss = float(sum(final_losses) / len(final_losses))
+            mean_runtime = float(sum(mean_times) / len(mean_times))
 
-        # Save per-method summary JSON
-        summary_json_path = os.path.join(config.output_dir, f"summary_{method}_{scenario_tag}.json")
-        with open(summary_json_path, "w", encoding="utf-8") as f:
-            json.dump(summary_dict, f, indent=2)
+            summary_dict = {
+                "method": method.upper(),
+                "mean_final_accuracy": mean_final_acc,
+                "std_final_accuracy": std_final_acc,
+                "mean_best_accuracy": mean_best_acc,
+                "std_best_accuracy": std_best_acc,
+                "mean_final_loss": mean_final_loss,
+                "mean_runtime_sec": mean_runtime,
+                "per_seed_runs": method_seed_summaries
+            }
+            all_method_summaries[method.upper()] = summary_dict
+
+            # Publish this method's real across-seeds summary to the live dashboard
+            if exporter is not None:
+                exporter.finish_method(method.upper(), summary_dict)
+
+            # Save per-method summary JSON
+            summary_json_path = os.path.join(config.output_dir, f"summary_{method}_{scenario_tag}.json")
+            with open(summary_json_path, "w", encoding="utf-8") as f:
+                json.dump(summary_dict, f, indent=2)
+
+    except KeyboardInterrupt:
+        # Unexpected stop: every completed round is already on disk; just mark it.
+        if exporter is not None:
+            exporter.finalize("stopped")
+        print("\n[Dashboard] Run interrupted - completed rounds preserved.")
+        raise
+    except Exception as exc:
+        if exporter is not None:
+            exporter.finalize("failed")
+        print(f"\n[Dashboard] Run failed ({exc.__class__.__name__}) - completed rounds preserved.")
+        raise
+    else:
+        if exporter is not None:
+            exporter.finalize("completed")
+        print(f"[Dashboard] Experiment {exporter.experiment_id if exporter else ''} finalized "
+              f"(completed). Live files: {os.path.abspath(config.dashboard_dir)}")
 
     total_benchmark_time = time.time() - benchmark_start_time
 

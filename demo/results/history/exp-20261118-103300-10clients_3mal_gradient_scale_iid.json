@@ -1,0 +1,3208 @@
+{
+  "schema_version": "1.1",
+  "experiment_id": "exp-20261118-103300-10clients_3mal_gradient_scale_iid",
+  "status": "completed",
+  "created_at": "2026-11-18T10:33:00Z",
+  "updated_at": "2026-11-18T10:41:49Z",
+  "finalized_at": "2026-11-18T10:41:50Z",
+  "config": {
+    "scenario_tag": "10clients_3mal_gradient_scale_iid",
+    "methods_to_run": [
+      "fedavg",
+      "trust_fedavg",
+      "trust_robust",
+      "tara"
+    ],
+    "method": "all",
+    "seed": [
+      42
+    ],
+    "seeds": [
+      42
+    ],
+    "dataset": "MNIST",
+    "num_clients": 10,
+    "num_malicious": 3,
+    "malicious_client_ids": [
+      8,
+      9,
+      10
+    ],
+    "malicious_ratio": 0.3,
+    "num_rounds": 5,
+    "rounds": 5,
+    "local_epochs": 1,
+    "attack": "gradient_scale",
+    "flip_ratio": 0.75,
+    "scale_factor": 10.0,
+    "data_split": "iid",
+    "alpha": 0.5,
+    "detector_type": "standard",
+    "output_dir": "experiments",
+    "plots_dir": "plots",
+    "reports_dir": "reports"
+  },
+  "environment": {
+    "python_version": "3.12.16",
+    "platform": "Linux-5.10.134-013.15.kangaroo.al8.x86_64-x86_64-with-glibc2.41",
+    "dataset": "MNIST",
+    "torch_version": "2.15.0+cpu",
+    "torch_threads": 2,
+    "cuda_available": false
+  },
+  "source": {
+    "script": "experiments/run_unified.py",
+    "argv": [
+      "--method",
+      "all",
+      "--num_clients",
+      "10",
+      "--malicious_ratio",
+      "0.3",
+      "--attack",
+      "gradient_scale",
+      "--rounds",
+      "5",
+      "--seeds",
+      "42",
+      "--data_split",
+      "iid",
+      "--dashboard_dir",
+      "dashboard_data",
+      "--output_dir",
+      "experiments",
+      "--plots_dir",
+      "plots",
+      "--reports_dir",
+      "reports"
+    ],
+    "cwd": "/home/z/my-project/work/tara-fl"
+  },
+  "methods": {
+    "FEDAVG": {
+      "runs": {
+        "42": {
+          "rounds": [
+            {
+              "round": 1,
+              "seed": 42,
+              "accuracy": 0.3006,
+              "accuracy_percent": 30.06,
+              "loss": 2.0232121368408205,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "STANDARD_FEDAVG",
+              "suspicious_clients": 0,
+              "malicious_weight": 0.3,
+              "round_time_sec": 26.808515310287476,
+              "trust_available": false,
+              "malicious_quarantined": null,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "2": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "3": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "4": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "5": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "6": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "7": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "8": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "9": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "10": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                }
+              },
+              "detection": {
+                "distances": null,
+                "pid_scores": null
+              }
+            },
+            {
+              "round": 2,
+              "seed": 42,
+              "accuracy": 0.3799,
+              "accuracy_percent": 37.99,
+              "loss": 28.458122155761718,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "STANDARD_FEDAVG",
+              "suspicious_clients": 0,
+              "malicious_weight": 0.3,
+              "round_time_sec": 26.51486563682556,
+              "trust_available": false,
+              "malicious_quarantined": null,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "2": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "3": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "4": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "5": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "6": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "7": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "8": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "9": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "10": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                }
+              },
+              "detection": {
+                "distances": null,
+                "pid_scores": null
+              }
+            },
+            {
+              "round": 3,
+              "seed": 42,
+              "accuracy": 0.206,
+              "accuracy_percent": 20.599999999999998,
+              "loss": 2.218983657836914,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "STANDARD_FEDAVG",
+              "suspicious_clients": 0,
+              "malicious_weight": 0.3,
+              "round_time_sec": 26.30735492706299,
+              "trust_available": false,
+              "malicious_quarantined": null,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "2": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "3": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "4": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "5": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "6": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "7": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "8": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "9": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "10": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                }
+              },
+              "detection": {
+                "distances": null,
+                "pid_scores": null
+              }
+            },
+            {
+              "round": 4,
+              "seed": 42,
+              "accuracy": 0.2745,
+              "accuracy_percent": 27.450000000000003,
+              "loss": 43.768741119384764,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "STANDARD_FEDAVG",
+              "suspicious_clients": 0,
+              "malicious_weight": 0.3,
+              "round_time_sec": 26.717754125595093,
+              "trust_available": false,
+              "malicious_quarantined": null,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "2": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "3": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "4": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "5": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "6": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "7": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "8": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "9": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "10": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                }
+              },
+              "detection": {
+                "distances": null,
+                "pid_scores": null
+              }
+            },
+            {
+              "round": 5,
+              "seed": 42,
+              "accuracy": 0.2536,
+              "accuracy_percent": 25.36,
+              "loss": 2.109850945663452,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "STANDARD_FEDAVG",
+              "suspicious_clients": 0,
+              "malicious_weight": 0.3,
+              "round_time_sec": 26.12825107574463,
+              "trust_available": false,
+              "malicious_quarantined": null,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "2": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "3": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "4": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "5": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "6": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "7": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "8": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "9": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                },
+                "10": {
+                  "trust": null,
+                  "pid_score": null,
+                  "relative_anomaly": null,
+                  "zone": null,
+                  "is_quarantined": null,
+                  "eligible_for_aggregation": null
+                }
+              },
+              "detection": {
+                "distances": null,
+                "pid_scores": null
+              }
+            }
+          ],
+          "summary": {
+            "seed": 42,
+            "final_accuracy": 25.36,
+            "best_accuracy": 37.99,
+            "final_loss": 2.109850945663452,
+            "min_loss": 2.0232121368408205,
+            "mean_malicious_weight": 0.3,
+            "total_time_sec": 132.47674107551575
+          }
+        }
+      },
+      "summary": {
+        "method": "FEDAVG",
+        "mean_final_accuracy": 25.36,
+        "std_final_accuracy": 0.0,
+        "mean_best_accuracy": 37.99,
+        "std_best_accuracy": 0.0,
+        "mean_final_loss": 2.109850945663452,
+        "mean_runtime_sec": 132.47674107551575,
+        "per_seed_runs": [
+          {
+            "seed": 42,
+            "final_accuracy": 25.36,
+            "best_accuracy": 37.99,
+            "final_loss": 2.109850945663452,
+            "min_loss": 2.0232121368408205,
+            "mean_malicious_weight": 0.3,
+            "total_time_sec": 132.47674107551575
+          }
+        ]
+      }
+    },
+    "TRUST_FEDAVG": {
+      "runs": {
+        "42": {
+          "rounds": [
+            {
+              "round": 1,
+              "seed": 42,
+              "accuracy": 0.4058,
+              "accuracy_percent": 40.58,
+              "loss": 2.1162573101043702,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_AWARE_FEDAVG",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.16062875043479347,
+              "round_time_sec": 25.802002429962158,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.7319117188453674,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.7319585084915161,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.7305580377578735,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9996447758154532,
+                  "pid_score": 0.7340533137321472,
+                  "relative_anomaly": 1.0053283627682021,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.001776120922734048,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 1.0,
+                  "pid_score": 0.7297760844230652,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 1.0,
+                  "pid_score": 0.7247098088264465,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998413378765737,
+                  "pid_score": 0.7332520484924316,
+                  "relative_anomaly": 1.002379931851394,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.000793310617131319,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.45098290593280704,
+                  "pid_score": 1.7154090404510498,
+                  "relative_anomaly": 4.616441664116518,
+                  "current_trust": 0.1274572648320177,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.44778821380089856,
+                  "pid_score": 1.7421451807022095,
+                  "relative_anomaly": 4.714823147057954,
+                  "current_trust": 0.11947053450224648,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.4407061481741898,
+                  "pid_score": 1.8117493391036987,
+                  "relative_anomaly": 4.970946890354526,
+                  "current_trust": 0.10176537043547465,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7319117188453674,
+                  "2": 0.7319585084915161,
+                  "3": 0.7305580377578735,
+                  "4": 0.7340533137321472,
+                  "5": 0.7297760844230652,
+                  "6": 0.7247098088264465,
+                  "7": 0.7332520484924316,
+                  "8": 1.7154090404510498,
+                  "9": 1.7421451807022095,
+                  "10": 1.8117493391036987
+                },
+                "pid_scores": {
+                  "1": 0.7319117188453674,
+                  "2": 0.7319585084915161,
+                  "3": 0.7305580377578735,
+                  "4": 0.7340533137321472,
+                  "5": 0.7297760844230652,
+                  "6": 0.7247098088264465,
+                  "7": 0.7332520484924316,
+                  "8": 1.7154090404510498,
+                  "9": 1.7421451807022095,
+                  "10": 1.8117493391036987
+                }
+              }
+            },
+            {
+              "round": 2,
+              "seed": 42,
+              "accuracy": 0.7767,
+              "accuracy_percent": 77.66999999999999,
+              "loss": 0.7115824418067932,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_AWARE_FEDAVG",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.028544151844049008,
+              "round_time_sec": 27.40881037712097,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [
+                {
+                  "client_id": 8,
+                  "from_zone": "MEDIUM",
+                  "to_zone": "LOW",
+                  "quarantined": false,
+                  "previously_quarantined": false
+                },
+                {
+                  "client_id": 9,
+                  "from_zone": "MEDIUM",
+                  "to_zone": "LOW",
+                  "quarantined": false,
+                  "previously_quarantined": false
+                },
+                {
+                  "client_id": 10,
+                  "from_zone": "MEDIUM",
+                  "to_zone": "LOW",
+                  "quarantined": false,
+                  "previously_quarantined": false
+                }
+              ],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.7799700665473938,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.7732245969772339,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.7864134550094605,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9996289880739178,
+                  "pid_score": 0.7612308669090271,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9996447758154532,
+                  "persistence": 0.000789387076770688,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9874748814161705,
+                  "pid_score": 0.8020155358314515,
+                  "relative_anomaly": 1.3381782017633976,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.06262559291914771,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9886052509283628,
+                  "pid_score": 0.801278235912323,
+                  "relative_anomaly": 1.3076582249342028,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0569737453581857,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998342862266436,
+                  "pid_score": 0.7661512041091919,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998413378765737,
+                  "persistence": 0.0003525824965028085,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.07089684013585507,
+                  "pid_score": 1.6895405673980712,
+                  "relative_anomaly": 38.076610820555,
+                  "current_trust": 0.0007677414404271684,
+                  "historical_trust": 0.45098290593280704,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.06896238489917356,
+                  "pid_score": 1.7157240915298462,
+                  "relative_anomaly": 39.160458151981516,
+                  "current_trust": 0.0007236415465861365,
+                  "historical_trust": 0.44778821380089856,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.06510219505626158,
+                  "pid_score": 1.4040669679641724,
+                  "relative_anomaly": 26.25964541200364,
+                  "current_trust": 0.0016962653793694113,
+                  "historical_trust": 0.4407061481741898,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7301626205444336,
+                  "2": 0.7290767431259155,
+                  "3": 0.7301265001296997,
+                  "4": 0.7287955284118652,
+                  "5": 0.732085645198822,
+                  "6": 0.72780841588974,
+                  "7": 0.7289585471153259,
+                  "8": 1.688225507736206,
+                  "9": 1.7145130634307861,
+                  "10": 1.719645619392395
+                },
+                "pid_scores": {
+                  "1": 0.7799700665473938,
+                  "2": 0.7732245969772339,
+                  "3": 0.7864134550094605,
+                  "4": 0.7612308669090271,
+                  "5": 0.8020155358314515,
+                  "6": 0.801278235912323,
+                  "7": 0.7661512041091919,
+                  "8": 1.6895405673980712,
+                  "9": 1.7157240915298462,
+                  "10": 1.4040669679641724
+                }
+              }
+            },
+            {
+              "round": 3,
+              "seed": 42,
+              "accuracy": 0.867,
+              "accuracy_percent": 86.7,
+              "loss": 0.45753733937740326,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_AWARE_FEDAVG",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 24.90227222442627,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.8862201547622681,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.8806981039047241,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 0.9900403404104553,
+                  "pid_score": 0.8978448867797851,
+                  "relative_anomaly": 1.3645235409773353,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.04979829794772339,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9977640918974174,
+                  "pid_score": 0.8899779605865479,
+                  "relative_anomaly": 1.0702766624861058,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9996289880739178,
+                  "persistence": 0.010066504734665999,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9850930555871144,
+                  "pid_score": 0.8213867306709289,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9874748814161705,
+                  "persistence": 0.03695936631293963,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9864383806131006,
+                  "pid_score": 0.87454735994339,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9886052509283628,
+                  "persistence": 0.03362384971958501,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.999858955441317,
+                  "pid_score": 0.8481791520118713,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998342862266436,
+                  "persistence": 0.00020808147334591974,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 2.2490904903411866,
+                  "relative_anomaly": 51.90520374523977,
+                  "current_trust": 0.0004013599099860824,
+                  "historical_trust": 0.07089684013585507,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 2.406153688430786,
+                  "relative_anomaly": 57.77984329676409,
+                  "current_trust": 0.0003212964008308506,
+                  "historical_trust": 0.06896238489917356,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.493885521888733,
+                  "relative_anomaly": 61.06127971871817,
+                  "current_trust": 0.00028659579197336016,
+                  "historical_trust": 0.06510219505626158,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.736677885055542,
+                  "2": 0.7348664999008179,
+                  "3": 0.7386037707328796,
+                  "4": 0.7361546158790588,
+                  "5": 0.7274776697158813,
+                  "6": 0.7328979969024658,
+                  "7": 0.7293325066566467,
+                  "8": 1.736321210861206,
+                  "9": 1.7836977243423462,
+                  "10": 1.8016003370285034
+                },
+                "pid_scores": {
+                  "1": 0.8862201547622681,
+                  "2": 0.8806981039047241,
+                  "3": 0.8978448867797851,
+                  "4": 0.8899779605865479,
+                  "5": 0.8213867306709289,
+                  "6": 0.87454735994339,
+                  "7": 0.8481791520118713,
+                  "8": 2.2490904903411866,
+                  "9": 2.406153688430786,
+                  "10": 2.493885521888733
+                }
+              }
+            },
+            {
+              "round": 4,
+              "seed": 42,
+              "accuracy": 0.8825,
+              "accuracy_percent": 88.25,
+              "loss": 0.3878101984977722,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_AWARE_FEDAVG",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 27.1630859375,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.9163639116287232,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 0.9972478632112142,
+                  "pid_score": 0.9893047475814819,
+                  "relative_anomaly": 1.121864617007438,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.013760683943929312,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 0.9874384130813709,
+                  "pid_score": 0.9746808886528016,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9900403404104553,
+                  "persistence": 0.032928955824510865,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.997327166707416,
+                  "pid_score": 0.9401586937904358,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9977640918974174,
+                  "persistence": 0.006656442155172098,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9861679821976035,
+                  "pid_score": 0.9276208639144897,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9850930555871144,
+                  "persistence": 0.024439255773325938,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.956480658523744,
+                  "pid_score": 1.0491745471954346,
+                  "relative_anomaly": 2.1196874537632686,
+                  "current_trust": 0.9858772234091964,
+                  "historical_trust": 0.9864383806131006,
+                  "persistence": 0.1486662960389745,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998878546309168,
+                  "pid_score": 0.9739985680580139,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.999858955441317,
+                  "persistence": 0.00013759316936694965,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 3.047142019271851,
+                  "relative_anomaly": 35.41890648553287,
+                  "current_trust": 0.000894595765214281,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 2.5672052335739135,
+                  "relative_anomaly": 27.420017428670473,
+                  "current_trust": 0.0015451716577794038,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.8627011251449583,
+                  "relative_anomaly": 32.344913631403,
+                  "current_trust": 0.0010848177995592795,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7373088598251343,
+                  "2": 0.7479941844940186,
+                  "3": 0.7486261129379272,
+                  "4": 0.7408352494239807,
+                  "5": 0.7316436767578125,
+                  "6": 0.7564718723297119,
+                  "7": 0.7408896088600159,
+                  "8": 1.886258602142334,
+                  "9": 1.8444108963012695,
+                  "10": 1.907343864440918
+                },
+                "pid_scores": {
+                  "1": 0.9163639116287232,
+                  "2": 0.9893047475814819,
+                  "3": 0.9746808886528016,
+                  "4": 0.9401586937904358,
+                  "5": 0.9276208639144897,
+                  "6": 1.0491745471954346,
+                  "7": 0.9739985680580139,
+                  "8": 3.047142019271851,
+                  "9": 2.5672052335739135,
+                  "10": 2.8627011251449583
+                }
+              }
+            },
+            {
+              "round": 5,
+              "seed": 42,
+              "accuracy": 0.9024,
+              "accuracy_percent": 90.24,
+              "loss": 0.33224068889021874,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_AWARE_FEDAVG",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 26.237436532974243,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 1.0602624702453614,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 0.9897793353457571,
+                  "pid_score": 1.0800990009307863,
+                  "relative_anomaly": 1.3346108536569536,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9972478632112142,
+                  "persistence": 0.04284691290485721,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 0.9878363806620565,
+                  "pid_score": 1.0448429441452025,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9874384130813709,
+                  "persistence": 0.023133335933830577,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9974610398035039,
+                  "pid_score": 1.0425389838218688,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.997327166707416,
+                  "persistence": 0.004676301104728233,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9882669633764937,
+                  "pid_score": 1.0091921758651734,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9861679821976035,
+                  "persistence": 0.01716912971034226,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9369639392858475,
+                  "pid_score": 1.0941488361358642,
+                  "relative_anomaly": 1.8086077865142585,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.956480658523744,
+                  "persistence": 0.18462227914199436,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.999913380316105,
+                  "pid_score": 1.038540098667145,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998878546309168,
+                  "persistence": 9.666231222542488e-05,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 3.3857985305786134,
+                  "relative_anomaly": 79.12160900638978,
+                  "current_trust": 0.00016810275234956443,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 3.2549529743194583,
+                  "relative_anomaly": 74.70729442977242,
+                  "current_trust": 0.00018913063719067197,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.8762551975250243,
+                  "relative_anomaly": 61.93123107669013,
+                  "current_trust": 0.0002783381297731687,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7519869804382324,
+                  "2": 0.7640930414199829,
+                  "3": 0.7586900591850281,
+                  "4": 0.7519213557243347,
+                  "5": 0.7389553189277649,
+                  "6": 0.7735261917114258,
+                  "7": 0.7513989210128784,
+                  "8": 2.04249906539917,
+                  "9": 1.9850376844406128,
+                  "10": 1.9722912311553955
+                },
+                "pid_scores": {
+                  "1": 1.0602624702453614,
+                  "2": 1.0800990009307863,
+                  "3": 1.0448429441452025,
+                  "4": 1.0425389838218688,
+                  "5": 1.0091921758651734,
+                  "6": 1.0941488361358642,
+                  "7": 1.038540098667145,
+                  "8": 3.3857985305786134,
+                  "9": 3.2549529743194583,
+                  "10": 2.8762551975250243
+                }
+              }
+            }
+          ],
+          "summary": {
+            "seed": 42,
+            "final_accuracy": 90.24,
+            "best_accuracy": 90.24,
+            "final_loss": 0.33224068889021874,
+            "min_loss": 0.33224068889021874,
+            "mean_malicious_weight": 0.0378345804557685,
+            "total_time_sec": 131.51360750198364
+          }
+        }
+      },
+      "summary": {
+        "method": "TRUST_FEDAVG",
+        "mean_final_accuracy": 90.24,
+        "std_final_accuracy": 0.0,
+        "mean_best_accuracy": 90.24,
+        "std_best_accuracy": 0.0,
+        "mean_final_loss": 0.33224068889021874,
+        "mean_runtime_sec": 131.51360750198364,
+        "per_seed_runs": [
+          {
+            "seed": 42,
+            "final_accuracy": 90.24,
+            "best_accuracy": 90.24,
+            "final_loss": 0.33224068889021874,
+            "min_loss": 0.33224068889021874,
+            "mean_malicious_weight": 0.0378345804557685,
+            "total_time_sec": 131.51360750198364
+          }
+        ]
+      }
+    },
+    "TRUST_ROBUST": {
+      "runs": {
+        "42": {
+          "rounds": [
+            {
+              "round": 1,
+              "seed": 42,
+              "accuracy": 0.5036,
+              "accuracy_percent": 50.36000000000001,
+              "loss": 2.19437721862793,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.060530807489421135,
+              "round_time_sec": 25.660179615020752,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.7319117188453674,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.7319585084915161,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.7305580377578735,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9996447758154532,
+                  "pid_score": 0.7340533137321472,
+                  "relative_anomaly": 1.0053283627682021,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.001776120922734048,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 1.0,
+                  "pid_score": 0.7297760844230652,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 1.0,
+                  "pid_score": 0.7247098088264465,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998413378765737,
+                  "pid_score": 0.7332520484924316,
+                  "relative_anomaly": 1.002379931851394,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.000793310617131319,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.45098290593280704,
+                  "pid_score": 1.7154090404510498,
+                  "relative_anomaly": 4.616441664116518,
+                  "current_trust": 0.1274572648320177,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.44778821380089856,
+                  "pid_score": 1.7421451807022095,
+                  "relative_anomaly": 4.714823147057954,
+                  "current_trust": 0.11947053450224648,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.4407061481741898,
+                  "pid_score": 1.8117493391036987,
+                  "relative_anomaly": 4.970946890354526,
+                  "current_trust": 0.10176537043547465,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7319117188453674,
+                  "2": 0.7319585084915161,
+                  "3": 0.7305580377578735,
+                  "4": 0.7340533137321472,
+                  "5": 0.7297760844230652,
+                  "6": 0.7247098088264465,
+                  "7": 0.7332520484924316,
+                  "8": 1.7154090404510498,
+                  "9": 1.7421451807022095,
+                  "10": 1.8117493391036987
+                },
+                "pid_scores": {
+                  "1": 0.7319117188453674,
+                  "2": 0.7319585084915161,
+                  "3": 0.7305580377578735,
+                  "4": 0.7340533137321472,
+                  "5": 0.7297760844230652,
+                  "6": 0.7247098088264465,
+                  "7": 0.7332520484924316,
+                  "8": 1.7154090404510498,
+                  "9": 1.7421451807022095,
+                  "10": 1.8117493391036987
+                }
+              }
+            },
+            {
+              "round": 2,
+              "seed": 42,
+              "accuracy": 0.7548,
+              "accuracy_percent": 75.48,
+              "loss": 1.0932873220443726,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.010058816214954927,
+              "round_time_sec": 26.93674325942993,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [
+                {
+                  "client_id": 8,
+                  "from_zone": "MEDIUM",
+                  "to_zone": "LOW",
+                  "quarantined": false,
+                  "previously_quarantined": false
+                },
+                {
+                  "client_id": 9,
+                  "from_zone": "MEDIUM",
+                  "to_zone": "LOW",
+                  "quarantined": false,
+                  "previously_quarantined": false
+                },
+                {
+                  "client_id": 10,
+                  "from_zone": "MEDIUM",
+                  "to_zone": "LOW",
+                  "quarantined": false,
+                  "previously_quarantined": false
+                }
+              ],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.7746403384208679,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.7693740177154541,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.7894003629684448,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9996289880739178,
+                  "pid_score": 0.773383777141571,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9996447758154532,
+                  "persistence": 0.000789387076770688,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9664293174474284,
+                  "pid_score": 0.8061679530143738,
+                  "relative_anomaly": 1.9064084289194314,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.16785341276285765,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.996752510097034,
+                  "pid_score": 0.7923582816123962,
+                  "relative_anomaly": 1.0876822273800806,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.016237449514829735,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998342862266436,
+                  "pid_score": 0.7754448795318604,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998413378765737,
+                  "persistence": 0.0003525824965028085,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.07074760460175256,
+                  "pid_score": 1.6566366577148437,
+                  "relative_anomaly": 52.32766697007431,
+                  "current_trust": 0.0003946526051708706,
+                  "historical_trust": 0.45098290593280704,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.06879182366114778,
+                  "pid_score": 1.7859464693069458,
+                  "relative_anomaly": 59.99398485591551,
+                  "current_trust": 0.00029723845152168795,
+                  "historical_trust": 0.44778821380089856,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.06476847042647632,
+                  "pid_score": 1.382015633583069,
+                  "relative_anomaly": 36.04636516313517,
+                  "current_trust": 0.0008619538049061919,
+                  "historical_trust": 0.4407061481741898,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.729274332523346,
+                  "2": 0.7284349799156189,
+                  "3": 0.7306243181228638,
+                  "4": 0.7308210134506226,
+                  "5": 0.7327777147293091,
+                  "6": 0.7263217568397522,
+                  "7": 0.730507493019104,
+                  "8": 1.6827415227890015,
+                  "9": 1.7262167930603027,
+                  "10": 1.7159703969955444
+                },
+                "pid_scores": {
+                  "1": 0.7746403384208679,
+                  "2": 0.7693740177154541,
+                  "3": 0.7894003629684448,
+                  "4": 0.773383777141571,
+                  "5": 0.8061679530143738,
+                  "6": 0.7923582816123962,
+                  "7": 0.7754448795318604,
+                  "8": 1.6566366577148437,
+                  "9": 1.7859464693069458,
+                  "10": 1.382015633583069
+                }
+              }
+            },
+            {
+              "round": 3,
+              "seed": 42,
+              "accuracy": 0.8521,
+              "accuracy_percent": 85.21,
+              "loss": 0.5229081159114838,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 32.36185002326965,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 0.9995465361253116,
+                  "pid_score": 0.8644060921669007,
+                  "relative_anomaly": 1.0165967778135945,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.002267319373441868,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.8471715426445008,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.858674750328064,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9948252759703686,
+                  "pid_score": 0.868062081336975,
+                  "relative_anomaly": 1.1778373254160934,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9996289880739178,
+                  "persistence": 0.024760584369910212,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9600453843718575,
+                  "pid_score": 0.8292148399353028,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9664293174474284,
+                  "persistence": 0.09906103048299796,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9961349546400766,
+                  "pid_score": 0.8636534571647644,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.996752510097034,
+                  "persistence": 0.009582757090719188,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.999858955441317,
+                  "pid_score": 0.8355397462844849,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998342862266436,
+                  "persistence": 0.00020808147334591974,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 2.0479108381271365,
+                  "relative_anomaly": 53.21285460340857,
+                  "current_trust": 0.0003811329324604351,
+                  "historical_trust": 0.07074760460175256,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 2.14195255279541,
+                  "relative_anomaly": 57.36038810670994,
+                  "current_trust": 0.00032618205582276086,
+                  "historical_trust": 0.06879182366114778,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.1046416330337525,
+                  "relative_anomaly": 55.71485994618746,
+                  "current_trust": 0.0003464659905391348,
+                  "historical_trust": 0.06476847042647632,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7323138117790222,
+                  "2": 0.7287524938583374,
+                  "3": 0.7324836254119873,
+                  "4": 0.7341628670692444,
+                  "5": 0.7293498516082764,
+                  "6": 0.7298632860183716,
+                  "7": 0.7284960746765137,
+                  "8": 1.6982944011688232,
+                  "9": 1.7492612600326538,
+                  "10": 1.7337126731872559
+                },
+                "pid_scores": {
+                  "1": 0.8644060921669007,
+                  "2": 0.8471715426445008,
+                  "3": 0.858674750328064,
+                  "4": 0.868062081336975,
+                  "5": 0.8292148399353028,
+                  "6": 0.8636534571647644,
+                  "7": 0.8355397462844849,
+                  "8": 2.0479108381271365,
+                  "9": 2.14195255279541,
+                  "10": 2.1046416330337525
+                }
+              }
+            },
+            {
+              "round": 4,
+              "seed": 42,
+              "accuracy": 0.8757,
+              "accuracy_percent": 87.57000000000001,
+              "loss": 0.4138885982513428,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 26.424417734146118,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 0.9994280702241736,
+                  "pid_score": 0.9100615191459656,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9995465361253116,
+                  "persistence": 0.0014992572550672515,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 0.9955047538801629,
+                  "pid_score": 0.9906278848648071,
+                  "relative_anomaly": 1.1990494981863846,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.02247623059918525,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.9678709888458252,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9936205950747642,
+                  "pid_score": 0.9301419711112976,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9948252759703686,
+                  "persistence": 0.016372852537284804,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9629264764562573,
+                  "pid_score": 0.9140290784835816,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9600453843718575,
+                  "persistence": 0.06550377083428592,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9837005683128266,
+                  "pid_score": 1.011429042816162,
+                  "relative_anomaly": 1.5629356844623423,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9961349546400766,
+                  "persistence": 0.06990202235609687,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998878546309168,
+                  "pid_score": 0.9537502336502075,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.999858955441317,
+                  "persistence": 0.00013759316936694965,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 2.780213632583618,
+                  "relative_anomaly": 32.50526496340707,
+                  "current_trust": 0.0010734552659110324,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 2.4472409105300903,
+                  "relative_anomaly": 26.680388567326904,
+                  "current_trust": 0.0016390175877268307,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.9838861846923828,
+                  "relative_anomaly": 36.06822181462035,
+                  "current_trust": 0.0008608491292324096,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.732691764831543,
+                  "2": 0.7432097792625427,
+                  "3": 0.7424659729003906,
+                  "4": 0.7375055551528931,
+                  "5": 0.7309043407440186,
+                  "6": 0.7477123141288757,
+                  "7": 0.7368083596229553,
+                  "8": 1.8106616735458374,
+                  "9": 1.796022891998291,
+                  "10": 1.871922492980957
+                },
+                "pid_scores": {
+                  "1": 0.9100615191459656,
+                  "2": 0.9906278848648071,
+                  "3": 0.9678709888458252,
+                  "4": 0.9301419711112976,
+                  "5": 0.9140290784835816,
+                  "6": 1.011429042816162,
+                  "7": 0.9537502336502075,
+                  "8": 2.780213632583618,
+                  "9": 2.4472409105300903,
+                  "10": 2.9838861846923828
+                }
+              }
+            },
+            {
+              "round": 5,
+              "seed": 42,
+              "accuracy": 0.8969,
+              "accuracy_percent": 89.69,
+              "loss": 0.3505020441770554,
+              "risk_score": 0.0,
+              "risk_level": "N/A",
+              "risk_details": null,
+              "threat_type": "N/A",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 27.14205527305603,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 0.999446189711041,
+                  "pid_score": 1.0505413961410524,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9994280702241736,
+                  "persistence": 0.0010532621173152134,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 0.9878701665336018,
+                  "pid_score": 1.0697622466087342,
+                  "relative_anomaly": 1.316394149952559,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9955047538801629,
+                  "persistence": 0.04716342897248005,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 1.047961211204529,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9938718972309573,
+                  "pid_score": 1.0367011404037476,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9936205950747642,
+                  "persistence": 0.011502299069506129,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9685523098859956,
+                  "pid_score": 0.988644986152649,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9629264764562573,
+                  "persistence": 0.046017879938793915,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9530014765994306,
+                  "pid_score": 1.0940374732017517,
+                  "relative_anomaly": 2.1155824788683555,
+                  "current_trust": 0.9868168089076103,
+                  "historical_trust": 0.9837005683128266,
+                  "persistence": 0.15972793975654753,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.999913380316105,
+                  "pid_score": 1.0332877707481385,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998878546309168,
+                  "persistence": 9.666231222542488e-05,
+                  "zone": "NORMAL",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 3.316023087501526,
+                  "relative_anomaly": 75.26773054071016,
+                  "current_trust": 0.0001862488614492252,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 3.2072139072418215,
+                  "relative_anomaly": 71.68551776056401,
+                  "current_trust": 0.00020588538249065495,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.9648148345947267,
+                  "relative_anomaly": 63.705262290763685,
+                  "current_trust": 0.0002625678498895789,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "LOW",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7466508150100708,
+                  "2": 0.7585371136665344,
+                  "3": 0.7542334198951721,
+                  "4": 0.7482175827026367,
+                  "5": 0.734890341758728,
+                  "6": 0.7663850784301758,
+                  "7": 0.7471674084663391,
+                  "8": 1.9694604873657227,
+                  "9": 1.9377061128616333,
+                  "10": 1.9589598178863525
+                },
+                "pid_scores": {
+                  "1": 1.0505413961410524,
+                  "2": 1.0697622466087342,
+                  "3": 1.047961211204529,
+                  "4": 1.0367011404037476,
+                  "5": 0.988644986152649,
+                  "6": 1.0940374732017517,
+                  "7": 1.0332877707481385,
+                  "8": 3.316023087501526,
+                  "9": 3.2072139072418215,
+                  "10": 2.9648148345947267
+                }
+              }
+            }
+          ],
+          "summary": {
+            "seed": 42,
+            "final_accuracy": 89.69,
+            "best_accuracy": 89.69,
+            "final_loss": 0.3505020441770554,
+            "min_loss": 0.3505020441770554,
+            "mean_malicious_weight": 0.014117924740875212,
+            "total_time_sec": 138.52524590492249
+          }
+        }
+      },
+      "summary": {
+        "method": "TRUST_ROBUST",
+        "mean_final_accuracy": 89.69,
+        "std_final_accuracy": 0.0,
+        "mean_best_accuracy": 89.69,
+        "std_best_accuracy": 0.0,
+        "mean_final_loss": 0.3505020441770554,
+        "mean_runtime_sec": 138.52524590492249,
+        "per_seed_runs": [
+          {
+            "seed": 42,
+            "final_accuracy": 89.69,
+            "best_accuracy": 89.69,
+            "final_loss": 0.3505020441770554,
+            "min_loss": 0.3505020441770554,
+            "mean_malicious_weight": 0.014117924740875212,
+            "total_time_sec": 138.52524590492249
+          }
+        ]
+      }
+    },
+    "TARA": {
+      "runs": {
+        "42": {
+          "rounds": [
+            {
+              "round": 1,
+              "seed": 42,
+              "accuracy": 0.5036,
+              "accuracy_percent": 50.36000000000001,
+              "loss": 2.19437721862793,
+              "risk_score": 0.3966780223722578,
+              "risk_level": "MEDIUM",
+              "risk_details": {
+                "risk_score": 0.3966780223722578,
+                "risk_level": "MEDIUM",
+                "suspicious_clients": 3,
+                "threat_type": "NON_IID_DRIFT",
+                "anomaly_component": 0.5094558054580512,
+                "trust_component": 0.1661036618400077,
+                "suspicious_ratio": 0.3,
+                "worst_client_component": 0.5592938518258102,
+                "accuracy_drop_penalty": 0.0
+              },
+              "threat_type": "NON_IID_DRIFT",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.16062875043479347,
+              "round_time_sec": 25.324641227722168,
+              "trust_available": true,
+              "malicious_quarantined": 0,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.7319117188453674,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.7319585084915161,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.7305580377578735,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9996447758154532,
+                  "pid_score": 0.7340533137321472,
+                  "relative_anomaly": 1.0053283627682021,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.001776120922734048,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 1.0,
+                  "pid_score": 0.7297760844230652,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 1.0,
+                  "pid_score": 0.7247098088264465,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998413378765737,
+                  "pid_score": 0.7332520484924316,
+                  "relative_anomaly": 1.002379931851394,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.000793310617131319,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.45098290593280704,
+                  "pid_score": 1.7154090404510498,
+                  "relative_anomaly": 4.616441664116518,
+                  "current_trust": 0.1274572648320177,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "9": {
+                  "trust": 0.44778821380089856,
+                  "pid_score": 1.7421451807022095,
+                  "relative_anomaly": 4.714823147057954,
+                  "current_trust": 0.11947053450224648,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "10": {
+                  "trust": 0.4407061481741898,
+                  "pid_score": 1.8117493391036987,
+                  "relative_anomaly": 4.970946890354526,
+                  "current_trust": 0.10176537043547465,
+                  "historical_trust": 1.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.MEDIUM",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7319117188453674,
+                  "2": 0.7319585084915161,
+                  "3": 0.7305580377578735,
+                  "4": 0.7340533137321472,
+                  "5": 0.7297760844230652,
+                  "6": 0.7247098088264465,
+                  "7": 0.7332520484924316,
+                  "8": 1.7154090404510498,
+                  "9": 1.7421451807022095,
+                  "10": 1.8117493391036987
+                },
+                "pid_scores": {
+                  "1": 0.7319117188453674,
+                  "2": 0.7319585084915161,
+                  "3": 0.7305580377578735,
+                  "4": 0.7340533137321472,
+                  "5": 0.7297760844230652,
+                  "6": 0.7247098088264465,
+                  "7": 0.7332520484924316,
+                  "8": 1.7154090404510498,
+                  "9": 1.7421451807022095,
+                  "10": 1.8117493391036987
+                }
+              }
+            },
+            {
+              "round": 2,
+              "seed": 42,
+              "accuracy": 0.7513,
+              "accuracy_percent": 75.13,
+              "loss": 1.1912048542022704,
+              "risk_score": 0.5378393294830055,
+              "risk_level": "MEDIUM",
+              "risk_details": {
+                "risk_score": 0.5378393294830055,
+                "risk_level": "MEDIUM",
+                "suspicious_clients": 3,
+                "threat_type": "TARGETED_POISONING",
+                "anomaly_component": 0.5057747824972338,
+                "trust_component": 0.28330469994655993,
+                "suspicious_ratio": 0.3,
+                "worst_client_component": 0.9352315295735236,
+                "accuracy_drop_penalty": 0.0
+              },
+              "threat_type": "TARGETED_POISONING",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 24.963767528533936,
+              "trust_available": true,
+              "malicious_quarantined": 3,
+              "quarantine_transitions": [
+                {
+                  "client_id": 8,
+                  "from_zone": "TrustZone.MEDIUM",
+                  "to_zone": "TrustZone.QUARANTINE",
+                  "quarantined": true,
+                  "previously_quarantined": false
+                },
+                {
+                  "client_id": 9,
+                  "from_zone": "TrustZone.MEDIUM",
+                  "to_zone": "TrustZone.QUARANTINE",
+                  "quarantined": true,
+                  "previously_quarantined": false
+                },
+                {
+                  "client_id": 10,
+                  "from_zone": "TrustZone.MEDIUM",
+                  "to_zone": "TrustZone.QUARANTINE",
+                  "quarantined": true,
+                  "previously_quarantined": false
+                }
+              ],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.7746403384208679,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.7693740177154541,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.7894003629684448,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9996289880739178,
+                  "pid_score": 0.773383777141571,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9996447758154532,
+                  "persistence": 0.000789387076770688,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9664293174474284,
+                  "pid_score": 0.8061679530143738,
+                  "relative_anomaly": 1.9064084289194314,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.16785341276285765,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.996752510097034,
+                  "pid_score": 0.7923582816123962,
+                  "relative_anomaly": 1.0876822273800806,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.016237449514829735,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998342862266436,
+                  "pid_score": 0.7754448795318604,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998413378765737,
+                  "persistence": 0.0003525824965028085,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.07074760460175256,
+                  "pid_score": 1.6566366577148437,
+                  "relative_anomaly": 52.32766697007431,
+                  "current_trust": 0.0003946526051708706,
+                  "historical_trust": 0.45098290593280704,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "9": {
+                  "trust": 0.06879182366114778,
+                  "pid_score": 1.7859464693069458,
+                  "relative_anomaly": 59.99398485591551,
+                  "current_trust": 0.00029723845152168795,
+                  "historical_trust": 0.44778821380089856,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "10": {
+                  "trust": 0.06476847042647632,
+                  "pid_score": 1.382015633583069,
+                  "relative_anomaly": 36.04636516313517,
+                  "current_trust": 0.0008619538049061919,
+                  "historical_trust": 0.4407061481741898,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.729274332523346,
+                  "2": 0.7284349799156189,
+                  "3": 0.7306243181228638,
+                  "4": 0.7308210134506226,
+                  "5": 0.7327777147293091,
+                  "6": 0.7263217568397522,
+                  "7": 0.730507493019104,
+                  "8": 1.6827415227890015,
+                  "9": 1.7262167930603027,
+                  "10": 1.7159703969955444
+                },
+                "pid_scores": {
+                  "1": 0.7746403384208679,
+                  "2": 0.7693740177154541,
+                  "3": 0.7894003629684448,
+                  "4": 0.773383777141571,
+                  "5": 0.8061679530143738,
+                  "6": 0.7923582816123962,
+                  "7": 0.7754448795318604,
+                  "8": 1.6566366577148437,
+                  "9": 1.7859464693069458,
+                  "10": 1.382015633583069
+                }
+              }
+            },
+            {
+              "round": 3,
+              "seed": 42,
+              "accuracy": 0.8421,
+              "accuracy_percent": 84.21,
+              "loss": 0.551917520904541,
+              "risk_score": 0.5629261132514545,
+              "risk_level": "MEDIUM",
+              "risk_details": {
+                "risk_score": 0.5629261132514545,
+                "risk_level": "MEDIUM",
+                "suspicious_clients": 3,
+                "threat_type": "TARGETED_POISONING",
+                "anomaly_component": 0.5070316112137162,
+                "trust_component": 0.30467284179210197,
+                "suspicious_ratio": 0.3,
+                "worst_client_component": 1.0,
+                "accuracy_drop_penalty": 0.0
+              },
+              "threat_type": "TARGETED_POISONING",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 25.067165851593018,
+              "trust_available": true,
+              "malicious_quarantined": 3,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.8626884055137635,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 1.0,
+                  "pid_score": 0.8468786454200745,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.8570253705978393,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9976712810048695,
+                  "pid_score": 0.8645505332946777,
+                  "relative_anomaly": 1.07367354115336,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9996289880739178,
+                  "persistence": 0.010530559197405651,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9600453843718575,
+                  "pid_score": 0.8307547855377198,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9664293174474284,
+                  "persistence": 0.09906103048299796,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9956959612609364,
+                  "pid_score": 0.8633551955223083,
+                  "relative_anomaly": 1.016067157676534,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.996752510097034,
+                  "persistence": 0.011777723986420569,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.999858955441317,
+                  "pid_score": 0.8376647710800171,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998342862266436,
+                  "persistence": 0.00020808147334591974,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 2.040444283485413,
+                  "relative_anomaly": 57.74299987493146,
+                  "current_trust": 0.0003217211272083898,
+                  "historical_trust": 0.07074760460175256,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 2.1174314403533936,
+                  "relative_anomaly": 61.453207804307475,
+                  "current_trust": 0.0002828307120006433,
+                  "historical_trust": 0.06879182366114778,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.0719501543045045,
+                  "relative_anomaly": 59.261348343564244,
+                  "current_trust": 0.00030489087519353677,
+                  "historical_trust": 0.06476847042647632,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.732027530670166,
+                  "2": 0.7287036776542664,
+                  "3": 0.7322087287902832,
+                  "4": 0.7335776090621948,
+                  "5": 0.7296065092086792,
+                  "6": 0.7298135757446289,
+                  "7": 0.728850245475769,
+                  "8": 1.6970499753952026,
+                  "9": 1.7451744079589844,
+                  "10": 1.7282640933990479
+                },
+                "pid_scores": {
+                  "1": 0.8626884055137635,
+                  "2": 0.8468786454200745,
+                  "3": 0.8570253705978393,
+                  "4": 0.8645505332946777,
+                  "5": 0.8307547855377198,
+                  "6": 0.8633551955223083,
+                  "7": 0.8376647710800171,
+                  "8": 2.040444283485413,
+                  "9": 2.1174314403533936,
+                  "10": 2.0719501543045045
+                }
+              }
+            },
+            {
+              "round": 4,
+              "seed": 42,
+              "accuracy": 0.8715,
+              "accuracy_percent": 87.15,
+              "loss": 0.4235808508515358,
+              "risk_score": 0.5652390206327611,
+              "risk_level": "MEDIUM",
+              "risk_details": {
+                "risk_score": 0.5652390206327611,
+                "risk_level": "MEDIUM",
+                "suspicious_clients": 3,
+                "threat_type": "TARGETED_POISONING",
+                "anomaly_component": 0.5152149646339031,
+                "trust_component": 0.3057411178971412,
+                "suspicious_ratio": 0.3,
+                "worst_client_component": 1.0,
+                "accuracy_drop_penalty": 0.0
+              },
+              "threat_type": "TARGETED_POISONING",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 24.922255516052246,
+              "trust_available": true,
+              "malicious_quarantined": 3,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 0.9097559118270874,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 0.9981791253608154,
+                  "pid_score": 0.9794193196296692,
+                  "relative_anomaly": 1.0806283290230927,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.009104373195922841,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 0.9707609224319458,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.9972101092835899,
+                  "pid_score": 0.9320637130737305,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9976712810048695,
+                  "persistence": 0.00696329659665848,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9629264764562573,
+                  "pid_score": 0.9107299900054932,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9600453843718575,
+                  "persistence": 0.06550377083428592,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9843852552970087,
+                  "pid_score": 1.0023717164993287,
+                  "relative_anomaly": 1.5081008425645348,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9956959612609364,
+                  "persistence": 0.06516160729776577,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.9998878546309168,
+                  "pid_score": 0.9491205835342407,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.999858955441317,
+                  "persistence": 0.00013759316936694965,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 2.713134789466858,
+                  "relative_anomaly": 33.36987959396001,
+                  "current_trust": 0.0010151569575533206,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 2.4528135108947753,
+                  "relative_anomaly": 28.5215758672747,
+                  "current_trust": 0.0014196600470598587,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.9920035648345946,
+                  "relative_anomaly": 38.563617617558364,
+                  "current_trust": 0.0007474410608124049,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7324060797691345,
+                  "2": 0.7413016557693481,
+                  "3": 0.74272221326828,
+                  "4": 0.7373459339141846,
+                  "5": 0.7305649518966675,
+                  "6": 0.7461619973182678,
+                  "7": 0.7363271713256836,
+                  "8": 1.7984614372253418,
+                  "9": 1.7936004400253296,
+                  "10": 1.8688075542449951
+                },
+                "pid_scores": {
+                  "1": 0.9097559118270874,
+                  "2": 0.9794193196296692,
+                  "3": 0.9707609224319458,
+                  "4": 0.9320637130737305,
+                  "5": 0.9107299900054932,
+                  "6": 1.0023717164993287,
+                  "7": 0.9491205835342407,
+                  "8": 2.713134789466858,
+                  "9": 2.4528135108947753,
+                  "10": 2.9920035648345946
+                }
+              }
+            },
+            {
+              "round": 5,
+              "seed": 42,
+              "accuracy": 0.8957,
+              "accuracy_percent": 89.57000000000001,
+              "loss": 0.35313382650613784,
+              "risk_score": 0.5685611447610046,
+              "risk_level": "MEDIUM",
+              "risk_details": {
+                "risk_score": 0.5685611447610046,
+                "risk_level": "MEDIUM",
+                "suspicious_clients": 3,
+                "threat_type": "TARGETED_POISONING",
+                "anomaly_component": 0.5261096948974356,
+                "trust_component": 0.3081348841465832,
+                "suspicious_ratio": 0.3,
+                "worst_client_component": 1.0,
+                "accuracy_drop_penalty": 0.0
+              },
+              "threat_type": "TARGETED_POISONING",
+              "aggregator": "TRUST_WEIGHTED_ROBUST",
+              "suspicious_clients": 3,
+              "malicious_weight": 0.0,
+              "round_time_sec": 26.314913272857666,
+              "trust_available": true,
+              "malicious_quarantined": 3,
+              "quarantine_transitions": [],
+              "clients": {
+                "1": {
+                  "trust": 1.0,
+                  "pid_score": 1.0444646620750428,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "2": {
+                  "trust": 0.9874285488522002,
+                  "pid_score": 1.0822798442840575,
+                  "relative_anomaly": 1.514310719774436,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9981791253608154,
+                  "persistence": 0.057394631821445156,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "3": {
+                  "trust": 1.0,
+                  "pid_score": 1.051782581806183,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 1.0,
+                  "persistence": 0.0,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "4": {
+                  "trust": 0.997347690912689,
+                  "pid_score": 1.0350059986114502,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9972101092835899,
+                  "persistence": 0.004891873287324092,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "5": {
+                  "trust": 0.9685523098859956,
+                  "pid_score": 0.9949934148788452,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9629264764562573,
+                  "persistence": 0.046017879938793915,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "6": {
+                  "trust": 0.9654092285671778,
+                  "pid_score": 1.0910505938529969,
+                  "relative_anomaly": 1.8101333712032392,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9843852552970087,
+                  "persistence": 0.12610962305513743,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "7": {
+                  "trust": 0.999913380316105,
+                  "pid_score": 1.039759078025818,
+                  "relative_anomaly": 1.0,
+                  "current_trust": 1.0,
+                  "historical_trust": 0.9998878546309168,
+                  "persistence": 9.666231222542488e-05,
+                  "zone": "TrustZone.HIGH",
+                  "is_quarantined": false,
+                  "eligible_for_aggregation": true
+                },
+                "8": {
+                  "trust": 0.0,
+                  "pid_score": 3.281874685287476,
+                  "relative_anomaly": 75.70295022204668,
+                  "current_trust": 0.00018405614147722638,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "9": {
+                  "trust": 0.0,
+                  "pid_score": 3.2530068063735964,
+                  "relative_anomaly": 74.7292851533652,
+                  "current_trust": 0.0001890163034735214,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                },
+                "10": {
+                  "trust": 0.0,
+                  "pid_score": 2.921439714431763,
+                  "relative_anomaly": 63.54608404908,
+                  "current_trust": 0.00026392741945581883,
+                  "historical_trust": 0.0,
+                  "persistence": 1.0,
+                  "zone": "TrustZone.QUARANTINE",
+                  "is_quarantined": true,
+                  "eligible_for_aggregation": false
+                }
+              },
+              "detection": {
+                "distances": {
+                  "1": 0.7454075813293457,
+                  "2": 0.7590593695640564,
+                  "3": 0.7550840973854065,
+                  "4": 0.7478119730949402,
+                  "5": 0.7356666922569275,
+                  "6": 0.7646166682243347,
+                  "7": 0.7478466629981995,
+                  "8": 1.9537814855575562,
+                  "9": 1.943406343460083,
+                  "10": 1.949249029159546
+                },
+                "pid_scores": {
+                  "1": 1.0444646620750428,
+                  "2": 1.0822798442840575,
+                  "3": 1.051782581806183,
+                  "4": 1.0350059986114502,
+                  "5": 0.9949934148788452,
+                  "6": 1.0910505938529969,
+                  "7": 1.039759078025818,
+                  "8": 3.281874685287476,
+                  "9": 3.2530068063735964,
+                  "10": 2.921439714431763
+                }
+              }
+            }
+          ],
+          "summary": {
+            "seed": 42,
+            "final_accuracy": 89.57000000000001,
+            "best_accuracy": 89.57000000000001,
+            "final_loss": 0.35313382650613784,
+            "min_loss": 0.35313382650613784,
+            "mean_malicious_weight": 0.03212575008695869,
+            "total_time_sec": 126.59274339675903
+          }
+        }
+      },
+      "summary": {
+        "method": "TARA",
+        "mean_final_accuracy": 89.57000000000001,
+        "std_final_accuracy": 0.0,
+        "mean_best_accuracy": 89.57000000000001,
+        "std_best_accuracy": 0.0,
+        "mean_final_loss": 0.35313382650613784,
+        "mean_runtime_sec": 126.59274339675903,
+        "per_seed_runs": [
+          {
+            "seed": 42,
+            "final_accuracy": 89.57000000000001,
+            "best_accuracy": 89.57000000000001,
+            "final_loss": 0.35313382650613784,
+            "min_loss": 0.35313382650613784,
+            "mean_malicious_weight": 0.03212575008695869,
+            "total_time_sec": 126.59274339675903
+          }
+        ]
+      }
+    }
+  },
+  "notes": "All metrics in this file were produced by the actual Python TARA-FL pipeline (server.evaluate, TrustEngine, RoundRisk, AdaptiveAggregator). No values are simulated or estimated."
+}

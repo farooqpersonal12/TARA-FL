@@ -1,0 +1,49 @@
+{
+  "updated_at": "2026-11-18T10:41:50Z",
+  "count": 1,
+  "experiments": [
+    {
+      "experiment_id": "exp-20261118-103300-10clients_3mal_gradient_scale_iid",
+      "status": "completed",
+      "created_at": "2026-11-18T10:33:00Z",
+      "updated_at": "2026-11-18T10:41:49Z",
+      "finalized_at": "2026-11-18T10:41:50Z",
+      "config_summary": {
+        "scenario_tag": "10clients_3mal_gradient_scale_iid",
+        "methods": [
+          "fedavg",
+          "trust_fedavg",
+          "trust_robust",
+          "tara"
+        ],
+        "seed": [
+          42
+        ],
+        "num_clients": 10,
+        "num_rounds": 5,
+        "attack": "gradient_scale",
+        "malicious_ratio": 0.3,
+        "data_split": "iid"
+      },
+      "method_summaries": {
+        "FEDAVG": {
+          "mean_final_accuracy": 25.36,
+          "mean_final_loss": 2.109850945663452
+        },
+        "TRUST_FEDAVG": {
+          "mean_final_accuracy": 90.24,
+          "mean_final_loss": 0.33224068889021874
+        },
+        "TRUST_ROBUST": {
+          "mean_final_accuracy": 89.69,
+          "mean_final_loss": 0.3505020441770554
+        },
+        "TARA": {
+          "mean_final_accuracy": 89.57000000000001,
+          "mean_final_loss": 0.35313382650613784
+        }
+      }
+    }
+  ],
+  "latest_experiment_id": "exp-20261118-103300-10clients_3mal_gradient_scale_iid"
+}

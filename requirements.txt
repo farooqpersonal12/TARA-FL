@@ -16,5 +16,9 @@ matplotlib>=3.7.0
 Pillow>=9.5.0
 Jinja2>=3.1.0
 
+# Live Dashboard Backend (Mode A: real experiment streaming, optional but recommended)
+fastapi>=0.110.0
+uvicorn>=0.29.0
+
 # Testing & Quality Assurance
 pytest>=7.3.0

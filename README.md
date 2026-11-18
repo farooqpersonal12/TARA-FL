@@ -1,7 +1,7 @@
 # TARA-FL: Trust-Aware Robust Adaptive Federated Learning
 
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/tests-92%20passed-brightgreen)](tests/)
+[![Test Suite](https://img.shields.io/badge/tests-117%20passed-brightgreen)](tests/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Online-brightgreen)](https://farooqpersonal12.github.io/TARA-FL/demo/)
 
@@ -256,10 +256,17 @@ matching the reported result in section 9 (22.65% vs 90.00%).
 
 ## 7. Running Tests
 
-Run the complete 92-test unit and integration test suite:
+Run the complete 117-test suite (92 original unit/integration tests + 25 new
+dashboard-export & live-backend integration tests):
 ```bash
 python -m pytest -v
 ```
+The new tests (`tests/test_results_export.py`, `tests/test_live_server.py`)
+verify: schema completeness, progressive per-round publishing, crash safety
+(completed rounds preserved without finalization), honest `null` handling for
+signals a method does not compute, quarantine-transition detection, the
+history index, every REST endpoint, and real-socket SSE streaming that pushes
+an `update` frame when a new round completes while the dashboard is connected.
 
 ---
 
@@ -288,6 +295,7 @@ TARA-FL/
 ├── experiments/                # Experiment runners & evaluation matrices
 │   ├── analyze_matrix_results.py # Statistical synthesis & plotting script
 │   ├── experiment_config.py    # Declarative configuration dataclass
+│   ├── results_export.py       # Real-results JSON exporter (live dashboard feed)
 │   ├── final_matrix_summary.csv # Master evaluation matrix CSV
 │   ├── final_matrix_summary.json# Master evaluation matrix JSON
 │   ├── matrix_raw/             # 20 raw round-by-round trajectory CSVs
@@ -298,7 +306,7 @@ TARA-FL/
 │   ├── run_baseline_fedavg.py  # Standalone FedAvg baseline runner
 │   ├── run_experiment.py       # Standalone single experiment runner
 │   ├── run_final_matrix.py     # 20-scenario master matrix runner
-│   └── run_unified.py          # Unified 4-method comparative CLI runner
+│   └── run_unified.py          # Unified 4-method comparative CLI runner (+ live export)
 ├── model/                      # Neural network architectures
 │   ├── base_model.py           # Base model interface
 │   └── model.py                # MNIST CNN and CIFAR-10 ConvNet
@@ -321,7 +329,9 @@ TARA-FL/
 │   ├── trust_engine.py         # Dynamic trust calculation engine
 │   └── trust_history.py        # Temporal trust score & anomaly history
 ├── visualization/              # Visualization, dashboard, & reporting
-│   ├── dashboard.py            # Built-in HTTP REST API & web dashboard
+│   ├── dashboard.py            # Built-in HTTP REST API & web dashboard (CSV-based)
+│   ├── live_server.py          # FastAPI + SSE backend streaming real experiment rounds
+│   ├── publish_results.py      # Publisher: dashboard_data -> demo/results (static hosting)
 │   ├── plots.py                # Plotting utilities for trajectories & bars
 │   └── report_generator.py     # HTML & Markdown report synthesizer
 ├── main.py                     # Primary pipeline entry point
